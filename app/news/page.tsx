@@ -1,9 +1,9 @@
 import MainLayout from '@/components/selfui/MainLayout';
 
-export default function Home() {
+export default function News() {
   return (
     <MainLayout>
-      <div>HomePage</div>
+      <div>NewsPage</div>
     </MainLayout>
   );
 }
