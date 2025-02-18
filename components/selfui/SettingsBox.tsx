@@ -3,9 +3,9 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { IoChevronForward, IoSettingsOutline } from 'react-icons/io5';
 import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
-import { useColorMode } from '@/components/ui/color-mode';
-
 import { Switch } from '@/components/ui/switch';
+
+import { useColorMode } from '@/components/ui/color-mode';
 import { Dispatch, SetStateAction } from 'react';
 
 type ChildComponentProps = {

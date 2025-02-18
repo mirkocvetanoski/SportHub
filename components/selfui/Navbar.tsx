@@ -3,9 +3,9 @@
 import { Box, Flex, Spacer, Link } from '@chakra-ui/react';
 import Logo from '@/components/selfui/Logo';
 import NavbarIcons from './NavbarIcons';
+import { SettingsDetails } from './SettingsDetails';
 
 import { usePathname } from 'next/navigation';
-import { SettingsDetails } from './SettingsDetails';
 import { useState } from 'react';
 
 type NavbarLink = {
@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
   const [settingsDetails, setSettingsDetails] = useState(false);
 
   return (
-    <Box as="nav" w="100%" bg="teal.700" height={100}>
+    <Box as="nav" w="100vw" bg="teal.700" height={100}>
       <Flex align="center" justify="space-between" px="20%" height="inherit">
         <Logo />
 
