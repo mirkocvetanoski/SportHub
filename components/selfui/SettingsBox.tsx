@@ -4,11 +4,11 @@ import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
 
 import { Switch } from '@/components/ui/switch';
 
-interface MyComponentProps {
-  settingsRef: React.RefObject<HTMLElement>;
+type MyComponentProps = {
+  settingsRef: {};
   darkMode: boolean;
   setDarkMode: (value: boolean) => void;
-}
+};
 
 const SettingsBox: React.FC<MyComponentProps> = ({
   settingsRef,
