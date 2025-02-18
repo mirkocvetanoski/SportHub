@@ -5,8 +5,9 @@ import Logo from '@/components/selfui/Logo';
 import NavbarIcons from './NavbarIcons';
 
 import { usePathname } from 'next/navigation';
+import { SettingsDetails } from './SettingsDetails';
+import { useState } from 'react';
 
-// Define the type for the navigation links
 type NavbarLink = {
   href: string;
   label: string;
@@ -19,6 +20,7 @@ const navLinks: NavbarLink[] = [
 
 const Navbar: React.FC = () => {
   const pathname = usePathname().toLowerCase();
+  const [settingsDetails, setSettingsDetails] = useState(false);
 
   return (
     <Box as="nav" w="100%" bg="teal.700" height={100}>
@@ -68,8 +70,10 @@ const Navbar: React.FC = () => {
 
         <Spacer />
 
-        <NavbarIcons />
+        <NavbarIcons onSetSettingsDetails={setSettingsDetails} />
       </Flex>
+
+      {settingsDetails && <SettingsDetails />}
     </Box>
   );
 };

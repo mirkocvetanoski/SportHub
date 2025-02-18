@@ -4,11 +4,17 @@ import { IoLogIn } from 'react-icons/io5';
 import { LuSearch } from 'react-icons/lu';
 import SettingsBox from './SettingsBox';
 
-import { useState } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import { useClickAway } from '@uidotdev/usehooks';
 
-const NavbarIcons = () => {
-  const [settings, setSettings] = useState(false);
+interface ChildComponentProps {
+  onSetSettingsDetails: Dispatch<SetStateAction<boolean>>;
+}
+
+const NavbarIcons: React.FC<ChildComponentProps> = ({
+  onSetSettingsDetails,
+}) => {
+  const [settings, setSettings] = useState<boolean>(false);
 
   const settingsRef: {} = useClickAway(e => {
     if (
@@ -71,7 +77,13 @@ const NavbarIcons = () => {
         </IconButton>
       </Flex>
 
-      {settings && <SettingsBox settingsRef={settingsRef} />}
+      {settings && (
+        <SettingsBox
+          settingsRef={settingsRef}
+          onSetSettings={setSettings}
+          onSetSettingsDetails={onSetSettingsDetails}
+        />
+      )}
     </Box>
   );
 };

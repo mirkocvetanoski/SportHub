@@ -6,12 +6,19 @@ import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
 import { useColorMode } from '@/components/ui/color-mode';
 
 import { Switch } from '@/components/ui/switch';
+import { Dispatch, SetStateAction } from 'react';
 
-type MyComponentProps = {
+type ChildComponentProps = {
   settingsRef: {};
+  onSetSettings: Dispatch<SetStateAction<boolean>>;
+  onSetSettingsDetails: Dispatch<SetStateAction<boolean>>;
 };
 
-const SettingsBox: React.FC<MyComponentProps> = ({ settingsRef }) => {
+const SettingsBox: React.FC<ChildComponentProps> = ({
+  settingsRef,
+  onSetSettings,
+  onSetSettingsDetails,
+}) => {
   const { toggleColorMode, colorMode } = useColorMode();
 
   return (
@@ -35,6 +42,10 @@ const SettingsBox: React.FC<MyComponentProps> = ({ settingsRef }) => {
         cursor="pointer"
         borderRadius="inherit"
         _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
+        onClick={() => {
+          onSetSettings(false);
+          onSetSettingsDetails(true);
+        }}
       >
         <IoSettingsOutline aria-label="Settings" />
 
