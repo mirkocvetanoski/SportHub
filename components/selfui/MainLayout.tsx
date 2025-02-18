@@ -7,8 +7,8 @@ const MainLayout = (props: { children: React.ReactNode }) => {
   const { children } = props;
 
   return (
-    <ColorModeProvider>
-      <Theme>
+    <ColorModeProvider forcedTheme="dark">
+      <Theme colorScheme="dark">
         <main className="min-w-screen grid min-h-screen grid-cols-1 items-start justify-items-center">
           <Navbar />
           {children}
