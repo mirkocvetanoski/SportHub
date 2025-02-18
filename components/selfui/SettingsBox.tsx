@@ -3,8 +3,19 @@ import { IoChevronForward, IoSettingsOutline } from 'react-icons/io5';
 import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
 
 import { Switch } from '@/components/ui/switch';
+import { ReactNode } from 'react';
 
-const SettingsBox = ({ settingsRef, darkMode, setDarkMode }) => {
+interface MyComponentProps {
+  settingsRef: ReactNode;
+  darkMode: ReactNode;
+  setDarkMode: ReactNode;
+}
+
+const SettingsBox: React.FC<MyComponentProps> = ({
+  settingsRef,
+  darkMode,
+  setDarkMode,
+}) => {
   return (
     <Box
       ref={settingsRef}
