@@ -9,7 +9,6 @@ import { useClickAway } from '@uidotdev/usehooks';
 
 const NavbarIcons = () => {
   const [settings, setSettings] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
 
   const settingsRef: {} = useClickAway(e => {
     if (
@@ -25,6 +24,7 @@ const NavbarIcons = () => {
       <Flex>
         <IconButton
           aria-label="Search"
+          color="whiteAlpha.900"
           paddingX={1}
           size="md"
           variant="outline"
@@ -38,6 +38,7 @@ const NavbarIcons = () => {
 
         <IconButton
           aria-label="Login"
+          color="whiteAlpha.900"
           marginLeft={2}
           paddingX={1}
           size="md"
@@ -53,6 +54,7 @@ const NavbarIcons = () => {
 
         <IconButton
           id="menu-button"
+          color="whiteAlpha.900"
           aria-label="Menu"
           marginLeft={2}
           paddingX={1}
@@ -69,13 +71,7 @@ const NavbarIcons = () => {
         </IconButton>
       </Flex>
 
-      {settings && (
-        <SettingsBox
-          settingsRef={settingsRef}
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
-        />
-      )}
+      {settings && <SettingsBox settingsRef={settingsRef} />}
     </Box>
   );
 };

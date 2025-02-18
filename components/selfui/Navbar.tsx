@@ -35,12 +35,13 @@ const Navbar: React.FC = () => {
         >
           {navLinks.map(link => (
             <Link
+              color="whiteAlpha.900"
               key={link.href}
               href={link.href}
               height="inherit"
               padding={3}
               fontWeight={
-                pathname === link.href.toLowerCase() ? 'semibold' : 'medium'
+                pathname === link.href.toLowerCase() ? 'bolder' : 'medium'
               }
               bg={
                 pathname === link.href.toLowerCase()

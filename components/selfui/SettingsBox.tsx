@@ -1,20 +1,19 @@
+'use client';
+
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { IoChevronForward, IoSettingsOutline } from 'react-icons/io5';
 import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
+import { useColorMode } from '@/components/ui/color-mode';
 
 import { Switch } from '@/components/ui/switch';
 
 type MyComponentProps = {
   settingsRef: {};
-  darkMode: boolean;
-  setDarkMode: (value: boolean) => void;
 };
 
-const SettingsBox: React.FC<MyComponentProps> = ({
-  settingsRef,
-  darkMode,
-  setDarkMode,
-}) => {
+const SettingsBox: React.FC<MyComponentProps> = ({ settingsRef }) => {
+  const { toggleColorMode, colorMode } = useColorMode();
+
   return (
     <Box
       ref={settingsRef}
@@ -26,7 +25,7 @@ const SettingsBox: React.FC<MyComponentProps> = ({
       borderRadius={10}
       width="250px"
       padding={2}
-      bg="gray.focusRing"
+      bg={colorMode === 'dark' ? 'blackAlpha.700' : 'whiteAlpha.700'}
     >
       <Flex
         alignItems="center"
@@ -35,7 +34,7 @@ const SettingsBox: React.FC<MyComponentProps> = ({
         paddingY={1}
         cursor="pointer"
         borderRadius="inherit"
-        _hover={{ bg: 'gray.600' }}
+        _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
       >
         <IoSettingsOutline aria-label="Settings" />
 
@@ -50,16 +49,15 @@ const SettingsBox: React.FC<MyComponentProps> = ({
 
       <Flex
         alignItems="center"
-        bg="gray.focusRing"
         gap={2}
         paddingX={1}
         paddingY={1}
         borderRadius="inherit"
         marginTop={1}
         cursor="pointer"
-        _hover={{ bg: 'gray.600' }}
+        _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
       >
-        {darkMode ? (
+        {colorMode === 'dark' ? (
           <MdOutlineDarkMode aria-label="Mode" />
         ) : (
           <MdOutlineLightMode aria-label="Mode" />
@@ -74,8 +72,10 @@ const SettingsBox: React.FC<MyComponentProps> = ({
             size="sm"
             variant="raised"
             colorPalette="green"
-            defaultChecked={darkMode}
-            onChange={() => setDarkMode(!darkMode)}
+            defaultChecked={true}
+            onChange={() => {
+              toggleColorMode();
+            }}
           />
         </Box>
       </Flex>
