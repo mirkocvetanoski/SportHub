@@ -6,7 +6,7 @@ import { Switch } from '@/components/ui/switch';
 import { ReactNode } from 'react';
 
 interface MyComponentProps {
-  settingsRef: ReactNode;
+  settingsRef: React.RefObject<HTMLElement>;
   darkMode: ReactNode;
   setDarkMode: ReactNode;
 }
