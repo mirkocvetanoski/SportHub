@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import '@fontsource/roboto';
 
 import { Provider } from '@/components/ui/provider';
 
@@ -12,7 +13,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props;
   return (
     <html suppressHydrationWarning>
-      <body>
+      <body className="min-w-screen min-h-screen">
         <Provider>{children}</Provider>
       </body>
     </html>

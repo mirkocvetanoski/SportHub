@@ -1,13 +1,20 @@
 import Navbar from './Navbar';
 
+import { ColorModeProvider } from '@/components/ui/color-mode';
+import { Theme } from '@chakra-ui/react';
+
 const MainLayout = (props: { children: React.ReactNode }) => {
   const { children } = props;
 
   return (
-    <main className="min-w-screen grid min-h-screen grid-cols-1 items-start justify-items-center">
-      <Navbar />
-      {children}
-    </main>
+    <ColorModeProvider forcedTheme="dark">
+      <Theme appearance="dark">
+        <main className="min-w-screen grid min-h-screen grid-cols-1 items-start justify-items-center">
+          <Navbar />
+          {children}
+        </main>
+      </Theme>
+    </ColorModeProvider>
   );
 };
 

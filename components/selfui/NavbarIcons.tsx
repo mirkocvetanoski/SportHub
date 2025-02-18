@@ -20,8 +20,6 @@ const NavbarIcons = () => {
     }
   });
 
-  console.log(settingsRef);
-
   return (
     <Box position="relative">
       <Flex>
