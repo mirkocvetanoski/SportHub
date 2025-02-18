@@ -40,12 +40,18 @@ const Navbar: React.FC = () => {
               height="inherit"
               padding={3}
               fontWeight={
-                pathname === link.href.toLowerCase() ? 'bold' : 'medium'
+                pathname === link.href.toLowerCase() ? 'semibold' : 'medium'
               }
               bg={
                 pathname === link.href.toLowerCase()
                   ? 'teal.800'
                   : 'transparent'
+              }
+              borderBottom={
+                pathname === link.href.toLowerCase() ? '3px solid' : ''
+              }
+              borderColor={
+                pathname === link.href.toLowerCase() ? 'yellow.500' : ''
               }
               _hover={{
                 bg: 'teal.800', // Hover effect color
