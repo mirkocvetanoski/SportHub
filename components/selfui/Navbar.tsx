@@ -73,7 +73,9 @@ const Navbar: React.FC = () => {
         <NavbarIcons onSetSettingsDetails={setSettingsDetails} />
       </Flex>
 
-      {settingsDetails && <SettingsDetails />}
+      {settingsDetails && (
+        <SettingsDetails onSetSettingsDetails={setSettingsDetails} />
+      )}
     </Box>
   );
 };

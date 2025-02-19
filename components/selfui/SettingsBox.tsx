@@ -83,7 +83,7 @@ const SettingsBox: React.FC<ChildComponentProps> = ({
             size="sm"
             variant="raised"
             colorPalette="green"
-            defaultChecked={true}
+            defaultChecked={false}
             onChange={() => {
               toggleColorMode();
             }}
