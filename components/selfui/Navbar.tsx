@@ -7,6 +7,7 @@ import { SettingsDetails } from './SettingsDetails';
 
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import Login from './Login';
 
 type NavbarLink = {
   href: string;
@@ -20,7 +21,8 @@ const navLinks: NavbarLink[] = [
 
 const Navbar: React.FC = () => {
   const pathname = usePathname().toLowerCase();
-  const [settingsDetails, setSettingsDetails] = useState(false);
+  const [settingsDetails, setSettingsDetails] = useState<boolean>(false);
+  const [login, setLogin] = useState<boolean>(false);
 
   return (
     <Box as="nav" w="100vw" bg="teal.700" height={100}>
@@ -70,8 +72,13 @@ const Navbar: React.FC = () => {
 
         <Spacer />
 
-        <NavbarIcons onSetSettingsDetails={setSettingsDetails} />
+        <NavbarIcons
+          onSetSettingsDetails={setSettingsDetails}
+          onSetLogin={setLogin}
+        />
       </Flex>
+
+      {login && <Login onSetLogin={setLogin} />}
 
       {settingsDetails && (
         <SettingsDetails onSetSettingsDetails={setSettingsDetails} />

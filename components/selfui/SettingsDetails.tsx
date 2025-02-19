@@ -63,7 +63,7 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
             Settings
           </Text>
           <CloseButton
-            size="xl"
+            size="lg"
             bg="transparent"
             aria-label="Close"
             marginRight="4px"

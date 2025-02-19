@@ -8,10 +8,14 @@ import { useState, Dispatch, SetStateAction } from 'react';
 import { useClickAway } from '@uidotdev/usehooks';
 
 interface ChildComponentProps {
+  login?: boolean;
+  onSetLogin: Dispatch<SetStateAction<boolean>>;
   onSetSettingsDetails: Dispatch<SetStateAction<boolean>>;
 }
 
 const NavbarIcons: React.FC<ChildComponentProps> = ({
+  login,
+  onSetLogin,
   onSetSettingsDetails,
 }) => {
   const [settings, setSettings] = useState<boolean>(false);
@@ -54,6 +58,7 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
           }}
           textTransform="uppercase"
           fontSize="sm"
+          onClick={() => onSetLogin(!login)}
         >
           <IoLogIn /> Login
         </IconButton>
