@@ -31,7 +31,7 @@ const LoginWithEmailForm = () => {
         </Field.Label>
         <PasswordInput
           variant="subtle"
-          placeholder="youremail@example.com"
+          placeholder="password"
           fontSize="sm"
           border="1px solid"
           borderColor="gray.emphasized"
