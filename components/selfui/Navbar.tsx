@@ -8,6 +8,7 @@ import { SettingsDetails } from './SettingsDetails';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import Login from './Login';
+import LoginWithEmail from './LoginWithEmail';
 
 type NavbarLink = {
   href: string;
@@ -23,6 +24,7 @@ const Navbar: React.FC = () => {
   const pathname = usePathname().toLowerCase();
   const [settingsDetails, setSettingsDetails] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);
+  const [loginWithEmail, setLoginWithEmail] = useState<boolean>(false);
 
   return (
     <Box as="nav" w="100vw" bg="teal.700" height={100}>
@@ -78,7 +80,15 @@ const Navbar: React.FC = () => {
         />
       </Flex>
 
-      {login && <Login onSetLogin={setLogin} />}
+      {login && (
+        <Login onSetLogin={setLogin} onSetLoginWithEmail={setLoginWithEmail} />
+      )}
+      {!login && loginWithEmail && (
+        <LoginWithEmail
+          onSetLogin={setLogin}
+          onSetLoginWithEmail={setLoginWithEmail}
+        />
+      )}
 
       {settingsDetails && (
         <SettingsDetails onSetSettingsDetails={setSettingsDetails} />

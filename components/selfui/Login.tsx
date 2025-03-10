@@ -18,9 +18,13 @@ import { Dispatch, SetStateAction } from 'react';
 
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
+  onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
 }
 
-const Login: React.FC<ChildComponentProps> = ({ onSetLogin }) => {
+const Login: React.FC<ChildComponentProps> = ({
+  onSetLogin,
+  onSetLoginWithEmail,
+}) => {
   const { colorMode } = useColorMode();
 
   const loginRef: {} = useClickAway(e => {
@@ -73,9 +77,8 @@ const Login: React.FC<ChildComponentProps> = ({ onSetLogin }) => {
           width="full"
           textAlign="center"
         >
-          Login for Full Experience
+          Unlock the Full Experience
         </Text>
-
         <Separator
           height="1px"
           bg="gray.emphasized"
@@ -83,7 +86,6 @@ const Login: React.FC<ChildComponentProps> = ({ onSetLogin }) => {
           marginTop={1}
           marginBottom={3}
         />
-
         <Button
           variant="surface"
           loadingText="Redirectiong..."
@@ -98,7 +100,6 @@ const Login: React.FC<ChildComponentProps> = ({ onSetLogin }) => {
           <FcGoogle aria-label="google" />
           <Text marginLeft="auto"> Sign in with Google</Text>
         </Button>
-
         <Button
           variant="surface"
           loadingText="Redirectiong..."
@@ -109,11 +110,14 @@ const Login: React.FC<ChildComponentProps> = ({ onSetLogin }) => {
             bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
           }}
           width="4/6"
+          onClick={() => {
+            onSetLogin(false);
+            onSetLoginWithEmail(true);
+          }}
         >
           <MdEmail aria-label="email" />
           <Text marginLeft="auto"> Sign in with Email</Text>
         </Button>
-
         <Text
           width="full"
           fontSize="10px"
