@@ -88,7 +88,7 @@ const Login: React.FC<ChildComponentProps> = ({
         />
         <Button
           variant="surface"
-          loadingText="Redirectiong..."
+          loadingText="Redirecting..."
           spinnerPlacement="end"
           paddingX={4}
           paddingY={1}
@@ -102,7 +102,7 @@ const Login: React.FC<ChildComponentProps> = ({
         </Button>
         <Button
           variant="surface"
-          loadingText="Redirectiong..."
+          loadingText="Redirecting..."
           spinnerPlacement="end"
           paddingX={4}
           paddingY={1}

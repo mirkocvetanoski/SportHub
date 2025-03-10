@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Center,
   CloseButton,
   Flex,
@@ -7,6 +8,7 @@ import {
   Separator,
   Text,
 } from '@chakra-ui/react';
+import LoginWithEmailForm from './LoginWithEmailForm';
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { useColorMode } from '../ui/color-mode';
@@ -86,6 +88,7 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
             }}
           />
         </Flex>
+
         <Text
           fontSize="xl"
           fontWeight="semibold"
@@ -94,6 +97,7 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
         >
           Log in to an existing account
         </Text>
+
         <Separator
           height="1px"
           bg="gray.emphasized"
@@ -101,6 +105,12 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
           marginTop={1}
           marginBottom={3}
         />
+
+        <LoginWithEmailForm />
+
+        <Button fontSize="10px" textDecoration="underline">
+          Forgot your password?
+        </Button>
       </Box>
     </Center>
   );
