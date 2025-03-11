@@ -75,7 +75,7 @@ const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
         marginBottom={3}
       />
 
-      <VStack width="85%" paddingX="20px" paddingBottom="15px">
+      <VStack width="85%" paddingX="20px">
         <Field.Root required>
           <Field.Label>
             Email

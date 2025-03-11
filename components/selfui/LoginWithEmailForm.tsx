@@ -133,13 +133,14 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
         </Button>
       </VStack>
 
-      <VStack gap="1px" w="100%" paddingY={0}>
+      <VStack marginTop={2} gap={1} w="100%" paddingY={0}>
         <Button
           fontSize="10px"
           textDecoration="underline"
           padding={0}
           fontWeight="semibold"
           onClick={() => onSetForgotPassword(true)}
+          height="fit-content"
         >
           Forgot your password?
         </Button>
@@ -154,6 +155,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
             textDecoration="underline"
             padding={0}
             fontWeight="semibold"
+            height="fit-content"
           >
             Sign up
           </Button>
