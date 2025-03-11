@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 
 import { useColorMode } from '../ui/color-mode';
-import { Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { MdArrowBack } from 'react-icons/md';
 
 interface ChildComponentProps {
@@ -24,6 +24,10 @@ const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
   onSetForgotPassword,
 }) => {
   const { colorMode } = useColorMode();
+
+  const [email, setEmail] = useState<string>('');
+
+  console.log(email);
 
   return (
     <>
@@ -90,6 +94,10 @@ const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
             outlineWidth="1px"
             outlineColor="gray.500"
             paddingX="10px"
+            value={email}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
           />
           <Field.ErrorText fontSize="xx-small">
             E-mail should be in valid form (e.g. youremail@example.com)

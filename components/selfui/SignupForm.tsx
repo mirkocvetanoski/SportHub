@@ -11,7 +11,7 @@ import {
   CloseButton,
 } from '@chakra-ui/react';
 import { PasswordInput } from '@/components/ui/password-input';
-import { Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { useColorMode } from '../ui/color-mode';
 import { MdArrowBack } from 'react-icons/md';
 
@@ -25,6 +25,9 @@ const SignupForm: React.FC<ChildComponentProps> = ({
   onSetSignup,
 }) => {
   const { colorMode } = useColorMode();
+
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   return (
     <>
@@ -86,6 +89,10 @@ const SignupForm: React.FC<ChildComponentProps> = ({
             outlineWidth="1px"
             outlineColor="gray.500"
             paddingX="10px"
+            value={email}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
           />
           <Field.ErrorText fontSize="xx-small">
             Account with this email already exists
@@ -106,6 +113,10 @@ const SignupForm: React.FC<ChildComponentProps> = ({
             outlineWidth="1px"
             outlineColor="gray.500"
             paddingX="10px"
+            value={password}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
           />
           <Field.ErrorText fontSize="xx-small">
             Password should have minimum 8 characters
