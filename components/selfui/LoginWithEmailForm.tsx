@@ -19,12 +19,14 @@ interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
   onSetForgotPassword: Dispatch<SetStateAction<boolean>>;
+  onSetSignup: Dispatch<SetStateAction<boolean>>;
 }
 
 const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
   onSetLogin,
   onSetLoginWithEmail,
   onSetForgotPassword,
+  onSetSignup,
 }) => {
   const { colorMode } = useColorMode();
 
@@ -102,7 +104,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
           </Field.Label>
           <PasswordInput
             variant="subtle"
-            placeholder="password"
+            placeholder="yourpassword"
             fontSize="sm"
             border="1px solid"
             borderColor="gray.emphasized"
@@ -115,25 +117,25 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
           </Field.ErrorText>
         </Field.Root>
 
-        <Button
-          variant="surface"
-          loadingText="Redirecting..."
-          spinnerPlacement="end"
-          paddingX={4}
-          paddingY={1}
-          bg="teal.700"
-          _hover={{
-            bg: 'teal.600',
-          }}
-          width="100%"
-        >
-          <Text fontSize="lg" color="whiteAlpha.900">
-            LOG IN
-          </Text>
-        </Button>
-      </VStack>
+        <VStack marginTop={2} gap={1} w="100%" paddingY={0}>
+          <Button
+            variant="surface"
+            loadingText="Redirecting..."
+            spinnerPlacement="end"
+            paddingX={4}
+            paddingY={1}
+            bg="teal.700"
+            _hover={{
+              bg: 'teal.600',
+            }}
+            width="100%"
+          >
+            <Text fontSize="lg" color="whiteAlpha.900">
+              LOG IN
+            </Text>
+          </Button>
+        </VStack>
 
-      <VStack marginTop={2} gap={1} w="100%" paddingY={0}>
         <Button
           fontSize="10px"
           textDecoration="underline"
@@ -156,6 +158,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
             padding={0}
             fontWeight="semibold"
             height="fit-content"
+            onClick={() => onSetSignup(true)}
           >
             Sign up
           </Button>

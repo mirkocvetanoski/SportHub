@@ -4,6 +4,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 
 import { useClickAway } from '@uidotdev/usehooks';
 import ForgotPasswordForm from './ForgotPasswordForm';
+import SignupForm from './SignupForm';
 
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
@@ -15,6 +16,7 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
   onSetLoginWithEmail,
 }) => {
   const [forgotPassword, setForgotPassword] = useState(false);
+  const [signup, setSignup] = useState(false);
 
   const loginWithEmailRef: {} = useClickAway(e => {
     if (e.target === document.getElementById('center-login-with-email')) {
@@ -47,11 +49,12 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
         gap={2}
         paddingY={4}
       >
-        {!forgotPassword && (
+        {!forgotPassword && !signup && (
           <LoginWithEmailForm
             onSetLogin={onSetLogin}
             onSetLoginWithEmail={onSetLoginWithEmail}
             onSetForgotPassword={setForgotPassword}
+            onSetSignup={setSignup}
           />
         )}
 
@@ -59,6 +62,13 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
           <ForgotPasswordForm
             onSetForgotPassword={setForgotPassword}
             onSetLoginWithEmail={onSetLoginWithEmail}
+          />
+        )}
+
+        {!forgotPassword && signup && (
+          <SignupForm
+            onSetLoginWithEmail={onSetLoginWithEmail}
+            onSetSignup={setSignup}
           />
         )}
       </Box>
