@@ -76,6 +76,7 @@ const Navbar: React.FC = () => {
 
         <NavbarIcons
           onSetSettingsDetails={setSettingsDetails}
+          login={login}
           onSetLogin={setLogin}
         />
       </Flex>
