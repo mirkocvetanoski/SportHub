@@ -28,6 +28,7 @@ const SignupForm: React.FC<ChildComponentProps> = ({
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
 
   return (
     <>
@@ -120,6 +121,30 @@ const SignupForm: React.FC<ChildComponentProps> = ({
           />
           <Field.ErrorText fontSize="xx-small">
             Password should have minimum 8 characters
+          </Field.ErrorText>
+        </Field.Root>
+
+        <Field.Root required invalid>
+          <Field.Label>
+            Confirm password
+            <Field.RequiredIndicator />
+          </Field.Label>
+          <PasswordInput
+            variant="subtle"
+            placeholder="yourpassword"
+            fontSize="sm"
+            border="1px solid"
+            borderColor="gray.emphasized"
+            outlineWidth="1px"
+            outlineColor="gray.500"
+            paddingX="10px"
+            value={confirmPassword}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setConfirmPassword(e.target.value)
+            }
+          />
+          <Field.ErrorText fontSize="xx-small">
+            Passwords doesn&apos;t match. Try again.
           </Field.ErrorText>
         </Field.Root>
 
