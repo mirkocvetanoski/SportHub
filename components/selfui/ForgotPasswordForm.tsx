@@ -5,24 +5,21 @@ import {
   VStack,
   Text,
   Separator,
-  HStack,
-  Flex,
-  IconButton,
   CloseButton,
+  IconButton,
+  Flex,
 } from '@chakra-ui/react';
-import { PasswordInput } from '@/components/ui/password-input';
-import { Dispatch, SetStateAction } from 'react';
+
 import { useColorMode } from '../ui/color-mode';
+import { Dispatch, SetStateAction } from 'react';
 import { MdArrowBack } from 'react-icons/md';
 
 interface ChildComponentProps {
-  onSetLogin: Dispatch<SetStateAction<boolean>>;
-  onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
   onSetForgotPassword: Dispatch<SetStateAction<boolean>>;
+  onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
 }
 
-const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
-  onSetLogin,
+const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
   onSetLoginWithEmail,
   onSetForgotPassword,
 }) => {
@@ -41,8 +38,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
             bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
           }}
           onClick={() => {
-            onSetLogin(true);
-            onSetLoginWithEmail(false);
+            onSetForgotPassword(false);
           }}
         >
           <MdArrowBack />
@@ -63,7 +59,12 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
       </Flex>
 
       <Text fontSize="xl" fontWeight="semibold" width="full" textAlign="center">
-        Log in to an existing account
+        Reset Password
+      </Text>
+
+      <Text fontSize="xs" width="5/6" textAlign="center">
+        Don&apos;t worry. Just enter your email address below and we&apos;ll
+        send you some instructions.
       </Text>
 
       <Separator
@@ -74,8 +75,8 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
         marginBottom={3}
       />
 
-      <VStack width="85%" paddingX="20px">
-        <Field.Root required invalid>
+      <VStack width="85%" paddingX="20px" paddingBottom="15px">
+        <Field.Root required>
           <Field.Label>
             Email
             <Field.RequiredIndicator />
@@ -90,29 +91,6 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
             outlineColor="gray.500"
             paddingX="10px"
           />
-          <Field.ErrorText fontSize="xx-small">
-            Account with this email doesn&apos;t exists
-          </Field.ErrorText>
-        </Field.Root>
-
-        <Field.Root required invalid>
-          <Field.Label>
-            Password
-            <Field.RequiredIndicator />
-          </Field.Label>
-          <PasswordInput
-            variant="subtle"
-            placeholder="password"
-            fontSize="sm"
-            border="1px solid"
-            borderColor="gray.emphasized"
-            outlineWidth="1px"
-            outlineColor="gray.500"
-            paddingX="10px"
-          />
-          <Field.ErrorText fontSize="xx-small">
-            Incorrect password
-          </Field.ErrorText>
         </Field.Root>
 
         <Button
@@ -121,46 +99,18 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
           spinnerPlacement="end"
           paddingX={4}
           paddingY={1}
-          bg="teal.700"
           _hover={{
-            bg: 'teal.600',
+            bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
           }}
-          width="100%"
+          width="full"
         >
           <Text fontSize="lg" color="gray.100">
-            LOG IN
+            SEND
           </Text>
         </Button>
-      </VStack>
-
-      <VStack gap="1px" w="100%" paddingY={0}>
-        <Button
-          fontSize="10px"
-          textDecoration="underline"
-          padding={0}
-          fontWeight="semibold"
-          onClick={() => onSetForgotPassword(true)}
-        >
-          Forgot your password?
-        </Button>
-
-        <Text fontSize="10px">Or</Text>
-
-        <HStack>
-          <Text fontSize="10px">Don&apos;t have an account?</Text>
-
-          <Button
-            fontSize="10px"
-            textDecoration="underline"
-            padding={0}
-            fontWeight="semibold"
-          >
-            Sign up
-          </Button>
-        </HStack>
       </VStack>
     </>
   );
 };
 
-export default LoginWithEmailForm;
+export default ForgotPasswordForm;

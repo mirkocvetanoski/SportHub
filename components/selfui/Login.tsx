@@ -47,7 +47,7 @@ const Login: React.FC<ChildComponentProps> = ({
     >
       <Box
         ref={loginRef}
-        width="1/6"
+        width="400px"
         height="2/4"
         flexDirection="column"
         bg="gray.subtle"
@@ -95,7 +95,7 @@ const Login: React.FC<ChildComponentProps> = ({
           _hover={{
             bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
           }}
-          width="4/6"
+          width="3/6"
         >
           <FcGoogle aria-label="google" />
           <Text marginLeft="auto"> Sign in with Google</Text>
@@ -109,7 +109,7 @@ const Login: React.FC<ChildComponentProps> = ({
           _hover={{
             bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
           }}
-          width="4/6"
+          width="3/6"
           onClick={() => {
             onSetLogin(false);
             onSetLoginWithEmail(true);

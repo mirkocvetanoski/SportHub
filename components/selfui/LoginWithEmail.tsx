@@ -1,19 +1,9 @@
-import {
-  Box,
-  Button,
-  Center,
-  CloseButton,
-  Flex,
-  IconButton,
-  Separator,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Center } from '@chakra-ui/react';
 import LoginWithEmailForm from './LoginWithEmailForm';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 
-import { useColorMode } from '../ui/color-mode';
-import { MdArrowBack } from 'react-icons/md';
 import { useClickAway } from '@uidotdev/usehooks';
+import ForgotPasswordForm from './ForgotPasswordForm';
 
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
@@ -24,7 +14,7 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
   onSetLogin,
   onSetLoginWithEmail,
 }) => {
-  const { colorMode } = useColorMode();
+  const [forgotPassword, setForgotPassword] = useState(false);
 
   const loginWithEmailRef: {} = useClickAway(e => {
     if (e.target === document.getElementById('center-login-with-email')) {
@@ -46,7 +36,7 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
     >
       <Box
         ref={loginWithEmailRef}
-        width="1/6"
+        width="400px"
         height="2/4"
         flexDirection="column"
         bg="gray.subtle"
@@ -57,60 +47,20 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
         gap={2}
         paddingY={4}
       >
-        <Flex width="100%" align="center" justify="space-between">
-          <IconButton
-            aria-label="back"
-            alignSelf="flex-start"
-            marginLeft="4px"
-            size="lg"
-            bg="transparent"
-            _hover={{
-              bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
-            }}
-            onClick={() => {
-              onSetLogin(true);
-              onSetLoginWithEmail(false);
-            }}
-          >
-            <MdArrowBack />
-          </IconButton>
-          <CloseButton
-            aria-label="Close"
-            alignSelf="flex-end"
-            marginRight="4px"
-            size="lg"
-            bg="transparent"
-            _hover={{
-              bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
-            }}
-            onClick={() => {
-              onSetLoginWithEmail(false);
-            }}
+        {!forgotPassword && (
+          <LoginWithEmailForm
+            onSetLogin={onSetLogin}
+            onSetLoginWithEmail={onSetLoginWithEmail}
+            onSetForgotPassword={setForgotPassword}
           />
-        </Flex>
+        )}
 
-        <Text
-          fontSize="xl"
-          fontWeight="semibold"
-          width="full"
-          textAlign="center"
-        >
-          Log in to an existing account
-        </Text>
-
-        <Separator
-          height="1px"
-          bg="gray.emphasized"
-          width="full"
-          marginTop={1}
-          marginBottom={3}
-        />
-
-        <LoginWithEmailForm />
-
-        <Button fontSize="10px" textDecoration="underline">
-          Forgot your password?
-        </Button>
+        {forgotPassword && (
+          <ForgotPasswordForm
+            onSetForgotPassword={setForgotPassword}
+            onSetLoginWithEmail={onSetLoginWithEmail}
+          />
+        )}
       </Box>
     </Center>
   );
