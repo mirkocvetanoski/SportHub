@@ -127,7 +127,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
           }}
           width="100%"
         >
-          <Text fontSize="lg" color="gray.100">
+          <Text fontSize="lg" color="whiteAlpha.900">
             LOG IN
           </Text>
         </Button>

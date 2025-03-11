@@ -104,9 +104,7 @@ const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
           }}
           width="full"
         >
-          <Text fontSize="lg" color="gray.100">
-            SEND
-          </Text>
+          <Text fontSize="lg">SEND</Text>
         </Button>
       </VStack>
     </>
