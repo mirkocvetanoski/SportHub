@@ -15,6 +15,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { MdEmail } from 'react-icons/md';
 import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';
+import { signIn } from 'next-auth/react';
 
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
@@ -96,6 +97,9 @@ const Login: React.FC<ChildComponentProps> = ({
             bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
           }}
           width="3/6"
+          onClick={() => {
+            signIn('google');
+          }}
         >
           <FcGoogle aria-label="google" />
           <Text marginLeft="auto"> Sign in with Google</Text>
