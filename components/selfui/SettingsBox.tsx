@@ -67,6 +67,9 @@ const SettingsBox: React.FC<ChildComponentProps> = ({
         marginTop={1}
         cursor="pointer"
         _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
+        onClick={() => {
+          toggleColorMode();
+        }}
       >
         {colorMode === 'dark' ? (
           <MdOutlineDarkMode aria-label="Mode" />
@@ -83,10 +86,7 @@ const SettingsBox: React.FC<ChildComponentProps> = ({
             size="sm"
             variant="raised"
             colorPalette="green"
-            defaultChecked={false}
-            onChange={() => {
-              toggleColorMode();
-            }}
+            checked={colorMode === 'dark' ? true : false}
           />
         </Box>
       </Flex>
