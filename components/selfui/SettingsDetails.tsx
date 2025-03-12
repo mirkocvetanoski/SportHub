@@ -9,6 +9,7 @@ import {
   Grid,
   CloseButton,
   Box,
+  HStack,
 } from '@chakra-ui/react';
 import { Radio, RadioGroup } from '../ui/radio';
 
@@ -95,9 +96,8 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
             flexDirection="column"
             gap={1}
           >
-            <Stack
-              direction="row"
-              alignItems="center"
+            <HStack
+              gap="8px"
               width="fit-content"
               cursor="pointer"
               onClick={() => setOrderBy('league name')}
@@ -110,11 +110,10 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
                 rounded="full"
               />
               <Text fontSize="13px">League name</Text>
-            </Stack>
+            </HStack>
 
-            <Stack
-              direction="row"
-              alignItems="center"
+            <HStack
+              gap="8px"
               width="fit-content"
               cursor="pointer"
               onClick={() => setOrderBy('start time')}
@@ -127,7 +126,7 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
                 rounded="full"
               />
               <Text fontSize="13px">Match Start Time</Text>
-            </Stack>
+            </HStack>
           </RadioGroup>
         </Stack>
 
@@ -150,9 +149,8 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
             flexDirection="column"
             gap={1}
           >
-            <Stack
-              direction="row"
-              alignItems="center"
+            <HStack
+              gap="8px"
               width="fit-content"
               cursor="pointer"
               onClick={() => setNotifications('with')}
@@ -165,11 +163,10 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
                 rounded="full"
               />
               <Text fontSize="13px">Yes, with sound effects</Text>
-            </Stack>
+            </HStack>
 
-            <Stack
-              direction="row"
-              alignItems="center"
+            <HStack
+              gap="8px"
               width="fit-content"
               cursor="pointer"
               onClick={() => setNotifications('without')}
@@ -182,11 +179,10 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
                 rounded="full"
               />
               <Text fontSize="13px">Yes, without sound effects</Text>
-            </Stack>
+            </HStack>
 
-            <Stack
-              direction="row"
-              alignItems="center"
+            <HStack
+              gap="8px"
               width="fit-content"
               cursor="pointer"
               onClick={() => setNotifications('no')}
@@ -199,7 +195,7 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
                 rounded="full"
               />
               <Text fontSize="13px">No</Text>
-            </Stack>
+            </HStack>
           </RadioGroup>
         </Stack>
 
@@ -218,9 +214,8 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
               columnGap={8}
               rowGap={2}
             >
-              <Stack
-                direction="row"
-                alignItems="center"
+              <HStack
+                gap="8px"
                 width="fit-content"
                 cursor="pointer"
                 onClick={() => setOddsFormat('eu')}
@@ -233,11 +228,10 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
                   rounded="full"
                 />
                 <Text fontSize="13px">EU (1.50)</Text>
-              </Stack>
+              </HStack>
 
-              <Stack
-                direction="row"
-                alignItems="center"
+              <HStack
+                gap="8px"
                 width="fit-content"
                 cursor="pointer"
                 onClick={() => setOddsFormat('uk')}
@@ -250,11 +244,10 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
                   rounded="full"
                 />
                 <Text fontSize="13px">UK (1/2)</Text>
-              </Stack>
+              </HStack>
 
-              <Stack
-                direction="row"
-                alignItems="center"
+              <HStack
+                gap="8px"
                 width="fit-content"
                 cursor="pointer"
                 onClick={() => setOddsFormat('us')}
@@ -267,11 +260,10 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
                   rounded="full"
                 />
                 <Text fontSize="13px">US (-200)</Text>
-              </Stack>
+              </HStack>
 
-              <Stack
-                direction="row"
-                alignItems="center"
+              <HStack
+                gap="8px"
                 width="fit-content"
                 cursor="pointer"
                 onClick={() => setOddsFormat('hk')}
@@ -284,11 +276,10 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
                   rounded="full"
                 />
                 <Text fontSize="13px">HK (0.50)</Text>
-              </Stack>
+              </HStack>
 
-              <Stack
-                direction="row"
-                alignItems="center"
+              <HStack
+                gap="8px"
                 width="fit-content"
                 cursor="pointer"
                 onClick={() => setOddsFormat('ma')}
@@ -301,11 +292,10 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
                   rounded="full"
                 />
                 <Text fontSize="13px">MA (0.50)</Text>
-              </Stack>
+              </HStack>
 
-              <Stack
-                direction="row"
-                alignItems="center"
+              <HStack
+                gap="8px"
                 width="fit-content"
                 cursor="pointer"
                 onClick={() => setOddsFormat('in')}
@@ -318,7 +308,7 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
                   rounded="full"
                 />
                 <Text fontSize="13px">IN (-2.00)</Text>
-              </Stack>
+              </HStack>
             </Grid>
           </RadioGroup>
         </Stack>
