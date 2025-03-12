@@ -2,8 +2,8 @@ import { RegisterFormSchema, RegisterFormType } from '@/lib/formvalidation';
 
 const validateFields = (
   email: string,
-  password: string,
-  confirmPassword: string
+  password?: string,
+  confirmPassword?: string
 ) => {
   const result = RegisterFormSchema.safeParse({
     email,

@@ -11,9 +11,12 @@ import {
   CloseButton,
 } from '@chakra-ui/react';
 import { PasswordInput } from '@/components/ui/password-input';
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { useColorMode } from '../ui/color-mode';
 import { MdArrowBack } from 'react-icons/md';
+
+import { useColorMode } from '../ui/color-mode';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { RegisterFormType } from '@/lib/formvalidation';
+import validateFields from '@/lib/auth';
 
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
@@ -32,6 +35,15 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [data, setData] = useState<{
+    errors?: Record<string, string[]>;
+    data?: RegisterFormType;
+  }>({});
+
+  const handleSubmit = () => {
+    const validationResult = validateFields(email, password);
+    setData(validationResult);
+  };
 
   return (
     <>
@@ -99,9 +111,11 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
               setEmail(e.target.value)
             }
           />
-          <Field.ErrorText fontSize="xx-small">
-            Account with this email doesn&apos;t exists
-          </Field.ErrorText>
+          {data?.errors?.email && (
+            <Field.ErrorText fontSize="xx-small">
+              {data?.errors?.email[0]}
+            </Field.ErrorText>
+          )}
         </Field.Root>
 
         <Field.Root required invalid>
@@ -123,9 +137,15 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
               setPassword(e.target.value)
             }
           />
-          <Field.ErrorText fontSize="xx-small">
-            Incorrect password
-          </Field.ErrorText>
+          <VStack align="start" gap={0}>
+            {data?.errors?.password?.map((message: string, i: number) => {
+              return (
+                <Field.ErrorText key={i} fontSize="xx-small">
+                  {message}
+                </Field.ErrorText>
+              );
+            })}
+          </VStack>
         </Field.Root>
 
         <VStack marginTop={2} gap={1} w="100%" paddingY={0}>
@@ -140,6 +160,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
               bg: 'teal.600',
             }}
             width="100%"
+            onClick={handleSubmit}
           >
             <Text fontSize="lg" color="whiteAlpha.900">
               LOG IN

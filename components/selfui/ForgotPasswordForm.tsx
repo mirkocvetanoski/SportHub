@@ -10,9 +10,12 @@ import {
   Flex,
 } from '@chakra-ui/react';
 
+import { MdArrowBack } from 'react-icons/md';
+
 import { useColorMode } from '../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { MdArrowBack } from 'react-icons/md';
+import { RegisterFormType } from '@/lib/formvalidation';
+import validateFields from '@/lib/auth';
 
 interface ChildComponentProps {
   onSetForgotPassword: Dispatch<SetStateAction<boolean>>;
@@ -27,7 +30,15 @@ const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
 
   const [email, setEmail] = useState<string>('');
 
-  console.log(email);
+  const [data, setData] = useState<{
+    errors?: Record<string, string[]>;
+    data?: RegisterFormType;
+  }>({});
+
+  const handleSubmit = () => {
+    const validationResult = validateFields(email);
+    setData(validationResult);
+  };
 
   return (
     <>
@@ -99,9 +110,11 @@ const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
               setEmail(e.target.value)
             }
           />
-          <Field.ErrorText fontSize="xx-small">
-            E-mail should be in valid form (e.g. youremail@example.com)
-          </Field.ErrorText>
+          {data?.errors?.email && (
+            <Field.ErrorText fontSize="xx-small">
+              {data?.errors?.email[0]}
+            </Field.ErrorText>
+          )}
         </Field.Root>
 
         <Button
@@ -114,6 +127,7 @@ const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
             bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
           }}
           width="full"
+          onClick={handleSubmit}
         >
           <Text fontSize="lg">SEND</Text>
         </Button>

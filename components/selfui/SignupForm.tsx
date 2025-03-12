@@ -182,9 +182,7 @@ const SignupForm: React.FC<ChildComponentProps> = ({
               bg: 'teal.600',
             }}
             width="100%"
-            onClick={() => {
-              handleSubmit();
-            }}
+            onClick={handleSubmit}
           >
             <Text fontSize="lg" color="whiteAlpha.900">
               SIGN UP

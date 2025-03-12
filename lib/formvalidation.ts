@@ -12,11 +12,12 @@ export const RegisterFormSchema = z
       .regex(/[^a-zA-Z0-9]/, {
         message: 'Contain at least one special character.',
       })
-      .trim(),
-    confirmPassword: z.string().trim(),
+      .trim()
+      .optional(),
+    confirmPassword: z.string().trim().optional(),
   })
   .superRefine((val, ctx) => {
-    if (val.password !== val.confirmPassword) {
+    if (val.confirmPassword && val.password !== val.confirmPassword) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Password fields do not match.',
