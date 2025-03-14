@@ -3,7 +3,7 @@ import MainLayout from '@/components/selfui/MainLayout';
 export default function Home() {
   return (
     <MainLayout>
-      <div>HomePage</div>
+      <div className="h-[calc(100vh-100px)]">HomePage</div>
     </MainLayout>
   );
 }
