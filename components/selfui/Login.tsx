@@ -20,17 +20,24 @@ import { signIn } from 'next-auth/react';
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
+  animationDataState: string;
+  onSetAnimationDataState: Dispatch<SetStateAction<string>>;
 }
 
 const Login: React.FC<ChildComponentProps> = ({
   onSetLogin,
   onSetLoginWithEmail,
+  animationDataState,
+  onSetAnimationDataState,
 }) => {
   const { colorMode } = useColorMode();
 
   const loginRef: {} = useClickAway(e => {
     if (e.target === document.getElementById('center-login')) {
-      onSetLogin(false);
+      setTimeout(() => {
+        onSetLogin(false);
+      }, 120);
+      onSetAnimationDataState('closed');
     }
   });
 
@@ -45,6 +52,15 @@ const Login: React.FC<ChildComponentProps> = ({
       bottom="0"
       bg="blackAlpha.600" // Semi-transparent black background
       zIndex="overlay" // Ensures it's above everything
+      data-state={animationDataState}
+      _open={{
+        animationName: 'fade-in, scale-in',
+        animationDuration: '300ms',
+      }}
+      _closed={{
+        animationName: 'fade-out, scale-out',
+        animationDuration: '120ms',
+      }}
     >
       <Box
         ref={loginRef}
@@ -58,6 +74,15 @@ const Login: React.FC<ChildComponentProps> = ({
         alignItems="center"
         gap={2}
         paddingY={4}
+        data-state={animationDataState}
+        _open={{
+          animationName: 'fade-in, scale-in',
+          animationDuration: '300ms',
+        }}
+        _closed={{
+          animationName: 'fade-out, scale-out',
+          animationDuration: '120ms',
+        }}
       >
         <CloseButton
           alignSelf="flex-end"
@@ -69,7 +94,10 @@ const Login: React.FC<ChildComponentProps> = ({
             bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
           }}
           onClick={() => {
-            onSetLogin(false);
+            setTimeout(() => {
+              onSetLogin(false);
+            }, 120);
+            onSetAnimationDataState('closed');
           }}
         />
         <Text
@@ -117,6 +145,7 @@ const Login: React.FC<ChildComponentProps> = ({
           onClick={() => {
             onSetLogin(false);
             onSetLoginWithEmail(true);
+            onSetAnimationDataState('');
           }}
         >
           <MdEmail aria-label="email" />

@@ -23,6 +23,8 @@ interface ChildComponentProps {
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
   onSetForgotPassword: Dispatch<SetStateAction<boolean>>;
   onSetSignup: Dispatch<SetStateAction<boolean>>;
+  animationDataState: string;
+  onSetAnimationDataState: Dispatch<SetStateAction<string>>;
 }
 
 const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
@@ -30,6 +32,8 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
   onSetLoginWithEmail,
   onSetForgotPassword,
   onSetSignup,
+  animationDataState,
+  onSetAnimationDataState,
 }) => {
   const { colorMode } = useColorMode();
 
@@ -46,7 +50,18 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
   };
 
   return (
-    <>
+    <VStack
+      width="100%"
+      data-state={animationDataState}
+      _open={{
+        animationName: 'fade-in, scale-in',
+        animationDuration: '300ms',
+      }}
+      _closed={{
+        animationName: 'fade-out, scale-out',
+        animationDuration: '120ms',
+      }}
+    >
       <Flex width="100%" align="center" justify="space-between">
         <IconButton
           aria-label="back"
@@ -74,7 +89,10 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
             bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
           }}
           onClick={() => {
-            onSetLoginWithEmail(false);
+            setTimeout(() => {
+              onSetLoginWithEmail(false);
+            }, 120);
+            onSetAnimationDataState('closed');
           }}
         />
       </Flex>
@@ -196,7 +214,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
           </Button>
         </HStack>
       </VStack>
-    </>
+    </VStack>
   );
 };
 

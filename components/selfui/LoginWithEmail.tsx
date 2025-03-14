@@ -9,18 +9,25 @@ import SignupForm from './SignupForm';
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
+  animationDataState: string;
+  onSetAnimationDataState: Dispatch<SetStateAction<string>>;
 }
 
 const LoginWithEmail: React.FC<ChildComponentProps> = ({
   onSetLogin,
   onSetLoginWithEmail,
+  animationDataState,
+  onSetAnimationDataState,
 }) => {
   const [forgotPassword, setForgotPassword] = useState(false);
   const [signup, setSignup] = useState(false);
 
   const loginWithEmailRef: {} = useClickAway(e => {
     if (e.target === document.getElementById('center-login-with-email')) {
-      onSetLoginWithEmail(false);
+      setTimeout(() => {
+        onSetLoginWithEmail(false);
+      }, 120);
+      onSetAnimationDataState('closed');
     }
   });
 
@@ -35,6 +42,15 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
       bottom="0"
       bg="blackAlpha.600" // Semi-transparent black background
       zIndex="overlay" // Ensures it's above everything
+      data-state={animationDataState}
+      _open={{
+        animationName: 'fade-in, scale-in',
+        animationDuration: '300ms',
+      }}
+      _closed={{
+        animationName: 'fade-out, scale-out',
+        animationDuration: '120ms',
+      }}
     >
       <Box
         ref={loginWithEmailRef}
@@ -55,6 +71,8 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
             onSetLoginWithEmail={onSetLoginWithEmail}
             onSetForgotPassword={setForgotPassword}
             onSetSignup={setSignup}
+            animationDataState={animationDataState}
+            onSetAnimationDataState={onSetAnimationDataState}
           />
         )}
 
@@ -62,6 +80,8 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
           <ForgotPasswordForm
             onSetForgotPassword={setForgotPassword}
             onSetLoginWithEmail={onSetLoginWithEmail}
+            animationDataState={animationDataState}
+            onSetAnimationDataState={onSetAnimationDataState}
           />
         )}
 
@@ -69,6 +89,8 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
           <SignupForm
             onSetLoginWithEmail={onSetLoginWithEmail}
             onSetSignup={setSignup}
+            animationDataState={animationDataState}
+            onSetAnimationDataState={onSetAnimationDataState}
           />
         )}
       </Box>

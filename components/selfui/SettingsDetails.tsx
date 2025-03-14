@@ -19,10 +19,14 @@ import { useClickAway } from '@uidotdev/usehooks';
 
 interface ChildComponentProps {
   onSetSettingsDetails: Dispatch<SetStateAction<boolean>>;
+  animationDataState: string;
+  onSetAnimationDataState: Dispatch<SetStateAction<string>>;
 }
 
 export const SettingsDetails: React.FC<ChildComponentProps> = ({
   onSetSettingsDetails,
+  animationDataState,
+  onSetAnimationDataState,
 }) => {
   const [orderBy, setOrderBy] = useState('league name');
   const [notifications, setNotifications] = useState('without');
@@ -31,7 +35,10 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
 
   const settingsDetailsRef: {} = useClickAway(e => {
     if (e.target === document.getElementById('center-settings')) {
-      onSetSettingsDetails(false);
+      setTimeout(() => {
+        onSetSettingsDetails(false);
+      }, 120);
+      onSetAnimationDataState('closed');
     }
   });
 
@@ -46,6 +53,15 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
       bottom="0"
       bg="blackAlpha.600" // Semi-transparent black background
       zIndex="overlay" // Ensures it's above everything
+      data-state={animationDataState}
+      _open={{
+        animationName: 'fade-in, scale-in',
+        animationDuration: '300ms',
+      }}
+      _closed={{
+        animationName: 'fade-out, scale-out',
+        animationDuration: '120ms',
+      }}
     >
       <Box
         ref={settingsDetailsRef}
@@ -58,6 +74,15 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
         flexDir="column"
         gap={3}
         paddingY={4}
+        data-state={animationDataState}
+        _open={{
+          animationName: 'fade-in, scale-in',
+          animationDuration: '300ms',
+        }}
+        _closed={{
+          animationName: 'fade-out, scale-out',
+          animationDuration: '120ms',
+        }}
       >
         <Flex alignItems="center" justify="space-between">
           <Text fontSize="xl" fontWeight="semibold" paddingX="6">
@@ -72,7 +97,10 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
               bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
             }}
             onClick={() => {
-              onSetSettingsDetails(false);
+              setTimeout(() => {
+                onSetSettingsDetails(false);
+              }, 120);
+              onSetAnimationDataState('closed');
             }}
           />
         </Flex>

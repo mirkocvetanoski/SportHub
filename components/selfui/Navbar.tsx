@@ -25,6 +25,7 @@ const Navbar: React.FC = () => {
   const [settingsDetails, setSettingsDetails] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);
   const [loginWithEmail, setLoginWithEmail] = useState<boolean>(false);
+  const [animationDataState, setAnimationDataState] = useState<string>('');
 
   return (
     <Box as="nav" w="100vw" bg="teal.700" height={100}>
@@ -78,21 +79,33 @@ const Navbar: React.FC = () => {
           onSetSettingsDetails={setSettingsDetails}
           login={login}
           onSetLogin={setLogin}
+          onSetAnimationDataState={setAnimationDataState}
         />
       </Flex>
 
       {login && (
-        <Login onSetLogin={setLogin} onSetLoginWithEmail={setLoginWithEmail} />
+        <Login
+          onSetLogin={setLogin}
+          onSetLoginWithEmail={setLoginWithEmail}
+          animationDataState={animationDataState}
+          onSetAnimationDataState={setAnimationDataState}
+        />
       )}
       {!login && loginWithEmail && (
         <LoginWithEmail
           onSetLogin={setLogin}
           onSetLoginWithEmail={setLoginWithEmail}
+          animationDataState={animationDataState}
+          onSetAnimationDataState={setAnimationDataState}
         />
       )}
 
       {settingsDetails && (
-        <SettingsDetails onSetSettingsDetails={setSettingsDetails} />
+        <SettingsDetails
+          onSetSettingsDetails={setSettingsDetails}
+          animationDataState={animationDataState}
+          onSetAnimationDataState={setAnimationDataState}
+        />
       )}
     </Box>
   );

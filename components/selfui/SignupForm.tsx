@@ -21,11 +21,15 @@ import { RegisterFormType } from '@/lib/formvalidation';
 interface ChildComponentProps {
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
   onSetSignup: Dispatch<SetStateAction<boolean>>;
+  animationDataState: string;
+  onSetAnimationDataState: Dispatch<SetStateAction<string>>;
 }
 
 const SignupForm: React.FC<ChildComponentProps> = ({
   onSetLoginWithEmail,
   onSetSignup,
+  animationDataState,
+  onSetAnimationDataState,
 }) => {
   const { colorMode } = useColorMode();
 
@@ -43,7 +47,18 @@ const SignupForm: React.FC<ChildComponentProps> = ({
   };
 
   return (
-    <>
+    <VStack
+      width="100%"
+      data-state={animationDataState}
+      _open={{
+        animationName: 'fade-in, scale-in',
+        animationDuration: '300ms',
+      }}
+      _closed={{
+        animationName: 'fade-out, scale-out',
+        animationDuration: '120ms',
+      }}
+    >
       <Flex width="100%" align="center" justify="space-between">
         <IconButton
           aria-label="back"
@@ -70,7 +85,10 @@ const SignupForm: React.FC<ChildComponentProps> = ({
             bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
           }}
           onClick={() => {
-            onSetLoginWithEmail(false);
+            setTimeout(() => {
+              onSetLoginWithEmail(false);
+            }, 120);
+            onSetAnimationDataState('closed');
           }}
         />
       </Flex>
@@ -207,7 +225,7 @@ const SignupForm: React.FC<ChildComponentProps> = ({
           </Button>
         </HStack>
       </VStack>
-    </>
+    </VStack>
   );
 };
 

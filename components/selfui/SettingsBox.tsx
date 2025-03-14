@@ -12,12 +12,14 @@ type ChildComponentProps = {
   settingsRef: {};
   onSetSettings: Dispatch<SetStateAction<boolean>>;
   onSetSettingsDetails: Dispatch<SetStateAction<boolean>>;
+  onSetAnimationDataState: Dispatch<SetStateAction<string>>;
 };
 
 const SettingsBox: React.FC<ChildComponentProps> = ({
   settingsRef,
   onSetSettings,
   onSetSettingsDetails,
+  onSetAnimationDataState,
 }) => {
   const { toggleColorMode, colorMode } = useColorMode();
 
@@ -45,6 +47,7 @@ const SettingsBox: React.FC<ChildComponentProps> = ({
         onClick={() => {
           onSetSettings(false);
           onSetSettingsDetails(true);
+          onSetAnimationDataState('open');
         }}
       >
         <IoSettingsOutline aria-label="Settings" />

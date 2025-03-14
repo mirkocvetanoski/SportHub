@@ -11,12 +11,14 @@ interface ChildComponentProps {
   login?: boolean;
   onSetLogin: Dispatch<SetStateAction<boolean>>;
   onSetSettingsDetails: Dispatch<SetStateAction<boolean>>;
+  onSetAnimationDataState: Dispatch<SetStateAction<string>>;
 }
 
 const NavbarIcons: React.FC<ChildComponentProps> = ({
   login,
   onSetLogin,
   onSetSettingsDetails,
+  onSetAnimationDataState,
 }) => {
   const [settings, setSettings] = useState<boolean>(false);
 
@@ -58,7 +60,10 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
           }}
           textTransform="uppercase"
           fontSize="sm"
-          onClick={() => onSetLogin(!login)}
+          onClick={() => {
+            onSetLogin(!login);
+            onSetAnimationDataState('open');
+          }}
         >
           <IoLogIn /> Login
         </IconButton>
@@ -87,6 +92,7 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
           settingsRef={settingsRef}
           onSetSettings={setSettings}
           onSetSettingsDetails={onSetSettingsDetails}
+          onSetAnimationDataState={onSetAnimationDataState}
         />
       )}
     </Box>
