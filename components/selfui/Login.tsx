@@ -17,6 +17,8 @@ import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';
 import { signIn } from 'next-auth/react';
 
+import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
+
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
@@ -36,7 +38,7 @@ const Login: React.FC<ChildComponentProps> = ({
     if (e.target === document.getElementById('center-login')) {
       setTimeout(() => {
         onSetLogin(false);
-      }, 120);
+      }, CLOSED_ANIMATION);
       onSetAnimationDataState('closed');
     }
   });
@@ -55,11 +57,11 @@ const Login: React.FC<ChildComponentProps> = ({
       data-state={animationDataState}
       _open={{
         animationName: 'fade-in, scale-in',
-        animationDuration: '300ms',
+        animationDuration: `${OPEN_ANIMATION}ms`,
       }}
       _closed={{
         animationName: 'fade-out, scale-out',
-        animationDuration: '120ms',
+        animationDuration: `${CLOSED_ANIMATION}ms`,
       }}
     >
       <Box
@@ -77,11 +79,11 @@ const Login: React.FC<ChildComponentProps> = ({
         data-state={animationDataState}
         _open={{
           animationName: 'fade-in, scale-in',
-          animationDuration: '300ms',
+          animationDuration: `${OPEN_ANIMATION}ms`,
         }}
         _closed={{
           animationName: 'fade-out, scale-out',
-          animationDuration: '120ms',
+          animationDuration: `${CLOSED_ANIMATION}ms`,
         }}
       >
         <CloseButton
@@ -96,7 +98,7 @@ const Login: React.FC<ChildComponentProps> = ({
           onClick={() => {
             setTimeout(() => {
               onSetLogin(false);
-            }, 120);
+            }, CLOSED_ANIMATION);
             onSetAnimationDataState('closed');
           }}
         />

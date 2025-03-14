@@ -6,6 +6,8 @@ import { useClickAway } from '@uidotdev/usehooks';
 import ForgotPasswordForm from './ForgotPasswordForm';
 import SignupForm from './SignupForm';
 
+import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
+
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
@@ -26,7 +28,7 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
     if (e.target === document.getElementById('center-login-with-email')) {
       setTimeout(() => {
         onSetLoginWithEmail(false);
-      }, 120);
+      }, CLOSED_ANIMATION);
       onSetAnimationDataState('closed');
     }
   });
@@ -45,11 +47,11 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
       data-state={animationDataState}
       _open={{
         animationName: 'fade-in, scale-in',
-        animationDuration: '300ms',
+        animationDuration: `${OPEN_ANIMATION}ms`,
       }}
       _closed={{
         animationName: 'fade-out, scale-out',
-        animationDuration: '120ms',
+        animationDuration: `${CLOSED_ANIMATION}ms`,
       }}
     >
       <Box

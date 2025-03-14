@@ -18,6 +18,8 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import validateFields from '@/lib/auth';
 import { RegisterFormType } from '@/lib/formvalidation';
 
+import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
+
 interface ChildComponentProps {
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
   onSetSignup: Dispatch<SetStateAction<boolean>>;
@@ -52,11 +54,11 @@ const SignupForm: React.FC<ChildComponentProps> = ({
       data-state={animationDataState}
       _open={{
         animationName: 'fade-in, scale-in',
-        animationDuration: '300ms',
+        animationDuration: `${OPEN_ANIMATION}ms`,
       }}
       _closed={{
         animationName: 'fade-out, scale-out',
-        animationDuration: '120ms',
+        animationDuration: `${CLOSED_ANIMATION}ms`,
       }}
     >
       <Flex width="100%" align="center" justify="space-between">
@@ -87,7 +89,7 @@ const SignupForm: React.FC<ChildComponentProps> = ({
           onClick={() => {
             setTimeout(() => {
               onSetLoginWithEmail(false);
-            }, 120);
+            }, CLOSED_ANIMATION);
             onSetAnimationDataState('closed');
           }}
         />

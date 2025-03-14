@@ -17,6 +17,8 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useColorMode } from '@/components/ui/color-mode';
 import { useClickAway } from '@uidotdev/usehooks';
 
+import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
+
 interface ChildComponentProps {
   onSetSettingsDetails: Dispatch<SetStateAction<boolean>>;
   animationDataState: string;
@@ -37,7 +39,7 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
     if (e.target === document.getElementById('center-settings')) {
       setTimeout(() => {
         onSetSettingsDetails(false);
-      }, 120);
+      }, CLOSED_ANIMATION);
       onSetAnimationDataState('closed');
     }
   });
@@ -56,11 +58,11 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
       data-state={animationDataState}
       _open={{
         animationName: 'fade-in, scale-in',
-        animationDuration: '300ms',
+        animationDuration: `${OPEN_ANIMATION}ms`,
       }}
       _closed={{
         animationName: 'fade-out, scale-out',
-        animationDuration: '120ms',
+        animationDuration: `${CLOSED_ANIMATION}ms`,
       }}
     >
       <Box
@@ -77,11 +79,11 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
         data-state={animationDataState}
         _open={{
           animationName: 'fade-in, scale-in',
-          animationDuration: '300ms',
+          animationDuration: `${OPEN_ANIMATION}ms`,
         }}
         _closed={{
           animationName: 'fade-out, scale-out',
-          animationDuration: '120ms',
+          animationDuration: `${CLOSED_ANIMATION}ms`,
         }}
       >
         <Flex alignItems="center" justify="space-between">
@@ -99,7 +101,7 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
             onClick={() => {
               setTimeout(() => {
                 onSetSettingsDetails(false);
-              }, 120);
+              }, CLOSED_ANIMATION);
               onSetAnimationDataState('closed');
             }}
           />
