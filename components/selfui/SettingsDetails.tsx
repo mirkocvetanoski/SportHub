@@ -3,7 +3,6 @@
 import {
   Flex,
   Text,
-  Center,
   Separator,
   Stack,
   Grid,
@@ -11,6 +10,7 @@ import {
   Box,
   HStack,
 } from '@chakra-ui/react';
+import FormLayout from './FormLayout';
 import { Radio, RadioGroup } from '../ui/radio';
 
 import React, { Dispatch, SetStateAction, useState } from 'react';
@@ -45,25 +45,11 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
   });
 
   return (
-    <Center
+    <FormLayout
       id="center-settings"
-      position="fixed"
-      top="0"
-      left="0"
-      width="100vw"
-      right="0"
-      bottom="0"
-      bg="blackAlpha.600" // Semi-transparent black background
-      zIndex="overlay" // Ensures it's above everything
-      data-state={animationDataState}
-      _open={{
-        animationName: 'fade-in, scale-in',
-        animationDuration: `${OPEN_ANIMATION}ms`,
-      }}
-      _closed={{
-        animationName: 'fade-out, scale-out',
-        animationDuration: `${CLOSED_ANIMATION}ms`,
-      }}
+      animationDataState={animationDataState}
+      openTime={OPEN_ANIMATION}
+      closeTime={CLOSED_ANIMATION}
     >
       <Box
         ref={settingsDetailsRef}
@@ -343,6 +329,6 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
           </RadioGroup>
         </Stack>
       </Box>
-    </Center>
+    </FormLayout>
   );
 };

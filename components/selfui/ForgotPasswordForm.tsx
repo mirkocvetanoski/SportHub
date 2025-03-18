@@ -5,12 +5,10 @@ import {
   VStack,
   Text,
   Separator,
-  CloseButton,
-  IconButton,
   Flex,
 } from '@chakra-ui/react';
-
-import { MdArrowBack } from 'react-icons/md';
+import FormBackButton from './FormBackButton';
+import FormCloseButton from './FormCloseButton';
 
 import { useColorMode } from '../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
@@ -60,36 +58,14 @@ const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
       }}
     >
       <Flex width="100%" align="center" justify="space-between">
-        <IconButton
-          aria-label="back"
-          alignSelf="flex-start"
-          marginLeft="4px"
-          size="lg"
-          bg="transparent"
-          _hover={{
-            bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
-          }}
-          onClick={() => {
-            onSetForgotPassword(false);
-          }}
-        >
-          <MdArrowBack />
-        </IconButton>
-        <CloseButton
-          aria-label="Close"
-          alignSelf="flex-end"
-          marginRight="4px"
-          size="lg"
-          bg="transparent"
-          _hover={{
-            bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
-          }}
-          onClick={() => {
-            setTimeout(() => {
-              onSetLoginWithEmail(false);
-            }, CLOSED_ANIMATION);
-            onSetAnimationDataState('closed');
-          }}
+        <FormBackButton
+          colorMode={colorMode}
+          onSetForgotPassword={onSetForgotPassword}
+        />
+        <FormCloseButton
+          colorMode={colorMode}
+          onSetLoginWithEmail={onSetLoginWithEmail}
+          onSetAnimationDataState={onSetAnimationDataState}
         />
       </Flex>
 

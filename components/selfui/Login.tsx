@@ -1,19 +1,14 @@
 'use client';
 
-import {
-  Box,
-  Center,
-  CloseButton,
-  Text,
-  Button,
-  Separator,
-} from '@chakra-ui/react';
-import { useColorMode } from '../ui/color-mode';
-import { useClickAway } from '@uidotdev/usehooks';
-
+import { Box, Text, Button, Separator } from '@chakra-ui/react';
+import FormLayout from './FormLayout';
+import FormCloseButton from './FormCloseButton';
 import { FcGoogle } from 'react-icons/fc';
 import { MdEmail } from 'react-icons/md';
 import Link from 'next/link';
+
+import { useClickAway } from '@uidotdev/usehooks';
+import { useColorMode } from '../ui/color-mode';
 import { Dispatch, SetStateAction } from 'react';
 import { signIn } from 'next-auth/react';
 
@@ -44,25 +39,11 @@ const Login: React.FC<ChildComponentProps> = ({
   });
 
   return (
-    <Center
+    <FormLayout
       id="center-login"
-      position="fixed"
-      top="0"
-      left="0"
-      width="100vw"
-      right="0"
-      bottom="0"
-      bg="blackAlpha.600" // Semi-transparent black background
-      zIndex="overlay" // Ensures it's above everything
-      data-state={animationDataState}
-      _open={{
-        animationName: 'fade-in, scale-in',
-        animationDuration: `${OPEN_ANIMATION}ms`,
-      }}
-      _closed={{
-        animationName: 'fade-out, scale-out',
-        animationDuration: `${CLOSED_ANIMATION}ms`,
-      }}
+      animationDataState={animationDataState}
+      openTime={OPEN_ANIMATION}
+      closeTime={CLOSED_ANIMATION}
     >
       <Box
         ref={loginRef}
@@ -86,21 +67,10 @@ const Login: React.FC<ChildComponentProps> = ({
           animationDuration: `${CLOSED_ANIMATION}ms`,
         }}
       >
-        <CloseButton
-          alignSelf="flex-end"
-          size="lg"
-          bg="transparent"
-          aria-label="Close"
-          marginRight="4px"
-          _hover={{
-            bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
-          }}
-          onClick={() => {
-            setTimeout(() => {
-              onSetLogin(false);
-            }, CLOSED_ANIMATION);
-            onSetAnimationDataState('closed');
-          }}
+        <FormCloseButton
+          colorMode={colorMode}
+          onSetLogin={onSetLogin}
+          onSetAnimationDataState={onSetAnimationDataState}
         />
         <Text
           fontSize="xl"
@@ -171,7 +141,7 @@ const Login: React.FC<ChildComponentProps> = ({
           on our website.
         </Text>
       </Box>
-    </Center>
+    </FormLayout>
   );
 };
 

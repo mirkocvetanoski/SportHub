@@ -1,4 +1,5 @@
-import { Box, Center } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import FormLayout from './FormLayout';
 import LoginWithEmailForm from './LoginWithEmailForm';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
@@ -34,25 +35,11 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
   });
 
   return (
-    <Center
+    <FormLayout
       id="center-login-with-email"
-      position="fixed"
-      top="0"
-      left="0"
-      width="100vw"
-      right="0"
-      bottom="0"
-      bg="blackAlpha.600" // Semi-transparent black background
-      zIndex="overlay" // Ensures it's above everything
-      data-state={animationDataState}
-      _open={{
-        animationName: 'fade-in, scale-in',
-        animationDuration: `${OPEN_ANIMATION}ms`,
-      }}
-      _closed={{
-        animationName: 'fade-out, scale-out',
-        animationDuration: `${CLOSED_ANIMATION}ms`,
-      }}
+      animationDataState={animationDataState}
+      openTime={OPEN_ANIMATION}
+      closeTime={CLOSED_ANIMATION}
     >
       <Box
         ref={loginWithEmailRef}
@@ -96,7 +83,7 @@ const LoginWithEmail: React.FC<ChildComponentProps> = ({
           />
         )}
       </Box>
-    </Center>
+    </FormLayout>
   );
 };
 
