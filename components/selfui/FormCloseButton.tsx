@@ -5,6 +5,7 @@ type MyComponentProps = {
   colorMode: string;
   onSetLogin?: (value: boolean) => void;
   onSetLoginWithEmail?: (value: boolean) => void;
+  onSetSettingsDetails?: (value: boolean) => void;
   onSetAnimationDataState?: (value: string) => void;
 };
 
@@ -12,6 +13,7 @@ const FormCloseButton: React.FC<MyComponentProps> = ({
   colorMode,
   onSetLogin,
   onSetLoginWithEmail,
+  onSetSettingsDetails,
   onSetAnimationDataState,
 }) => {
   return (
@@ -28,6 +30,7 @@ const FormCloseButton: React.FC<MyComponentProps> = ({
         setTimeout(() => {
           onSetLogin?.(false);
           onSetLoginWithEmail?.(false);
+          onSetSettingsDetails?.(false);
         }, CLOSED_ANIMATION);
         onSetAnimationDataState?.('closed');
       }}

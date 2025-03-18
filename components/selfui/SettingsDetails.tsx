@@ -6,7 +6,6 @@ import {
   Separator,
   Stack,
   Grid,
-  CloseButton,
   Box,
   HStack,
 } from '@chakra-ui/react';
@@ -18,6 +17,7 @@ import { useColorMode } from '@/components/ui/color-mode';
 import { useClickAway } from '@uidotdev/usehooks';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
+import FormCloseButton from './FormCloseButton';
 
 interface ChildComponentProps {
   onSetSettingsDetails: Dispatch<SetStateAction<boolean>>;
@@ -76,20 +76,10 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
           <Text fontSize="xl" fontWeight="semibold" paddingX="6">
             Settings
           </Text>
-          <CloseButton
-            size="lg"
-            bg="transparent"
-            aria-label="Close"
-            marginRight="4px"
-            _hover={{
-              bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
-            }}
-            onClick={() => {
-              setTimeout(() => {
-                onSetSettingsDetails(false);
-              }, CLOSED_ANIMATION);
-              onSetAnimationDataState('closed');
-            }}
+          <FormCloseButton
+            colorMode={colorMode}
+            onSetSettingsDetails={onSetSettingsDetails}
+            onSetAnimationDataState={onSetAnimationDataState}
           />
         </Flex>
 
