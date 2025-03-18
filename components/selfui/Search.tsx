@@ -75,7 +75,7 @@ const Search: React.FC<ChildComponentProps> = ({
         <Separator height="1px" bg="gray.emphasized" width="full" />
 
         <InputGroup
-          w="95%"
+          w="calc(100% - 48px)"
           alignSelf="center"
           startElement={<LuSearch />}
           endElement={<SearchDropdown />}
