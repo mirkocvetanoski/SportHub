@@ -73,7 +73,7 @@ export const SettingsDetails: React.FC<ChildComponentProps> = ({
         }}
       >
         <Flex alignItems="center" justify="space-between">
-          <Text fontSize="xl" fontWeight="semibold" paddingX="6">
+          <Text fontSize="xl" fontWeight="semibold" paddingX={6}>
             Settings
           </Text>
           <FormCloseButton

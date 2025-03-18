@@ -62,7 +62,7 @@ const Search: React.FC<ChildComponentProps> = ({
         }}
       >
         <Flex alignItems="center" justify="space-between">
-          <Text fontSize="xl" fontWeight="semibold" paddingX="6">
+          <Text fontSize="xl" fontWeight="semibold" paddingX={6}>
             Search
           </Text>
           <FormCloseButton
@@ -75,7 +75,8 @@ const Search: React.FC<ChildComponentProps> = ({
         <Separator height="1px" bg="gray.emphasized" width="full" />
 
         <InputGroup
-          p={1}
+          w="95%"
+          alignSelf="center"
           startElement={<LuSearch />}
           endElement={<SearchDropdown />}
         >

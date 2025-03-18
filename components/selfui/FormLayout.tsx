@@ -1,4 +1,4 @@
-import { Center } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 
 type FormLayoutProps = {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({
   closeTime,
 }) => {
   return (
-    <Center
+    <VStack
       id={id}
       position="fixed"
       top="0"
@@ -26,6 +26,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({
       bottom="0"
       bg="blackAlpha.600"
       zIndex="docked"
+      paddingTop="200px"
       data-state={animationDataState}
       _open={{
         animationName: 'fade-in, scale-in',
@@ -37,7 +38,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({
       }}
     >
       {children}
-    </Center>
+    </VStack>
   );
 };
 
