@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import Login from './Login';
 import LoginWithEmail from './LoginWithEmail';
+import Search from './Search';
 
 type NavbarLink = {
   href: string;
@@ -22,9 +23,10 @@ const navLinks: NavbarLink[] = [
 
 const Navbar: React.FC = () => {
   const pathname = usePathname().toLowerCase();
-  const [settingsDetails, setSettingsDetails] = useState<boolean>(false);
+  const [search, setSearch] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);
   const [loginWithEmail, setLoginWithEmail] = useState<boolean>(false);
+  const [settingsDetails, setSettingsDetails] = useState<boolean>(false);
   const [animationDataState, setAnimationDataState] = useState<string>('');
 
   return (
@@ -76,12 +78,22 @@ const Navbar: React.FC = () => {
         <Spacer />
 
         <NavbarIcons
-          onSetSettingsDetails={setSettingsDetails}
+          search={search}
+          onSetSearch={setSearch}
           login={login}
           onSetLogin={setLogin}
+          onSetSettingsDetails={setSettingsDetails}
           onSetAnimationDataState={setAnimationDataState}
         />
       </Flex>
+
+      {search && (
+        <Search
+          onSetSearch={setSearch}
+          animationDataState={animationDataState}
+          onSetAnimationDataState={setAnimationDataState}
+        />
+      )}
 
       {login && (
         <Login

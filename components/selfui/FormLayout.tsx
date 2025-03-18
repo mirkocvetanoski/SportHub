@@ -24,8 +24,8 @@ const FormLayout: React.FC<FormLayoutProps> = ({
       width="100vw"
       right="0"
       bottom="0"
-      bg="blackAlpha.600" // Semi-transparent black background
-      zIndex="overlay" // Ensures it's above everything
+      bg="blackAlpha.600"
+      zIndex="docked"
       data-state={animationDataState}
       _open={{
         animationName: 'fade-in, scale-in',

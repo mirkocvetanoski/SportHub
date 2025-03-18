@@ -3,6 +3,7 @@ import { CLOSED_ANIMATION } from '@/lib/constants';
 
 type MyComponentProps = {
   colorMode: string;
+  onSetSearch?: (value: boolean) => void;
   onSetLogin?: (value: boolean) => void;
   onSetLoginWithEmail?: (value: boolean) => void;
   onSetSettingsDetails?: (value: boolean) => void;
@@ -11,6 +12,7 @@ type MyComponentProps = {
 
 const FormCloseButton: React.FC<MyComponentProps> = ({
   colorMode,
+  onSetSearch,
   onSetLogin,
   onSetLoginWithEmail,
   onSetSettingsDetails,
@@ -28,6 +30,7 @@ const FormCloseButton: React.FC<MyComponentProps> = ({
       }}
       onClick={() => {
         setTimeout(() => {
+          onSetSearch?.(false);
           onSetLogin?.(false);
           onSetLoginWithEmail?.(false);
           onSetSettingsDetails?.(false);

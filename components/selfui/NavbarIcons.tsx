@@ -8,6 +8,8 @@ import { useState, Dispatch, SetStateAction } from 'react';
 import { useClickAway } from '@uidotdev/usehooks';
 
 interface ChildComponentProps {
+  search?: boolean;
+  onSetSearch: Dispatch<SetStateAction<boolean>>;
   login?: boolean;
   onSetLogin: Dispatch<SetStateAction<boolean>>;
   onSetSettingsDetails: Dispatch<SetStateAction<boolean>>;
@@ -15,6 +17,8 @@ interface ChildComponentProps {
 }
 
 const NavbarIcons: React.FC<ChildComponentProps> = ({
+  search,
+  onSetSearch,
   login,
   onSetLogin,
   onSetSettingsDetails,
@@ -44,6 +48,10 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
             bg: 'teal.800', // Hover effect color
           }}
           textTransform="uppercase"
+          onClick={() => {
+            onSetSearch(!search);
+            onSetAnimationDataState('open');
+          }}
         >
           <LuSearch />
         </IconButton>
