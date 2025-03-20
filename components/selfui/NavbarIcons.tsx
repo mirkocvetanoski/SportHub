@@ -1,16 +1,17 @@
 import { Box, Flex, IconButton } from '@chakra-ui/react';
 import { CiMenuBurger } from 'react-icons/ci';
 import { IoLogIn } from 'react-icons/io5';
-import { LuSearch } from 'react-icons/lu';
+import { LuSearch, LuUserRoundCheck } from 'react-icons/lu';
+import Logout from './Logout';
 import SettingsBox from './SettingsBox';
 
 import { useState, Dispatch, SetStateAction } from 'react';
 import { useClickAway } from '@uidotdev/usehooks';
+import { useSession } from 'next-auth/react';
 
 interface ChildComponentProps {
   search?: boolean;
   onSetSearch: Dispatch<SetStateAction<boolean>>;
-  login?: boolean;
   onSetLogin: Dispatch<SetStateAction<boolean>>;
   onSetSettingsDetails: Dispatch<SetStateAction<boolean>>;
   onSetAnimationDataState: Dispatch<SetStateAction<string>>;
@@ -19,21 +20,32 @@ interface ChildComponentProps {
 const NavbarIcons: React.FC<ChildComponentProps> = ({
   search,
   onSetSearch,
-  login,
   onSetLogin,
   onSetSettingsDetails,
   onSetAnimationDataState,
 }) => {
   const [settings, setSettings] = useState<boolean>(false);
+  const [logout, setLogout] = useState<boolean>(false);
 
-  const settingsRef: {} = useClickAway(e => {
+  const ref: {} = useClickAway(e => {
     if (
-      e.target !== document.getElementById('menu-button') &&
-      e.target !== document.getElementById('menu-button')?.firstChild
+      e.target !== document.getElementById('settings-button') &&
+      e.target !== document.getElementById('settings-button')?.firstChild
     ) {
       setSettings(false);
     }
+
+    if (
+      e.target !== document.getElementById('logout-button') &&
+      e.target !== document.getElementById('logout-button')?.firstChild
+    ) {
+      setLogout(false);
+    }
   });
+
+  const { data: session } = useSession();
+
+  const name: string = session?.user?.name || 'User';
 
   return (
     <Box position="relative">
@@ -51,35 +63,65 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
           onClick={() => {
             onSetSearch(!search);
             onSetAnimationDataState('open');
+            setLogout(false);
+            setSettings(false);
           }}
         >
           <LuSearch />
         </IconButton>
 
-        <IconButton
-          aria-label="Login"
-          color="whiteAlpha.900"
-          marginLeft={2}
-          paddingX={1}
-          size="md"
-          variant="outline"
-          _hover={{
-            bg: 'teal.800', // Hover effect color
-          }}
-          textTransform="uppercase"
-          fontSize="sm"
-          onClick={() => {
-            onSetLogin(!login);
-            onSetAnimationDataState('open');
-          }}
-        >
-          <IoLogIn /> Login
-        </IconButton>
+        {!session ? (
+          <IconButton
+            aria-label="Login"
+            color="whiteAlpha.900"
+            marginLeft={2}
+            paddingX={1}
+            size="md"
+            variant="outline"
+            _hover={{
+              bg: 'teal.800', // Hover effect color
+            }}
+            textTransform="uppercase"
+            fontSize="sm"
+            onClick={() => {
+              onSetLogin(true);
+              onSetAnimationDataState('open');
+            }}
+          >
+            <IoLogIn /> Login
+          </IconButton>
+        ) : (
+          <IconButton
+            id="logout-button"
+            aria-label="Logout"
+            color="whiteAlpha.900"
+            marginLeft={2}
+            paddingX={1}
+            size="md"
+            variant="outline"
+            _hover={{
+              bg: 'teal.800', // Hover effect color
+            }}
+            textTransform="uppercase"
+            fontSize="sm"
+            onClick={() => {
+              setLogout(!logout);
+              setSettings(false);
+              onSetAnimationDataState('open');
+            }}
+            style={{ textTransform: 'capitalize' }}
+          >
+            <LuUserRoundCheck />
+            {name}
+          </IconButton>
+        )}
+
+        {logout && <Logout logoutRef={ref} />}
 
         <IconButton
-          id="menu-button"
+          id="settings-button"
           color="whiteAlpha.900"
-          aria-label="Menu"
+          aria-label="Settings"
           marginLeft={2}
           paddingX={1}
           size="md"
@@ -89,7 +131,10 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
             bg: 'teal.800', // Hover effect color
           }}
           textTransform="uppercase"
-          onClick={() => setSettings(!settings)}
+          onClick={() => {
+            setSettings(!settings);
+            setLogout(false);
+          }}
         >
           <CiMenuBurger />
         </IconButton>
@@ -97,7 +142,7 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
 
       {settings && (
         <SettingsBox
-          settingsRef={settingsRef}
+          settingsRef={ref}
           onSetSettings={setSettings}
           onSetSettingsDetails={onSetSettingsDetails}
           onSetAnimationDataState={onSetAnimationDataState}

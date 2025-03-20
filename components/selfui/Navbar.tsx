@@ -80,7 +80,6 @@ const Navbar: React.FC = () => {
         <NavbarIcons
           search={search}
           onSetSearch={setSearch}
-          login={login}
           onSetLogin={setLogin}
           onSetSettingsDetails={setSettingsDetails}
           onSetAnimationDataState={setAnimationDataState}

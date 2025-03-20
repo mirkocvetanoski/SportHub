@@ -9,10 +9,16 @@ import Link from 'next/link';
 
 import { useClickAway } from '@uidotdev/usehooks';
 import { useColorMode } from '../ui/color-mode';
-import { Dispatch, SetStateAction } from 'react';
-import { signIn } from 'next-auth/react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  signIn,
+  getProviders,
+  LiteralUnion,
+  ClientSafeProvider,
+} from 'next-auth/react';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
+import { BuiltInProviderType } from 'next-auth/providers/index';
 
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
@@ -37,6 +43,20 @@ const Login: React.FC<ChildComponentProps> = ({
       onSetAnimationDataState('closed');
     }
   });
+
+  const [providers, setProviders] = useState<Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null>(null);
+
+  useEffect(() => {
+    const setAuthProviders = async () => {
+      const res = await getProviders();
+      setProviders(res);
+    };
+
+    setAuthProviders();
+  }, []);
 
   return (
     <FormLayout
@@ -87,23 +107,29 @@ const Login: React.FC<ChildComponentProps> = ({
           marginTop={1}
           marginBottom={3}
         />
-        <Button
-          variant="surface"
-          loadingText="Redirecting..."
-          spinnerPlacement="end"
-          paddingX={4}
-          paddingY={1}
-          _hover={{
-            bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
-          }}
-          width="3/6"
-          onClick={() => {
-            signIn('google');
-          }}
-        >
-          <FcGoogle aria-label="google" />
-          <Text marginLeft="auto"> Sign in with Google</Text>
-        </Button>
+
+        {providers &&
+          Object.values(providers).map((provider, i) => (
+            <Button
+              key={i}
+              variant="surface"
+              loadingText="Redirecting..."
+              spinnerPlacement="end"
+              paddingX={4}
+              paddingY={1}
+              _hover={{
+                bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
+              }}
+              width="3/6"
+              onClick={() => {
+                signIn(provider.id);
+              }}
+            >
+              <FcGoogle aria-label="google" />
+              <Text marginLeft="auto"> Sign in with Google</Text>
+            </Button>
+          ))}
+
         <Button
           variant="surface"
           loadingText="Redirecting..."
