@@ -99,6 +99,7 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
             paddingX={1}
             size="md"
             variant="outline"
+            bg={logout ? 'teal.800' : ''}
             _hover={{
               bg: 'teal.800', // Hover effect color
             }}
