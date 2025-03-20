@@ -19,15 +19,15 @@ const UserSchema = new Schema<IUser>(
     },
     email: {
       type: String,
-      unique: [true, 'Email already exists'],
-      required: [true, 'Email is required'],
+      unique: [true, 'Email already exists.'],
+      required: [true, 'Email is required.'],
     },
     password: {
       type: String,
       required: function (this: IUser) {
         return !this.googleId; // Password is required only if not using Google login
       },
-      minlength: [6, 'Password must be at least 6 characters'],
+      minlength: [8, 'Password must be at least 8 characters'],
     },
   },
   { timestamps: true }
