@@ -86,7 +86,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         <MdDeleteForever aria-label="Account Deletion" />
 
         <Text fontWeight="light" fontSize="smaller">
-          Account Deleton
+          Account Deletion
         </Text>
 
         <Box marginLeft="auto">
