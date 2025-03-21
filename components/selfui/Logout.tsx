@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Popover, Text, VStack } from '@chakra-ui/react';
 import { useColorMode } from '../ui/color-mode';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IoChevronForward,
   IoInformation,
@@ -14,11 +14,18 @@ interface ChildComponentProps {
   logoutRef: {};
 }
 
+interface MyObject {
+  email: string;
+  createdAt: string;
+}
+
 const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
   const { colorMode } = useColorMode();
 
   const [information, setInformation] = useState<boolean>(false);
   const [deletion, setDeletion] = useState<boolean>(false);
+
+  const [user, setUser] = useState<MyObject | null>(null);
 
   const { data: session } = useSession();
 
@@ -38,6 +45,27 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
       console.error('Failed to delete user:', error);
     }
   };
+
+  useEffect(() => {
+    const handleInformation = async (): Promise<void> => {
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}`, {
+          method: 'GET',
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${await response.text()}`);
+        }
+
+        const data = await response.json();
+        setUser(JSON.parse(data));
+      } catch (error) {
+        console.error('Failed to find user:', error);
+      }
+    };
+
+    handleInformation();
+  }, [session?.user.id]);
 
   return (
     <Box
@@ -71,6 +99,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
             _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
             onClick={() => {
               setInformation(!information);
+              setDeletion(false);
             }}
           >
             <IoInformation aria-label="Account Information" />
@@ -87,8 +116,10 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
             <VStack width="100%">
               <Popover.Arrow />
               <Popover.Body width="100%" fontSize="xs" fontWeight="bold">
-                Email:
-                <Text fontWeight="medium">{session?.user.email}</Text>
+                <Text>Email:</Text>
+                <Text fontWeight="medium">{user?.email}</Text>
+                <Text>Member since:</Text>
+                <Text fontWeight="medium">{user?.createdAt}</Text>
               </Popover.Body>
             </VStack>
           </Popover.Content>
@@ -135,6 +166,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
             }}
             onClick={() => {
               setDeletion(!deletion);
+              setInformation(false);
             }}
           >
             <MdDeleteForever aria-label="Account Deletion" />

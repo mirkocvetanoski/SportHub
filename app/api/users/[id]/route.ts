@@ -3,6 +3,62 @@ import connectDB from '@/config/database';
 import User from '@/models/User';
 import { getSessionUser } from '@/utils/getSessionUser';
 
+// GET /api/users/[id]
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  try {
+    // Extract user ID from the request URL
+    const { pathname } = new URL(request.url);
+    const userId = pathname.split('/').pop(); // Extracts the `[id]` from the URL
+
+    if (!userId) {
+      return NextResponse.json(
+        { message: 'User ID is required.' },
+        { status: 400 }
+      );
+    }
+
+    // Ensure we have a session user
+    const sessionUser = await getSessionUser();
+    if (!sessionUser?.userId) {
+      return NextResponse.json(
+        { message: 'Unauthorized: User ID is required.' },
+        { status: 401 }
+      );
+    }
+
+    // Ensure the logged-in user is deleting their own account
+    if (sessionUser.userId !== userId) {
+      return NextResponse.json(
+        { message: 'Unauthorized: You can only get your own account.' },
+        { status: 403 }
+      );
+    }
+
+    // Connect to the database
+    await connectDB();
+
+    // Find and delete the user
+    const user = await User.findById(userId);
+    if (!user) {
+      return NextResponse.json({ message: 'User Not Found.' }, { status: 404 });
+    }
+
+    return NextResponse.json(JSON.stringify(user), { status: 200 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Error finding user:', error.message);
+      return NextResponse.json(
+        { message: `Error: ${error.message}` },
+        { status: 500 }
+      );
+    }
+    return NextResponse.json(
+      { message: 'An unknown error occurred' },
+      { status: 500 }
+    );
+  }
+}
+
 // DELETE /api/users/[id]
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
   try {
