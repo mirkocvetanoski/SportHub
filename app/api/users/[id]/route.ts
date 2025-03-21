@@ -4,19 +4,18 @@ import User from '@/models/User';
 import { getSessionUser } from '@/utils/getSessionUser';
 
 // DELETE /api/users/[id]
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-): Promise<NextResponse> {
+export async function DELETE(request: NextRequest): Promise<NextResponse> {
   try {
-    if (!params?.id) {
+    // Extract user ID from the request URL
+    const { pathname } = new URL(request.url);
+    const userId = pathname.split('/').pop(); // Extracts the `[id]` from the URL
+
+    if (!userId) {
       return NextResponse.json(
         { message: 'User ID is required.' },
         { status: 400 }
       );
     }
-
-    const userId = params.id;
 
     // Ensure we have a session user
     const sessionUser = await getSessionUser();
