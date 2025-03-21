@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 // Define a TypeScript interface for the User model
 interface IUser extends Document {
   googleId?: string;
+  sub: string;
   email: string;
   password?: string;
   comparePassword(enteredPassword: string): Promise<boolean>;
@@ -25,7 +26,7 @@ const UserSchema = new Schema<IUser>(
     password: {
       type: String,
       required: function (this: IUser) {
-        return !this.sub; // Password is required only if not using Google login
+        return !this.googleId; // Password is required only if not using Google login
       },
       minlength: [8, 'Password must be at least 8 characters'],
     },
