@@ -1,5 +1,4 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-
 import { useColorMode } from '../ui/color-mode';
 import React from 'react';
 import {
@@ -9,14 +8,32 @@ import {
 } from 'react-icons/io5';
 import { CiLock } from 'react-icons/ci';
 import { MdDeleteForever } from 'react-icons/md';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 interface ChildComponentProps {
-  logoutRef: {};
+  logoutRef: React.RefObject<HTMLDivElement>; // Adjusted the type for logoutRef
 }
 
 const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
   const { colorMode } = useColorMode();
+  const { data: session } = useSession();
+
+  const handleDeletion = async (): Promise<void> => {
+    try {
+      const response = await fetch(`/api/users/${session?.user.id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${await response.text()}`);
+      }
+
+      console.log('User deleted successfully');
+      signOut();
+    } catch (error) {
+      console.error('Failed to delete user:', error);
+    }
+  };
 
   return (
     <Box
@@ -42,11 +59,9 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         onClick={() => {}}
       >
         <IoInformation aria-label="Account Information" />
-
         <Text fontWeight="light" fontSize="smaller">
           Account information
         </Text>
-
         <Box marginLeft="auto">
           <IoChevronForward aria-label="Arrow right" size={18} />
         </Box>
@@ -63,11 +78,9 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         onClick={() => {}}
       >
         <CiLock aria-label="Change Password" />
-
         <Text fontWeight="light" fontSize="smaller">
           Change password
         </Text>
-
         <Box marginLeft="auto">
           <IoChevronForward aria-label="Arrow right" size={18} />
         </Box>
@@ -81,14 +94,12 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         cursor="pointer"
         borderRadius="inherit"
         _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
-        onClick={() => {}}
+        onClick={handleDeletion}
       >
         <MdDeleteForever aria-label="Account Deletion" />
-
         <Text fontWeight="light" fontSize="smaller">
           Account Deletion
         </Text>
-
         <Box marginLeft="auto">
           <IoChevronForward aria-label="Arrow right" size={18} />
         </Box>
@@ -104,11 +115,10 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         color="red.500"
         _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
         onClick={() => {
-          signOut();
+          signOut(); // Sign out without deleting if this is just for logout
         }}
       >
         <IoLogOutSharp aria-label="Logout" />
-
         <Text fontWeight="light" fontSize="smaller">
           Logout
         </Text>
