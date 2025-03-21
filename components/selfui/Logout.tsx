@@ -11,7 +11,7 @@ import { MdDeleteForever } from 'react-icons/md';
 import { signOut, useSession } from 'next-auth/react';
 
 interface ChildComponentProps {
-  logoutRef: React.RefObject<HTMLDivElement>; // Adjusted the type for logoutRef
+  logoutRef: {};
 }
 
 const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
