@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Popover, Text, VStack } from '@chakra-ui/react';
 import { useColorMode } from '../ui/color-mode';
 import React from 'react';
 import {
@@ -86,24 +86,53 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         </Box>
       </Flex>
 
-      <Flex
-        alignItems="center"
-        gap={2}
-        paddingX={1}
-        paddingY={1}
-        cursor="pointer"
-        borderRadius="inherit"
-        _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
-        onClick={handleDeletion}
-      >
-        <MdDeleteForever aria-label="Account Deletion" />
-        <Text fontWeight="light" fontSize="smaller">
-          Account Deletion
-        </Text>
-        <Box marginLeft="auto">
-          <IoChevronForward aria-label="Arrow right" size={18} />
-        </Box>
-      </Flex>
+      <Popover.Root positioning={{ sameWidth: true }}>
+        <Popover.Trigger asChild>
+          <Flex
+            alignItems="center"
+            gap={2}
+            paddingX={1}
+            paddingY={1}
+            cursor="pointer"
+            borderRadius="inherit"
+            _hover={{
+              bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}`,
+            }}
+          >
+            <MdDeleteForever aria-label="Account Deletion" />
+            <Text fontWeight="light" fontSize="smaller">
+              Account Deletion
+            </Text>
+            <Box marginLeft="auto">
+              <IoChevronForward aria-label="Arrow right" size={18} />
+            </Box>
+          </Flex>
+        </Popover.Trigger>
+        <Popover.Positioner>
+          <Popover.Content width="100%">
+            <VStack width="100%">
+              <Popover.Arrow />
+              <Popover.Body fontSize="xs">
+                Are you sure you want to delete your profile? This action is
+                permanent and cannot be undone. If you are sure, please confirm
+                below.
+              </Popover.Body>
+              <Button
+                alignSelf="center"
+                marginBottom={5}
+                bg="red.500"
+                w="192px"
+                _hover={{
+                  bg: 'red.600',
+                }}
+                onClick={handleDeletion}
+              >
+                Delete
+              </Button>
+            </VStack>
+          </Popover.Content>
+        </Popover.Positioner>
+      </Popover.Root>
 
       <Flex
         alignItems="center"
