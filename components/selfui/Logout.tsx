@@ -9,6 +9,7 @@ import {
 import { CiLock } from 'react-icons/ci';
 import { MdDeleteForever } from 'react-icons/md';
 import { signOut, useSession } from 'next-auth/react';
+import { formatDate } from '@/lib/formatTime';
 
 interface ChildComponentProps {
   logoutRef: {};
@@ -117,9 +118,13 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
               <Popover.Arrow />
               <Popover.Body width="100%" fontSize="xs" fontWeight="bold">
                 <Text>Email:</Text>
-                <Text fontWeight="medium">{user?.email}</Text>
+                <Text fontWeight="medium" marginBottom={2}>
+                  {user?.email}
+                </Text>
                 <Text>Member since:</Text>
-                <Text fontWeight="medium">{user?.createdAt}</Text>
+                <Text fontWeight="medium">
+                  {formatDate(user?.createdAt || '')}
+                </Text>
               </Popover.Body>
             </VStack>
           </Popover.Content>
