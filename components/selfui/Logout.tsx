@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Popover, Text, VStack } from '@chakra-ui/react';
 import { useColorMode } from '../ui/color-mode';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   IoChevronForward,
   IoInformation,
@@ -16,6 +16,10 @@ interface ChildComponentProps {
 
 const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
   const { colorMode } = useColorMode();
+
+  const [information, setInformation] = useState<boolean>(false);
+  const [deletion, setDeletion] = useState<boolean>(false);
+
   const { data: session } = useSession();
 
   const handleDeletion = async (): Promise<void> => {
@@ -48,24 +52,48 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
       padding={2}
       bg={colorMode === 'dark' ? 'blackAlpha.700' : 'whiteAlpha.700'}
     >
-      <Flex
-        alignItems="center"
-        gap={2}
-        paddingX={1}
-        paddingY={1}
-        cursor="pointer"
-        borderRadius="inherit"
-        _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
-        onClick={() => {}}
-      >
-        <IoInformation aria-label="Account Information" />
-        <Text fontWeight="light" fontSize="smaller">
-          Account information
-        </Text>
-        <Box marginLeft="auto">
-          <IoChevronForward aria-label="Arrow right" size={18} />
-        </Box>
-      </Flex>
+      <Popover.Root positioning={{ sameWidth: true }} lazyMount unmountOnExit>
+        <Popover.Trigger asChild>
+          <Flex
+            alignItems="center"
+            gap={2}
+            paddingX={1}
+            paddingY={1}
+            cursor="pointer"
+            borderRadius="inherit"
+            bg={
+              colorMode === 'dark' && information
+                ? 'gray.600'
+                : colorMode === 'light' && information
+                  ? 'gray.300'
+                  : ''
+            }
+            _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
+            onClick={() => {
+              setInformation(!information);
+            }}
+          >
+            <IoInformation aria-label="Account Information" />
+            <Text fontWeight="light" fontSize="smaller">
+              Account information
+            </Text>
+            <Box marginLeft="auto">
+              <IoChevronForward aria-label="Arrow right" size={18} />
+            </Box>
+          </Flex>
+        </Popover.Trigger>
+        <Popover.Positioner>
+          <Popover.Content width="100%">
+            <VStack width="100%">
+              <Popover.Arrow />
+              <Popover.Body width="100%" fontSize="xs" fontWeight="bold">
+                Email:
+                <Text fontWeight="medium">{session?.user.email}</Text>
+              </Popover.Body>
+            </VStack>
+          </Popover.Content>
+        </Popover.Positioner>
+      </Popover.Root>
 
       <Flex
         alignItems="center"
@@ -86,7 +114,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         </Box>
       </Flex>
 
-      <Popover.Root positioning={{ sameWidth: true }}>
+      <Popover.Root positioning={{ sameWidth: true }} lazyMount unmountOnExit>
         <Popover.Trigger asChild>
           <Flex
             alignItems="center"
@@ -95,8 +123,18 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
             paddingY={1}
             cursor="pointer"
             borderRadius="inherit"
+            bg={
+              colorMode === 'dark' && deletion
+                ? 'gray.600'
+                : colorMode === 'light' && deletion
+                  ? 'gray.300'
+                  : ''
+            }
             _hover={{
               bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}`,
+            }}
+            onClick={() => {
+              setDeletion(!deletion);
             }}
           >
             <MdDeleteForever aria-label="Account Deletion" />
