@@ -93,6 +93,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
       padding={2}
       bg={colorMode === 'dark' ? 'blackAlpha.700' : 'whiteAlpha.700'}
     >
+      {/* Account information */}
       <Popover.Root positioning={{ sameWidth: true }} lazyMount unmountOnExit>
         <Popover.Trigger asChild>
           <Flex
@@ -144,6 +145,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         </Popover.Positioner>
       </Popover.Root>
 
+      {/* Change password */}
       <Popover.Root positioning={{ sameWidth: true }} lazyMount unmountOnExit>
         <Popover.Trigger asChild>
           <Flex
@@ -240,6 +242,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         </Popover.Positioner>
       </Popover.Root>
 
+      {/* Account deletion */}
       <Popover.Root positioning={{ sameWidth: true }} lazyMount unmountOnExit>
         <Popover.Trigger asChild>
           <Flex
@@ -267,7 +270,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
           >
             <MdDeleteForever aria-label="Account Deletion" />
             <Text fontWeight="light" fontSize="smaller">
-              Account Deletion
+              Account deletion
             </Text>
             <Box marginLeft="auto">
               <IoChevronForward aria-label="Arrow right" size={18} />
@@ -300,6 +303,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         </Popover.Positioner>
       </Popover.Root>
 
+      {/* Logout */}
       <Flex
         alignItems="center"
         gap={2}
