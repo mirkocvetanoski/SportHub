@@ -1,4 +1,13 @@
-import { Box, Button, Flex, Popover, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Field,
+  Flex,
+  Popover,
+  Stack,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { useColorMode } from '../ui/color-mode';
 import React, { useEffect, useState } from 'react';
 import {
@@ -10,12 +19,14 @@ import { CiLock } from 'react-icons/ci';
 import { MdDeleteForever } from 'react-icons/md';
 import { signOut, useSession } from 'next-auth/react';
 import { formatDate } from '@/lib/formatTime';
+import { PasswordInput } from '../ui/password-input';
 
 interface ChildComponentProps {
   logoutRef: {};
 }
 
 interface MyObject {
+  googleId: string;
   email: string;
   createdAt: string;
 }
@@ -24,6 +35,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
   const { colorMode } = useColorMode();
 
   const [information, setInformation] = useState<boolean>(false);
+  const [changePassword, setChangePassword] = useState<boolean>(false);
   const [deletion, setDeletion] = useState<boolean>(false);
 
   const [user, setUser] = useState<MyObject | null>(null);
@@ -100,6 +112,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
             _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
             onClick={() => {
               setInformation(!information);
+              setChangePassword(false);
               setDeletion(false);
             }}
           >
@@ -131,24 +144,101 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         </Popover.Positioner>
       </Popover.Root>
 
-      <Flex
-        alignItems="center"
-        gap={2}
-        paddingX={1}
-        paddingY={1}
-        cursor="pointer"
-        borderRadius="inherit"
-        _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
-        onClick={() => {}}
-      >
-        <CiLock aria-label="Change Password" />
-        <Text fontWeight="light" fontSize="smaller">
-          Change password
-        </Text>
-        <Box marginLeft="auto">
-          <IoChevronForward aria-label="Arrow right" size={18} />
-        </Box>
-      </Flex>
+      <Popover.Root positioning={{ sameWidth: true }} lazyMount unmountOnExit>
+        <Popover.Trigger asChild>
+          <Flex
+            alignItems="center"
+            gap={2}
+            paddingX={1}
+            paddingY={1}
+            cursor="pointer"
+            borderRadius="inherit"
+            bg={
+              colorMode === 'dark' && changePassword
+                ? 'gray.600'
+                : colorMode === 'light' && changePassword
+                  ? 'gray.300'
+                  : ''
+            }
+            _hover={{
+              bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}`,
+            }}
+            onClick={() => {
+              setInformation(false);
+              setChangePassword(!changePassword);
+              setDeletion(false);
+            }}
+          >
+            <CiLock aria-label="Change Password" />
+            <Text fontWeight="light" fontSize="smaller">
+              Change password
+            </Text>
+            <Box marginLeft="auto">
+              <IoChevronForward aria-label="Arrow right" size={18} />
+            </Box>
+          </Flex>
+        </Popover.Trigger>
+        <Popover.Positioner>
+          <Popover.Content width="100%">
+            <Popover.Arrow />
+            <Popover.Body>
+              <Stack gap="4">
+                {user?.googleId !== '' ? (
+                  <Text>
+                    It looks like you&apos;re signed in with your Google
+                    account. Password changes are managed through Google, so
+                    you&apos;ll need to update your password in your Google
+                    account settings.
+                  </Text>
+                ) : (
+                  <>
+                    <Field.Root>
+                      <Field.Label>Old Password</Field.Label>
+                      <PasswordInput
+                        variant="subtle"
+                        placeholder="youroldpassword"
+                        fontSize="sm"
+                        border="1px solid"
+                        borderColor="gray.emphasized"
+                        outlineWidth="1px"
+                        outlineColor="gray.500"
+                        paddingX="10px"
+                      />
+                    </Field.Root>
+                    <Field.Root>
+                      <Field.Label>New Password</Field.Label>
+                      <PasswordInput
+                        variant="subtle"
+                        placeholder="yournewpassword"
+                        fontSize="sm"
+                        border="1px solid"
+                        borderColor="gray.emphasized"
+                        outlineWidth="1px"
+                        outlineColor="gray.500"
+                        paddingX="10px"
+                      />
+                    </Field.Root>
+                    <Button
+                      variant="surface"
+                      loadingText="Redirecting..."
+                      spinnerPlacement="end"
+                      paddingX={4}
+                      paddingY={1}
+                      _hover={{
+                        bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
+                      }}
+                      width="full"
+                    >
+                      Save
+                    </Button>
+                  </>
+                )}
+              </Stack>
+            </Popover.Body>
+            <Popover.CloseTrigger />
+          </Popover.Content>
+        </Popover.Positioner>
+      </Popover.Root>
 
       <Popover.Root positioning={{ sameWidth: true }} lazyMount unmountOnExit>
         <Popover.Trigger asChild>
@@ -170,8 +260,9 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
               bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}`,
             }}
             onClick={() => {
-              setDeletion(!deletion);
               setInformation(false);
+              setChangePassword(false);
+              setDeletion(!deletion);
             }}
           >
             <MdDeleteForever aria-label="Account Deletion" />
@@ -219,6 +310,9 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
         color="red.500"
         _hover={{ bg: `${colorMode === 'dark' ? 'gray.600' : 'gray.300'}` }}
         onClick={() => {
+          setInformation(false);
+          setChangePassword(false);
+          setDeletion(false);
           signOut(); // Sign out without deleting if this is just for logout
         }}
       >
