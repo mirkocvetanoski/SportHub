@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     );
 
     // Set secure cookie
-    const cookie = serialize('TRAX_ACCESS_TOKEN', token, {
+    const cookie = serialize('SPORTSHUB_ACCESS_TOKEN', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

@@ -8,7 +8,6 @@ import SettingsBox from './SettingsBox';
 import { useState, Dispatch, SetStateAction } from 'react';
 import { useClickAway } from '@uidotdev/usehooks';
 import { useSession } from 'next-auth/react';
-import getAccessToken from '@/lib/getAccessToken';
 
 interface ChildComponentProps {
   search?: boolean;
@@ -45,7 +44,6 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
   });
 
   const { data: session } = useSession();
-  console.log(getAccessToken());
 
   const name: string = session?.user?.name || 'User';
 
