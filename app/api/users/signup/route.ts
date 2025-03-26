@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     const cookie = serialize('TRAX_ACCESS_TOKEN', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict', // Changed to 'strict' for better CSRF protection
+      sameSite: 'lax',
       maxAge: 8 * 60 * 60,
       path: '/',
       // Consider adding domain if needed
