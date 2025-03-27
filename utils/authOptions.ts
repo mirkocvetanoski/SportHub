@@ -80,10 +80,10 @@ export const authOptions: NextAuthOptions = {
 
           // If user does not exist, create a new user
           if (!existingUser) {
-            const hashedPassword = await bcrypt.hash(credentials.password, 12);
+            // const hashedPassword = await bcrypt.hash(credentials.password, 12);
             const newUser = await User.create({
               email: credentials.email,
-              password: hashedPassword,
+              password: credentials.password,
               username: credentials.username,
               name: credentials.username,
             });
