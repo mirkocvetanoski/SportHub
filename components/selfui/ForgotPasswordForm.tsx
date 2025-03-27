@@ -13,7 +13,7 @@ import FormCloseButton from './FormCloseButton';
 import { useColorMode } from '../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { RegisterFormType } from '@/lib/formvalidation';
-import validateFields from '@/lib/auth';
+import validateFields from '@/lib/validateSignUp';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
 

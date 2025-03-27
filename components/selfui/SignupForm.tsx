@@ -14,7 +14,7 @@ import { PasswordInput } from '@/components/ui/password-input';
 
 import { useColorMode } from '../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { validateSignupFields } from '@/lib/auth';
+import validateSignupFields from '@/lib/validateSignUp';
 import { RegisterFormType } from '@/lib/formvalidation';
 import { signIn } from 'next-auth/react';
 
