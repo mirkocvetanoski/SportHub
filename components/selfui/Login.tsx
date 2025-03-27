@@ -1,5 +1,3 @@
-'use client';
-
 import { Box, Text, Button, Separator } from '@chakra-ui/react';
 import FormLayout from './FormLayout';
 import FormCloseButton from './FormCloseButton';
@@ -9,22 +7,21 @@ import Link from 'next/link';
 
 import { useClickAway } from '@uidotdev/usehooks';
 import { useColorMode } from '../ui/color-mode';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import {
-  signIn,
-  getProviders,
-  LiteralUnion,
-  ClientSafeProvider,
-} from 'next-auth/react';
+import { Dispatch, SetStateAction } from 'react';
+import { ClientSafeProvider, LiteralUnion, signIn } from 'next-auth/react';
+import { BuiltInProviderType } from 'next-auth/providers/index';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
-import { BuiltInProviderType } from 'next-auth/providers/index';
 
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
   animationDataState: string;
   onSetAnimationDataState: Dispatch<SetStateAction<string>>;
+  providers: Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null;
 }
 
 const Login: React.FC<ChildComponentProps> = ({
@@ -32,6 +29,7 @@ const Login: React.FC<ChildComponentProps> = ({
   onSetLoginWithEmail,
   animationDataState,
   onSetAnimationDataState,
+  providers,
 }) => {
   const { colorMode } = useColorMode();
 
@@ -43,20 +41,6 @@ const Login: React.FC<ChildComponentProps> = ({
       onSetAnimationDataState('closed');
     }
   });
-
-  const [providers, setProviders] = useState<Record<
-    LiteralUnion<BuiltInProviderType, string>,
-    ClientSafeProvider
-  > | null>(null);
-
-  useEffect(() => {
-    const setAuthProviders = async () => {
-      const res = await getProviders();
-      setProviders(res);
-    };
-
-    setAuthProviders();
-  }, []);
 
   return (
     <FormLayout
@@ -109,46 +93,50 @@ const Login: React.FC<ChildComponentProps> = ({
         />
 
         {providers &&
-          Object.values(providers).map((provider, i) => (
-            <Button
-              key={i}
-              variant="surface"
-              loadingText="Redirecting..."
-              spinnerPlacement="end"
-              paddingX={4}
-              paddingY={1}
-              _hover={{
-                bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
-              }}
-              width="3/6"
-              onClick={() => {
-                signIn(provider.id);
-              }}
-            >
-              <FcGoogle aria-label="google" />
-              <Text marginLeft="auto"> Sign in with Google</Text>
-            </Button>
-          ))}
+          Object.values(providers)?.map(provider =>
+            provider.id === 'google' ? (
+              <Button
+                key={provider.id}
+                variant="surface"
+                loadingText="Redirecting..."
+                spinnerPlacement="end"
+                paddingX={4}
+                paddingY={1}
+                _hover={{
+                  bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
+                }}
+                width="3/6"
+                onClick={() => {
+                  signIn(provider.id);
+                }}
+              >
+                <FcGoogle aria-label="google" />
+                <Text marginLeft="auto"> Sign in with Google</Text>
+              </Button>
+            ) : provider.id === 'credentials' ? (
+              <Button
+                key={provider.id}
+                variant="surface"
+                loadingText="Redirecting..."
+                spinnerPlacement="end"
+                paddingX={4}
+                paddingY={1}
+                _hover={{
+                  bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
+                }}
+                width="3/6"
+                onClick={() => {
+                  onSetLogin(false);
+                  onSetLoginWithEmail(true);
+                  onSetAnimationDataState('');
+                }}
+              >
+                <MdEmail aria-label="email" />
+                <Text marginLeft="auto"> Sign in with Email</Text>
+              </Button>
+            ) : null
+          )}
 
-        <Button
-          variant="surface"
-          loadingText="Redirecting..."
-          spinnerPlacement="end"
-          paddingX={4}
-          paddingY={1}
-          _hover={{
-            bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
-          }}
-          width="3/6"
-          onClick={() => {
-            onSetLogin(false);
-            onSetLoginWithEmail(true);
-            onSetAnimationDataState('');
-          }}
-        >
-          <MdEmail aria-label="email" />
-          <Text marginLeft="auto"> Sign in with Email</Text>
-        </Button>
         <Text
           width="full"
           fontSize="10px"

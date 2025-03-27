@@ -1,11 +1,11 @@
 import { Box } from '@chakra-ui/react';
 import FormLayout from './FormLayout';
 import LoginWithEmailForm from './LoginWithEmailForm';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import SignupForm from './SignupForm';
 
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useClickAway } from '@uidotdev/usehooks';
 import ForgotPasswordForm from './ForgotPasswordForm';
-import SignupForm from './SignupForm';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
 

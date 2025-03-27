@@ -6,10 +6,16 @@ import NavbarIcons from './NavbarIcons';
 import { SettingsDetails } from './SettingsDetails';
 
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Login from './Login';
 import LoginWithEmail from './LoginWithEmail';
 import Search from './Search';
+import { BuiltInProviderType } from 'next-auth/providers/index';
+import {
+  ClientSafeProvider,
+  getProviders,
+  LiteralUnion,
+} from 'next-auth/react';
 
 type NavbarLink = {
   href: string;
@@ -28,6 +34,20 @@ const Navbar: React.FC = () => {
   const [loginWithEmail, setLoginWithEmail] = useState<boolean>(false);
   const [settingsDetails, setSettingsDetails] = useState<boolean>(false);
   const [animationDataState, setAnimationDataState] = useState<string>('');
+
+  const [providers, setProviders] = useState<Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null>(null);
+
+  useEffect(() => {
+    const setAuthProviders = async () => {
+      const res = await getProviders();
+      setProviders(res);
+    };
+
+    setAuthProviders();
+  }, []);
 
   return (
     <Box as="nav" w="100vw" bg="teal.700" height={100}>
@@ -100,8 +120,10 @@ const Navbar: React.FC = () => {
           onSetLoginWithEmail={setLoginWithEmail}
           animationDataState={animationDataState}
           onSetAnimationDataState={setAnimationDataState}
+          providers={providers}
         />
       )}
+
       {!login && loginWithEmail && (
         <LoginWithEmail
           onSetLogin={setLogin}

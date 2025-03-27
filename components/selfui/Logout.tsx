@@ -185,7 +185,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
             <Popover.Arrow />
             <Popover.Body>
               <Stack gap="4">
-                {user?.googleId !== '' ? (
+                {user?.googleId ? (
                   <Text>
                     It looks like you&apos;re signed in with your Google
                     account. Password changes are managed through Google, so

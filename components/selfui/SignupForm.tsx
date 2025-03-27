@@ -11,13 +11,14 @@ import {
 import FormBackButton from './FormBackButton';
 import FormCloseButton from './FormCloseButton';
 import { PasswordInput } from '@/components/ui/password-input';
-import { useColorMode } from '../ui/color-mode';
 
+import { useColorMode } from '../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import validateFields from '@/lib/auth';
 import { RegisterFormType } from '@/lib/formvalidation';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
+import { signIn } from 'next-auth/react';
 
 interface ChildComponentProps {
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
@@ -42,9 +43,28 @@ const SignupForm: React.FC<ChildComponentProps> = ({
     data?: RegisterFormType;
   }>({});
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (
+    email: string,
+    password: string,
+    confirmPassword: string
+  ) => {
     const validationResult = validateFields(email, password, confirmPassword);
     setData(validationResult);
+
+    if (validationResult?.errors) return;
+
+    const res = await signIn('credentials', {
+      email: email,
+      password: password,
+    });
+
+    if (res?.error) {
+      console.error('Authentication error:', res.error);
+    } else {
+      console.log('Signed in successfully!');
+      onSetSignup(false);
+      // Redirect or handle post-sign-in actions
+    }
   };
 
   return (
@@ -176,7 +196,9 @@ const SignupForm: React.FC<ChildComponentProps> = ({
               bg: 'teal.600',
             }}
             width="100%"
-            onClick={handleSubmit}
+            onClick={() => {
+              handleSubmit(email, password, confirmPassword);
+            }}
           >
             <Text fontSize="lg" color="whiteAlpha.900">
               SIGN UP
