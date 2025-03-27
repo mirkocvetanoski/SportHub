@@ -45,37 +45,6 @@ const SignupForm: React.FC<ChildComponentProps> = ({
   const handleSubmit = async () => {
     const validationResult = validateFields(email, password, confirmPassword);
     setData(validationResult);
-
-    if (!validationResult?.errors) {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_DOMAIN}/users/signup`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-          }
-        );
-
-        const result = await response.json();
-
-        if (response.ok) {
-          // Handle success
-          console.log('User created:', result);
-          onSetLoginWithEmail(false);
-          // You can redirect or update the UI here
-        } else {
-          // Handle errors
-          console.error('Error:', result.error);
-          alert(result.error || 'Something went wrong');
-        }
-      } catch (error) {
-        console.error('Network error:', error);
-        alert('Network error, please try again later.');
-      }
-    }
   };
 
   return (
