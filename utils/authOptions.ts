@@ -49,6 +49,7 @@ export const authOptions: NextAuthOptions = {
             credentials.password,
             existingUser.password
           );
+
           if (!isMatch) {
             throw new Error('Invalid credentials');
           }
