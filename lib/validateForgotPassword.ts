@@ -1,7 +1,7 @@
-import { RegisterFormSchema, RegisterFormType } from './formvalidation';
+import { ForgotPasswordFormType, ForgotPasswordSchema } from './formvalidation';
 
 export const validateForgotPassword = (email: string) => {
-  const result = RegisterFormSchema.safeParse({
+  const result = ForgotPasswordSchema.safeParse({
     email,
   });
 
@@ -12,7 +12,7 @@ export const validateForgotPassword = (email: string) => {
   }
 
   return {
-    data: result.data as RegisterFormType, // Ensuring type safety
+    data: result.data as ForgotPasswordFormType, // Ensuring type safety
   };
 };
 

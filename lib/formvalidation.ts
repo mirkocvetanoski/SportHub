@@ -7,8 +7,7 @@ export const RegisterFormSchema = z
       .min(1, { message: 'Not be empty.' })
       .min(4, { message: 'Be at least 4 characters long.' })
       .max(16, { message: 'Maximum 16 characters long' })
-      .trim()
-      .optional(),
+      .trim(),
     email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
     password: z
       .string()
@@ -19,9 +18,8 @@ export const RegisterFormSchema = z
       .regex(/[^a-zA-Z0-9]/, {
         message: 'Contain at least one special character.',
       })
-      .trim()
-      .optional(),
-    confirmPassword: z.string().trim().optional(),
+      .trim(),
+    confirmPassword: z.string().trim(),
   })
   .superRefine((val, ctx) => {
     if (val.confirmPassword && val.password !== val.confirmPassword) {
@@ -34,3 +32,16 @@ export const RegisterFormSchema = z
   });
 
 export type RegisterFormType = z.infer<typeof RegisterFormSchema>;
+
+export const LoginFormSchema = z.object({
+  email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
+  password: z.string().min(1, { message: 'Not be empty.' }).trim(),
+});
+
+export type LoginFormType = z.infer<typeof LoginFormSchema>;
+
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
+});
+
+export type ForgotPasswordFormType = z.infer<typeof ForgotPasswordSchema>;

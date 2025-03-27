@@ -1,7 +1,7 @@
-import { RegisterFormSchema, RegisterFormType } from './formvalidation';
+import { LoginFormSchema, LoginFormType } from './formvalidation';
 
 export const validateLoginFields = (email: string, password: string) => {
-  const result = RegisterFormSchema.safeParse({
+  const result = LoginFormSchema.safeParse({
     email,
     password,
   });
@@ -13,7 +13,7 @@ export const validateLoginFields = (email: string, password: string) => {
   }
 
   return {
-    data: result.data as RegisterFormType, // Ensuring type safety
+    data: result.data as LoginFormType, // Ensuring type safety
   };
 };
 
