@@ -66,8 +66,6 @@ const SignupForm: React.FC<ChildComponentProps> = ({
       password: password,
     });
 
-    console.log(password);
-
     if (res?.error) {
       console.error('Authentication error:', res.error);
     } else {
@@ -118,7 +116,7 @@ const SignupForm: React.FC<ChildComponentProps> = ({
           </Field.Label>
           <Input
             variant="subtle"
-            placeholder="youremail@example.com"
+            placeholder="yourusername"
             fontSize="sm"
             border="1px solid"
             borderColor="gray.emphasized"
