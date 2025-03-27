@@ -14,7 +14,7 @@ import { PasswordInput } from '@/components/ui/password-input';
 
 import { useColorMode } from '../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { RegisterFormType } from '@/lib/formvalidation';
+import { LoginFormType } from '@/lib/formvalidation';
 import validateLoginFields from '@/lib/validateLogin';
 import { signIn } from 'next-auth/react';
 
@@ -43,7 +43,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
   const [password, setPassword] = useState<string>('');
   const [data, setData] = useState<{
     errors?: Record<string, string[]>;
-    data?: RegisterFormType;
+    data?: LoginFormType;
   }>({});
 
   const handleSubmit = async (email: string, password: string) => {

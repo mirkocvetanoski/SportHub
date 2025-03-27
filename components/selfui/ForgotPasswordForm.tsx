@@ -12,7 +12,7 @@ import FormCloseButton from './FormCloseButton';
 
 import { useColorMode } from '../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { RegisterFormType } from '@/lib/formvalidation';
+import { ForgotPasswordFormType } from '@/lib/formvalidation';
 import validateForgotPassword from '@/lib/validateForgotPassword';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
@@ -36,7 +36,7 @@ const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
 
   const [data, setData] = useState<{
     errors?: Record<string, string[]>;
-    data?: RegisterFormType;
+    data?: ForgotPasswordFormType;
   }>({});
 
   const handleSubmit = () => {
