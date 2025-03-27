@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 interface IUser extends Document {
   googleId?: string;
   sub: string;
+  username: string;
   email: string;
   password?: string;
   comparePassword(enteredPassword: string): Promise<boolean>;
@@ -17,6 +18,13 @@ const UserSchema = new Schema<IUser>(
       type: String,
       unique: true,
       sparse: true, // Allows null values for non-Google users
+    },
+    username: {
+      type: String,
+      required: function (this: IUser) {
+        return !this.googleId; // Password is required only if not using Google login
+      },
+      minlength: [4, 'Username must be at least 4 characters'],
     },
     email: {
       type: String,

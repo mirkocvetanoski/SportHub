@@ -19,50 +19,97 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     CredentialsProvider({
+      id: 'credentials',
       name: 'Credentials',
       credentials: {
-        email: { label: 'Email', type: 'email', required: true },
-        password: { label: 'Password', type: 'password', required: true },
+        email: {
+          label: 'Email',
+          type: 'email',
+          placeholder: 'email@example.com',
+        },
+        password: { label: 'Password', type: 'password' },
+        username: { label: 'Username', type: 'text', required: false },
       },
       async authorize(credentials) {
-        if (!credentials || !credentials.email || !credentials.password) {
-          throw new Error('Missing email or password');
-        }
-
         await connectDB();
 
-        let user = await User.findOne({ email: credentials.email });
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error('Email and password are required');
+        }
 
-        if (!user) {
-          // If no user is found, create a new one (Sign-up logic)
-          const hashedPassword = await bcrypt.hash(credentials.password, 12);
-          user = await User.create({
-            email: credentials.email,
-            password: hashedPassword,
-            name: credentials.email.split('@')[0], // Default name logic, modify as needed
-          });
-        } else {
-          // If user exists, check the password
+        const existingUser = await User.findOne({ email: credentials.email });
+
+        // If no username is provided and the user exists -> login flow
+        if (!credentials.username && existingUser) {
+          if (!existingUser.password) {
+            throw new Error('Please sign in with your social account');
+          }
+
           const isMatch = await bcrypt.compare(
             credentials.password,
-            user.password
+            existingUser.password
           );
           if (!isMatch) {
             throw new Error('Invalid credentials');
           }
+
+          return {
+            id: existingUser._id.toString(),
+            email: existingUser.email,
+            name: existingUser.name || existingUser.username,
+            username: existingUser.username,
+          };
         }
 
-        return { id: user._id.toString(), email: user.email, name: user.name };
+        // If username is provided
+        if (credentials.username) {
+          // Check if email already exists with a different user
+          if (existingUser && existingUser.email !== credentials.email) {
+            throw new Error('Email is already registered');
+          }
+
+          const usernameExists = await User.findOne({
+            username: credentials.username,
+          });
+
+          // If username exists, throw an error
+          if (usernameExists) {
+            throw new Error('Username is already taken');
+          }
+
+          // If user does not exist, create a new user
+          if (!existingUser) {
+            const hashedPassword = await bcrypt.hash(credentials.password, 12);
+            const newUser = await User.create({
+              email: credentials.email,
+              password: hashedPassword,
+              username: credentials.username,
+              name: credentials.username,
+            });
+
+            return {
+              id: newUser._id.toString(),
+              email: newUser.email,
+              name: newUser.name,
+              username: newUser.username,
+            };
+          }
+        }
+
+        // If no username is provided and user does not exist -> throw an error
+        throw new Error('Username is required for registration');
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user, account }) {
       await connectDB();
+
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
+        token.username = user.username;
       }
 
       if (account?.provider === 'google') {
@@ -73,10 +120,17 @@ export const authOptions: NextAuthOptions = {
             googleId: token.sub,
             email: token.email,
             name: token.name,
+            username: token.email?.split('@')[0],
           });
           token.id = newUser._id.toString();
+          token.username = newUser.username;
         } else {
+          if (!existingUser.googleId) {
+            existingUser.googleId = token.sub;
+            await existingUser.save();
+          }
           token.id = existingUser._id.toString();
+          token.username = existingUser.username;
         }
       }
 
@@ -87,15 +141,19 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
         session.user.name = token.name as string;
+        session.user.username = token.username as string;
       }
       return session;
     },
   },
   pages: {
     signIn: '/auth/signin',
+    error: '/auth/error',
   },
   session: {
     strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === 'development',
 };

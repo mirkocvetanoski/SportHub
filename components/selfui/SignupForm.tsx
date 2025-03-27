@@ -14,11 +14,11 @@ import { PasswordInput } from '@/components/ui/password-input';
 
 import { useColorMode } from '../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import validateFields from '@/lib/auth';
+import { validateSignupFields } from '@/lib/auth';
 import { RegisterFormType } from '@/lib/formvalidation';
+import { signIn } from 'next-auth/react';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
-import { signIn } from 'next-auth/react';
 
 interface ChildComponentProps {
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
@@ -35,6 +35,7 @@ const SignupForm: React.FC<ChildComponentProps> = ({
 }) => {
   const { colorMode } = useColorMode();
 
+  const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
@@ -44,25 +45,33 @@ const SignupForm: React.FC<ChildComponentProps> = ({
   }>({});
 
   const handleSubmit = async (
+    username: string,
     email: string,
     password: string,
     confirmPassword: string
   ) => {
-    const validationResult = validateFields(email, password, confirmPassword);
+    const validationResult = validateSignupFields(
+      username,
+      email,
+      password,
+      confirmPassword
+    );
     setData(validationResult);
 
     if (validationResult?.errors) return;
 
     const res = await signIn('credentials', {
+      username: username,
       email: email,
       password: password,
     });
+
+    console.log(password);
 
     if (res?.error) {
       console.error('Authentication error:', res.error);
     } else {
       console.log('Signed in successfully!');
-      onSetSignup(false);
       // Redirect or handle post-sign-in actions
     }
   };
@@ -102,6 +111,32 @@ const SignupForm: React.FC<ChildComponentProps> = ({
       />
 
       <VStack width="85%" paddingX="20px">
+        <Field.Root required invalid>
+          <Field.Label>
+            Username
+            <Field.RequiredIndicator />
+          </Field.Label>
+          <Input
+            variant="subtle"
+            placeholder="youremail@example.com"
+            fontSize="sm"
+            border="1px solid"
+            borderColor="gray.emphasized"
+            outlineWidth="1px"
+            outlineColor="gray.500"
+            paddingX="10px"
+            value={username}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setUsername(e.target.value)
+            }
+          />
+          {data?.errors?.username && (
+            <Field.ErrorText fontSize="xx-small">
+              {data?.errors?.username[0]}
+            </Field.ErrorText>
+          )}
+        </Field.Root>
+
         <Field.Root required invalid>
           <Field.Label>
             Email
@@ -197,7 +232,7 @@ const SignupForm: React.FC<ChildComponentProps> = ({
             }}
             width="100%"
             onClick={() => {
-              handleSubmit(email, password, confirmPassword);
+              handleSubmit(username, email, password, confirmPassword);
             }}
           >
             <Text fontSize="lg" color="whiteAlpha.900">

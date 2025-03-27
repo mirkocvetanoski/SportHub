@@ -2,6 +2,13 @@ import { z } from 'zod';
 
 export const RegisterFormSchema = z
   .object({
+    username: z
+      .string()
+      .min(1, { message: 'Not be empty.' })
+      .min(4, { message: 'Be at least 4 characters long.' })
+      .max(16, { message: 'Maximum 16 characters long' })
+      .trim()
+      .optional(),
     email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
     password: z
       .string()

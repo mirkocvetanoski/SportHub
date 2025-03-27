@@ -1,11 +1,13 @@
 import { RegisterFormSchema, RegisterFormType } from '@/lib/formvalidation';
 
-const validateFields = (
+export const validateSignupFields = (
+  username: string,
   email: string,
-  password?: string,
-  confirmPassword?: string
+  password: string,
+  confirmPassword: string
 ) => {
   const result = RegisterFormSchema.safeParse({
+    username,
     email,
     password,
     confirmPassword,
@@ -22,4 +24,19 @@ const validateFields = (
   };
 };
 
-export default validateFields;
+export const validateLoginFields = (email: string, password: string) => {
+  const result = RegisterFormSchema.safeParse({
+    email,
+    password,
+  });
+
+  if (!result.success) {
+    return {
+      errors: result.error.flatten().fieldErrors,
+    };
+  }
+
+  return {
+    data: result.data as RegisterFormType, // Ensuring type safety
+  };
+};

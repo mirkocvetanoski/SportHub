@@ -15,7 +15,8 @@ import { PasswordInput } from '@/components/ui/password-input';
 import { useColorMode } from '../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { RegisterFormType } from '@/lib/formvalidation';
-import validateFields from '@/lib/auth';
+import { validateLoginFields } from '@/lib/auth';
+import { signIn } from 'next-auth/react';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
 
@@ -45,9 +46,23 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
     data?: RegisterFormType;
   }>({});
 
-  const handleSubmit = () => {
-    const validationResult = validateFields(email, password);
+  const handleSubmit = async (email: string, password: string) => {
+    const validationResult = validateLoginFields(email, password);
     setData(validationResult);
+
+    if (validationResult?.errors) return;
+
+    const res = await signIn('credentials', {
+      email: email,
+      password: password,
+    });
+
+    if (res?.error) {
+      console.error('Authentication error:', res.error);
+    } else {
+      console.log('Signed in successfully!');
+      // Redirect or handle post-sign-in actions
+    }
   };
 
   return (
@@ -157,7 +172,9 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
               bg: 'teal.600',
             }}
             width="100%"
-            onClick={handleSubmit}
+            onClick={() => {
+              handleSubmit(email, password);
+            }}
           >
             <Text fontSize="lg" color="whiteAlpha.900">
               LOG IN

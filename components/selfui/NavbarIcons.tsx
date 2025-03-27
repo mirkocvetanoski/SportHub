@@ -45,7 +45,7 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
 
   const { data: session } = useSession();
 
-  const name: string = session?.user?.name || 'User';
+  const name: string = session?.user?.name || session?.user?.username || 'User';
 
   return (
     <Box position="relative">
