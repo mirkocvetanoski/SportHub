@@ -9,7 +9,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useColorMode } from '../ui/color-mode';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   IoChevronForward,
   IoInformation,
@@ -25,20 +25,12 @@ interface ChildComponentProps {
   logoutRef: {};
 }
 
-interface MyObject {
-  googleId: string;
-  email: string;
-  createdAt: string;
-}
-
 const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
   const { colorMode } = useColorMode();
 
   const [information, setInformation] = useState<boolean>(false);
   const [changePassword, setChangePassword] = useState<boolean>(false);
   const [deletion, setDeletion] = useState<boolean>(false);
-
-  const [user, setUser] = useState<MyObject | null>(null);
 
   const { data: session } = useSession();
 
@@ -58,27 +50,6 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
       console.error('Failed to delete user:', error);
     }
   };
-
-  useEffect(() => {
-    const handleInformation = async (): Promise<void> => {
-      try {
-        const response = await fetch(`/api/users/${session?.user.id}`, {
-          method: 'GET',
-        });
-
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${await response.text()}`);
-        }
-
-        const data = await response.json();
-        setUser(JSON.parse(data));
-      } catch (error) {
-        console.error('Failed to find user:', error);
-      }
-    };
-
-    handleInformation();
-  }, [session?.user.id]);
 
   return (
     <Box
@@ -133,11 +104,11 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
               <Popover.Body width="100%" fontSize="xs" fontWeight="bold">
                 <Text>Email:</Text>
                 <Text fontWeight="medium" marginBottom={2}>
-                  {user?.email}
+                  {session?.user?.email}
                 </Text>
                 <Text>Member since:</Text>
                 <Text fontWeight="medium">
-                  {formatDate(user?.createdAt || '')}
+                  {formatDate(session?.user?.createdAt || '')}
                 </Text>
               </Popover.Body>
             </VStack>
@@ -185,7 +156,7 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
             <Popover.Arrow />
             <Popover.Body>
               <Stack gap="4">
-                {user?.googleId ? (
+                {session?.user?.googleId ? (
                   <Text>
                     It looks like you&apos;re signed in with your Google
                     account. Password changes are managed through Google, so

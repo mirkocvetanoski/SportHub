@@ -6,14 +6,17 @@ declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      googleId: string;
       username: string;
       email: string;
       name: string;
+      createdAt?: string;
     } & DefaultSession['user'];
   }
 
   interface User extends DefaultUser {
     username: string;
+    createdAt?: string;
   }
 }
 
