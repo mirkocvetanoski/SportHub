@@ -59,6 +59,7 @@ export const authOptions: NextAuthOptions = {
             email: existingUser.email,
             name: existingUser.name || existingUser.username,
             username: existingUser.username,
+            createdAt: existingUser.createdAt,
           };
         }
 
@@ -93,6 +94,7 @@ export const authOptions: NextAuthOptions = {
               email: newUser.email,
               name: newUser.name,
               username: newUser.username,
+              createdAt: newUser.createdAt,
             };
           }
         }
