@@ -7,6 +7,7 @@ import {
   Separator,
   HStack,
   Flex,
+  ButtonGroup,
 } from '@chakra-ui/react';
 import FormBackButton from './FormBackButton';
 import FormCloseButton from './FormCloseButton';
@@ -45,6 +46,7 @@ const SignupForm: React.FC<ChildComponentProps> = ({
     data?: RegisterFormType;
   }>({});
   const [error, setError] = useState<string>('');
+  const [loading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -64,6 +66,8 @@ const SignupForm: React.FC<ChildComponentProps> = ({
 
     if (validationResult?.errors) return;
 
+    setIsLoading(true);
+
     const res = await signIn('credentials', {
       redirect: false,
       username: username,
@@ -78,6 +82,8 @@ const SignupForm: React.FC<ChildComponentProps> = ({
       onSetSignup(false);
       onSetLoginWithEmail(false);
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -227,25 +233,28 @@ const SignupForm: React.FC<ChildComponentProps> = ({
         </Field.Root>
 
         <VStack marginTop={2} gap={1} w="100%" paddingY={0}>
-          <Button
-            variant="surface"
-            loadingText="Redirecting..."
-            spinnerPlacement="end"
-            paddingX={4}
-            paddingY={1}
-            bg="teal.700"
-            _hover={{
-              bg: 'teal.600',
-            }}
-            width="100%"
-            onClick={() => {
-              handleSubmit(username, email, password, confirmPassword);
-            }}
-          >
-            <Text fontSize="lg" color="whiteAlpha.900">
+          <ButtonGroup width="100%">
+            <Button
+              fontSize="lg"
+              color="whiteAlpha.900"
+              variant="surface"
+              loading={loading}
+              loadingText="SIGNING UP..."
+              spinnerPlacement="end"
+              paddingX={4}
+              paddingY={1}
+              bg="teal.700"
+              _hover={{
+                bg: 'teal.600',
+              }}
+              width="100%"
+              onClick={() => {
+                handleSubmit(username, email, password, confirmPassword);
+              }}
+            >
               SIGN UP
-            </Text>
-          </Button>
+            </Button>
+          </ButtonGroup>
         </VStack>
 
         <Text fontSize="10px">Or</Text>
