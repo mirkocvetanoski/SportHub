@@ -98,8 +98,6 @@ const Login: React.FC<ChildComponentProps> = ({
               <Button
                 key={provider.id}
                 variant="surface"
-                loadingText="Redirecting..."
-                spinnerPlacement="end"
                 paddingX={4}
                 paddingY={1}
                 _hover={{
@@ -117,8 +115,6 @@ const Login: React.FC<ChildComponentProps> = ({
               <Button
                 key={provider.id}
                 variant="surface"
-                loadingText="Redirecting..."
-                spinnerPlacement="end"
                 paddingX={4}
                 paddingY={1}
                 _hover={{

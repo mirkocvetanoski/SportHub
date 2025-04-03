@@ -7,6 +7,7 @@ import {
   Separator,
   HStack,
   Flex,
+  ButtonGroup,
 } from '@chakra-ui/react';
 import FormBackButton from './FormBackButton';
 import FormCloseButton from './FormCloseButton';
@@ -47,6 +48,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
     data?: LoginFormType;
   }>({});
   const [error, setError] = useState<string>('');
+  const [loading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -57,6 +59,8 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
     setData(validationResult);
 
     if (validationResult?.errors) return;
+
+    setIsLoading(true);
 
     const res = await signIn('credentials', {
       redirect: false,
@@ -70,6 +74,8 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
       router.push('/');
       onSetLoginWithEmail(false);
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -171,25 +177,28 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
         </Field.Root>
 
         <VStack marginTop={2} gap={1} w="100%" paddingY={0}>
-          <Button
-            variant="surface"
-            loadingText="Redirecting..."
-            spinnerPlacement="end"
-            paddingX={4}
-            paddingY={1}
-            bg="teal.700"
-            _hover={{
-              bg: 'teal.600',
-            }}
-            width="100%"
-            onClick={() => {
-              handleSubmit(email, password);
-            }}
-          >
-            <Text fontSize="lg" color="whiteAlpha.900">
+          <ButtonGroup width="full">
+            <Button
+              fontSize="lg"
+              color="whiteAlpha.900"
+              variant="surface"
+              loading={loading}
+              loadingText="LOGGING IN..."
+              spinnerPlacement="end"
+              paddingX={4}
+              paddingY={1}
+              bg="teal.700"
+              _hover={{
+                bg: 'teal.600',
+              }}
+              width="100%"
+              onClick={() => {
+                handleSubmit(email, password);
+              }}
+            >
               LOG IN
-            </Text>
-          </Button>
+            </Button>
+          </ButtonGroup>
         </VStack>
 
         <Button
