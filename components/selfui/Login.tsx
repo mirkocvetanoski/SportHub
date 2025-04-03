@@ -145,7 +145,7 @@ const Login: React.FC<ChildComponentProps> = ({
             Terms of Use
           </Link>
           and acknowledge our
-          <Link href="/" className="mx-1 text-blue-600 underline">
+          <Link href="/privacypolicy" className="mx-1 text-blue-600 underline">
             Privacy Policy
           </Link>
           on our website.
