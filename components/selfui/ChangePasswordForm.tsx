@@ -47,8 +47,6 @@ const ChangePasswordForm: React.FC<ChildComponentProps> = ({
     const validationResult = validateChangePassword(oldPassword, newPassword);
     setData(validationResult);
 
-    console.log(validationResult);
-
     if (validationResult?.errors) return;
 
     try {
