@@ -39,7 +39,7 @@ const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
     data?: ForgotPasswordFormType;
   }>({});
 
-  const handleSubmit = () => {
+  const handleSubmit = async (email: string) => {
     const validationResult = validateForgotPassword(email);
     setData(validationResult);
   };
@@ -123,7 +123,7 @@ const ForgotPasswordForm: React.FC<ChildComponentProps> = ({
             bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
           }}
           width="full"
-          onClick={handleSubmit}
+          onClick={() => handleSubmit(email)}
         >
           <Text fontSize="lg">SEND</Text>
         </Button>

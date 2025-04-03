@@ -14,6 +14,8 @@ import { PasswordInput } from '../ui/password-input';
 import React, { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useColorMode } from '../ui/color-mode';
+import validateChangePassword from '@/lib/validateChangePassword';
+import { ChangePasswordFormType } from '@/lib/formvalidation';
 
 interface ChildComponentProps {
   changePassword: boolean;
@@ -34,6 +36,48 @@ const ChangePasswordForm: React.FC<ChildComponentProps> = ({
 
   const [oldPassword, setOldPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  const [data, setData] = useState<{
+    errors?: Record<string, string[]>;
+    data?: ChangePasswordFormType;
+  }>({});
+
+  const handleSubmit = async (oldPassword: string, newPassword: string) => {
+    const validationResult = validateChangePassword(oldPassword, newPassword);
+    setData(validationResult);
+
+    console.log(validationResult);
+
+    if (validationResult?.errors) return;
+
+    try {
+      setError('');
+
+      const response = await fetch(`/api/users/${session?.user.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Success:', data.message); // Handle success message
+        setOldPassword('');
+        setNewPassword('');
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+    }
+  };
 
   return (
     <Popover.Root positioning={{ sameWidth: true }} lazyMount unmountOnExit>
@@ -83,7 +127,7 @@ const ChangePasswordForm: React.FC<ChildComponentProps> = ({
                 </Text>
               ) : (
                 <>
-                  <Field.Root>
+                  <Field.Root required invalid>
                     <Field.Label>Old Password</Field.Label>
                     <PasswordInput
                       variant="subtle"
@@ -99,8 +143,13 @@ const ChangePasswordForm: React.FC<ChildComponentProps> = ({
                         setOldPassword(e.target.value)
                       }
                     />
+                    {data?.errors?.oldPassword && (
+                      <Field.ErrorText fontSize="xx-small">
+                        {data?.errors?.oldPassword[0]}
+                      </Field.ErrorText>
+                    )}
                   </Field.Root>
-                  <Field.Root>
+                  <Field.Root required invalid>
                     <Field.Label>New Password</Field.Label>
                     <PasswordInput
                       variant="subtle"
@@ -116,6 +165,20 @@ const ChangePasswordForm: React.FC<ChildComponentProps> = ({
                         setNewPassword(e.target.value)
                       }
                     />
+                    {data?.errors?.newPassword?.map(
+                      (message: string, i: number) => {
+                        return (
+                          <Field.ErrorText key={i} fontSize="xx-small">
+                            {message}
+                          </Field.ErrorText>
+                        );
+                      }
+                    )}
+                    {error && (
+                      <Field.ErrorText fontSize="xx-small">
+                        {error}
+                      </Field.ErrorText>
+                    )}
                   </Field.Root>
                   <Button
                     variant="surface"
@@ -127,6 +190,9 @@ const ChangePasswordForm: React.FC<ChildComponentProps> = ({
                       bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
                     }}
                     width="full"
+                    onClick={() => {
+                      handleSubmit(oldPassword, newPassword);
+                    }}
                   >
                     Save
                   </Button>

@@ -175,7 +175,6 @@ const Logout: React.FC<ChildComponentProps> = ({ logoutRef }) => {
           </Popover.Content>
         </Popover.Positioner>
       </Popover.Root>
-
       {/* Logout */}
       <Flex
         alignItems="center"
