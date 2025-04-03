@@ -19,6 +19,7 @@ import { RegisterFormType } from '@/lib/formvalidation';
 import { signIn } from 'next-auth/react';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
+import { useRouter } from 'next/navigation';
 
 interface ChildComponentProps {
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
@@ -43,6 +44,9 @@ const SignupForm: React.FC<ChildComponentProps> = ({
     errors?: Record<string, string[]>;
     data?: RegisterFormType;
   }>({});
+  const [error, setError] = useState<string>('');
+
+  const router = useRouter();
 
   const handleSubmit = async (
     username: string,
@@ -61,16 +65,18 @@ const SignupForm: React.FC<ChildComponentProps> = ({
     if (validationResult?.errors) return;
 
     const res = await signIn('credentials', {
+      redirect: false,
       username: username,
       email: email,
       password: password,
     });
 
     if (res?.error) {
-      console.error('Authentication error:', res.error);
+      setError(res?.error);
     } else {
-      console.log('Signed in successfully!');
-      // Redirect or handle post-sign-in actions
+      router.push('/');
+      onSetSignup(false);
+      onSetLoginWithEmail(false);
     }
   };
 
@@ -214,6 +220,9 @@ const SignupForm: React.FC<ChildComponentProps> = ({
             <Field.ErrorText fontSize="xx-small">
               {data?.errors?.confirmPassword[0]}
             </Field.ErrorText>
+          )}
+          {error && (
+            <Field.ErrorText fontSize="xx-small">{error}</Field.ErrorText>
           )}
         </Field.Root>
 

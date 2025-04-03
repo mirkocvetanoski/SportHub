@@ -66,8 +66,8 @@ export const authOptions: NextAuthOptions = {
         // If username is provided
         if (credentials.username) {
           // Check if email already exists with a different user
-          if (existingUser && existingUser.email !== credentials.email) {
-            throw new Error('Email is already registered');
+          if (existingUser && existingUser.email === credentials.email) {
+            throw new Error('Email is already registered.');
           }
 
           const usernameExists = await User.findOne({
@@ -76,7 +76,7 @@ export const authOptions: NextAuthOptions = {
 
           // If username exists, throw an error
           if (usernameExists) {
-            throw new Error('Username is already taken');
+            throw new Error('Username is already taken.');
           }
 
           // If user does not exist, create a new user
