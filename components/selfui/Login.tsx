@@ -141,7 +141,7 @@ const Login: React.FC<ChildComponentProps> = ({
           letterSpacing="0.1px"
         >
           By clicking on any &quot;Continue with&quot; button, you agree to the
-          <Link href="/" className="mx-1 text-blue-600 underline">
+          <Link href="/terms" className="mx-1 text-blue-600 underline">
             Terms of Use
           </Link>
           and acknowledge our

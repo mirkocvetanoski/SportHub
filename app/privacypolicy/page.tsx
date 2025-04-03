@@ -30,7 +30,7 @@ import {
 export default function PrivacyPolicy() {
   return (
     <MainLayout>
-      <Box
+      <VStack
         maxW="container.md"
         px="20%"
         py={5}
@@ -328,7 +328,7 @@ export default function PrivacyPolicy() {
             </Flex>
           </VStack>
         </Box>
-      </Box>
+      </VStack>
     </MainLayout>
   );
 }
