@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
         await connectDB();
 
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Email and password are required');
+          throw new Error('Email and password are required.');
         }
 
         const existingUser = await User.findOne({ email: credentials.email });
@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
         // If no username is provided and the user exists -> login flow
         if (!credentials.username && existingUser) {
           if (!existingUser.password) {
-            throw new Error('Please sign in with your social account');
+            throw new Error('Please sign in with your social account.');
           }
 
           const isMatch = await bcrypt.compare(
@@ -51,7 +51,7 @@ export const authOptions: NextAuthOptions = {
           );
 
           if (!isMatch) {
-            throw new Error('Invalid credentials');
+            throw new Error('Invalid email or password.');
           }
 
           return {
@@ -100,7 +100,9 @@ export const authOptions: NextAuthOptions = {
         }
 
         // If no username is provided and user does not exist -> throw an error
-        throw new Error('Username is required for registration');
+        throw new Error(
+          'No account exists with this email. Please register to continue.'
+        );
       },
     }),
   ],

@@ -19,6 +19,7 @@ import validateLoginFields from '@/lib/validateLogin';
 import { signIn } from 'next-auth/react';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
+import { useRouter } from 'next/navigation';
 
 interface ChildComponentProps {
   onSetLogin: Dispatch<SetStateAction<boolean>>;
@@ -45,23 +46,29 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
     errors?: Record<string, string[]>;
     data?: LoginFormType;
   }>({});
+  const [error, setError] = useState<string>('');
+
+  const router = useRouter();
 
   const handleSubmit = async (email: string, password: string) => {
+    setError('');
+
     const validationResult = validateLoginFields(email, password);
     setData(validationResult);
 
     if (validationResult?.errors) return;
 
     const res = await signIn('credentials', {
+      redirect: false,
       email: email,
       password: password,
     });
 
     if (res?.error) {
-      console.error('Authentication error:', res.error);
+      setError(res?.error);
     } else {
-      console.log('Signed in successfully!');
-      // Redirect or handle post-sign-in actions
+      router.push('/');
+      onSetLoginWithEmail(false);
     }
   };
 
@@ -157,6 +164,9 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
                 </Field.ErrorText>
               );
             })}
+            {error && (
+              <Field.ErrorText fontSize="xx-small">{error}</Field.ErrorText>
+            )}
           </VStack>
         </Field.Root>
 
