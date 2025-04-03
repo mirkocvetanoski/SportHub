@@ -129,6 +129,7 @@ export const authOptions: NextAuthOptions = {
             username: token.email?.split('@')[0],
           });
           token.id = newUser._id.toString();
+          token.googleId = newUser.googleId.toString();
           token.username = newUser.username;
           token.createdAt = newUser.createdAt;
         } else {
@@ -137,6 +138,7 @@ export const authOptions: NextAuthOptions = {
             await existingUser.save();
           }
           token.id = existingUser._id.toString();
+          token.googleId = existingUser.googleId.toString();
           token.username = existingUser.username;
           token.createdAt = existingUser.createdAt;
         }
@@ -151,6 +153,10 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name as string;
         session.user.username = token.username as string;
         session.user.createdAt = token.createdAt as string;
+      }
+
+      if (token.sub) {
+        session.user.googleId = token.googleId as string;
       }
       return session;
     },

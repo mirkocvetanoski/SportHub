@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/config/database';
 import User from '@/models/User';
 import { getSessionUser } from '@/utils/getSessionUser';
+import bcrypt from 'bcryptjs';
 
 // GET /api/users/[id]
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -112,6 +113,57 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     }
     return NextResponse.json(
       { message: 'An unknown error occurred' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest): Promise<NextResponse> {
+  try {
+    const { oldPassword, newPassword } = await request.json();
+
+    if (!oldPassword || !newPassword) {
+      return NextResponse.json(
+        { message: 'Both old and new passwords are required.' },
+        { status: 400 }
+      );
+    }
+
+    // Get the logged-in user
+    const sessionUser = await getSessionUser();
+    if (!sessionUser?.userId) {
+      return NextResponse.json({ message: 'Unauthorized.' }, { status: 401 });
+    }
+
+    await connectDB();
+    const user = await User.findById(sessionUser.userId);
+
+    if (!user) {
+      return NextResponse.json({ message: 'User not found.' }, { status: 404 });
+    }
+
+    // Compare old password
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return NextResponse.json(
+        { message: 'Incorrect old password.' },
+        { status: 400 }
+      );
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    return NextResponse.json(
+      { message: 'Password updated successfully.' },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error updating password:', error);
+    return NextResponse.json(
+      { message: 'Internal Server Error' },
       { status: 500 }
     );
   }
