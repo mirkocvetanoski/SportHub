@@ -139,12 +139,13 @@ const Login: React.FC<ChildComponentProps> = ({
           padding={4}
           textAlign="center"
           letterSpacing="0.1px"
+          wordBreak="break-word"
         >
-          By &quot;logging in&quot;, you agree to the
+          By accessing your account, you consent to and are bound by our <br />
           <Link href="/terms" className="mx-1 text-blue-600 underline">
             Terms of Use
           </Link>
-          and acknowledge our
+          and
           <Link href="/privacypolicy" className="mx-1 text-blue-600 underline">
             Privacy Policy
           </Link>
