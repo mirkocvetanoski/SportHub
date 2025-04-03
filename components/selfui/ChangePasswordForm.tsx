@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Field,
   Flex,
   Popover,
@@ -37,6 +38,7 @@ const ChangePasswordForm: React.FC<ChildComponentProps> = ({
   const [oldPassword, setOldPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [loading, setIsLoading] = useState<boolean>(false);
 
   const [data, setData] = useState<{
     errors?: Record<string, string[]>;
@@ -51,6 +53,7 @@ const ChangePasswordForm: React.FC<ChildComponentProps> = ({
 
     try {
       setError('');
+      setIsLoading(true);
 
       const response = await fetch(`/api/users/${session?.user.id}`, {
         method: 'POST',
@@ -74,6 +77,8 @@ const ChangePasswordForm: React.FC<ChildComponentProps> = ({
       }
     } catch (error) {
       console.error('Unexpected error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -178,22 +183,25 @@ const ChangePasswordForm: React.FC<ChildComponentProps> = ({
                       </Field.ErrorText>
                     )}
                   </Field.Root>
-                  <Button
-                    variant="surface"
-                    loadingText="Redirecting..."
-                    spinnerPlacement="end"
-                    paddingX={4}
-                    paddingY={1}
-                    _hover={{
-                      bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
-                    }}
-                    width="full"
-                    onClick={() => {
-                      handleSubmit(oldPassword, newPassword);
-                    }}
-                  >
-                    Save
-                  </Button>
+                  <ButtonGroup>
+                    <Button
+                      variant="surface"
+                      loading={loading}
+                      loadingText="Changing password..."
+                      spinnerPlacement="end"
+                      paddingX={4}
+                      paddingY={1}
+                      _hover={{
+                        bg: colorMode === 'dark' ? 'gray.600' : 'gray.300',
+                      }}
+                      width="full"
+                      onClick={() => {
+                        handleSubmit(oldPassword, newPassword);
+                      }}
+                    >
+                      Save
+                    </Button>
+                  </ButtonGroup>
                 </>
               )}
             </Stack>
