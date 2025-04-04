@@ -4,6 +4,7 @@ import '@fontsource/roboto';
 
 import { Provider } from '@/components/ui/provider';
 import AuthProvider from '@/components/selfui/navbar/AuthProvider';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,6 +16,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <AuthProvider>
       <html suppressHydrationWarning>
+        <SpeedInsights />
         <body className="min-w-screen min-h-screen">
           <Provider>{children}</Provider>
         </body>
