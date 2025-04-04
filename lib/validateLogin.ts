@@ -1,4 +1,4 @@
-import { LoginFormSchema, LoginFormType } from './formValidation';
+import { LoginFormSchema, LoginFormType } from '@/lib/formValidation';
 
 export const validateLoginFields = (email: string, password: string) => {
   const result = LoginFormSchema.safeParse({

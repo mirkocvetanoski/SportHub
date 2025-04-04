@@ -1,4 +1,7 @@
-import { ForgotPasswordFormType, ForgotPasswordSchema } from './formValidation';
+import {
+  ForgotPasswordFormType,
+  ForgotPasswordSchema,
+} from '@/lib/formValidation';
 
 export const validateForgotPassword = (email: string) => {
   const result = ForgotPasswordSchema.safeParse({
