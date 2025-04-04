@@ -52,7 +52,7 @@ const Navbar: React.FC = () => {
   return (
     <Box as="nav" w="100vw" bg="teal.700" height={100}>
       <Flex align="center" justify="space-between" px="20%" height="inherit">
-        <Logo />
+        <Logo size={3} />
 
         <Flex
           height="inherit"

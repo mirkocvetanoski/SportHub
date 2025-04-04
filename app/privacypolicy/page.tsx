@@ -1,3 +1,4 @@
+import Logo from '@/components/selfui/Logo';
 import MainLayout from '@/components/selfui/MainLayout';
 import {
   Box,
@@ -36,7 +37,7 @@ export default function PrivacyPolicy() {
         py={5}
         mx="auto"
         fontSize="sm"
-        width="100%"
+        width="100vw"
       >
         <Heading
           as="h1"
@@ -49,7 +50,7 @@ export default function PrivacyPolicy() {
         </Heading>
 
         <Text mb={5}>
-          At SportsHub, we value your privacy and are committed to protecting
+          At SPORTSHUB, we value your privacy and are committed to protecting
           your personal information. This Privacy Policy outlines how we
           collect, use, and safeguard your data when you visit our website or
           interact with our services.
@@ -313,12 +314,7 @@ export default function PrivacyPolicy() {
           <VStack alignItems="start">
             <Flex alignItems="center" gap={2}>
               <Text>Company Name:</Text>
-              <Link
-                href="mailto:sportshubwebsite2025@gmail.com"
-                className="text-1xl bg-gradient-to-r from-[#22c1c3] via-[#22c1c3] to-[#fdbb2d] bg-clip-text font-bold uppercase text-transparent"
-              >
-                SPORTSHUB
-              </Link>
+              <Logo size={1} />
             </Flex>
             <Flex alignItems="center" gap={2}>
               <MdEmail />
