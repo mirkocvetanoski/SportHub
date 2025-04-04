@@ -43,7 +43,7 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
     }
   });
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const name: string = session?.user?.name || session?.user?.username || 'User';
 
@@ -72,6 +72,7 @@ const NavbarIcons: React.FC<ChildComponentProps> = ({
 
         {!session ? (
           <IconButton
+            disabled={status === 'loading'}
             aria-label="Login"
             color="whiteAlpha.900"
             marginLeft={2}
