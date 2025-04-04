@@ -1,7 +1,7 @@
 import {
   ChangePasswordFormType,
   ChangePasswordSchema,
-} from '@/lib/formValidation';
+} from '@/lib/formvalidation';
 
 export const validateChangePassword = (
   oldPassword: string,
