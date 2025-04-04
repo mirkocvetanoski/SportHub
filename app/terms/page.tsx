@@ -1,4 +1,4 @@
-import MainLayout from '@/components/selfui/MainLayout';
+import MainLayout from '@/components/selfui/navbar/MainLayout';
 import {
   Box,
   Flex,

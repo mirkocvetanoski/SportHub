@@ -1,4 +1,5 @@
-import MainLayout from '@/components/selfui/MainLayout';
+import Competitions from '@/components/selfui/main/Competitions';
+import MainLayout from '@/components/selfui/navbar/MainLayout';
 import connectDB from '@/config/database';
 
 const HomePage = async () => {
@@ -6,7 +7,7 @@ const HomePage = async () => {
 
   return (
     <MainLayout>
-      <div className="h-[calc(100vh-100px)]">HomePage</div>
+      <Competitions />
     </MainLayout>
   );
 };

@@ -10,7 +10,7 @@ import {
 import FormBackButton from './FormBackButton';
 import FormCloseButton from './FormCloseButton';
 
-import { useColorMode } from '../ui/color-mode';
+import { useColorMode } from '../../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { ForgotPasswordFormType } from '@/lib/formvalidation';
 import validateForgotPassword from '@/lib/validateForgotPassword';

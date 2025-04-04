@@ -6,7 +6,7 @@ import { MdEmail } from 'react-icons/md';
 import Link from 'next/link';
 
 import { useClickAway } from '@uidotdev/usehooks';
-import { useColorMode } from '../ui/color-mode';
+import { useColorMode } from '../../ui/color-mode';
 import { Dispatch, SetStateAction } from 'react';
 import { ClientSafeProvider, LiteralUnion, signIn } from 'next-auth/react';
 import { BuiltInProviderType } from 'next-auth/providers/index';

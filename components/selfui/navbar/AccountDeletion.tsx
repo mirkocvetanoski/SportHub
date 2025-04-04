@@ -11,7 +11,7 @@ import { IoChevronForward } from 'react-icons/io5';
 import { MdDeleteForever } from 'react-icons/md';
 
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { useColorMode } from '../ui/color-mode';
+import { useColorMode } from '../../ui/color-mode';
 import { signOut, useSession } from 'next-auth/react';
 
 interface ChildComponentProps {

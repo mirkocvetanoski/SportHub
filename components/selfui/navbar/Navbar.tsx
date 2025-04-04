@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Flex, Spacer, Link } from '@chakra-ui/react';
-import Logo from '@/components/selfui/Logo';
+import Logo from '@/components/selfui/navbar/Logo';
 import NavbarIcons from './NavbarIcons';
 import { SettingsDetails } from './SettingsDetails';
 

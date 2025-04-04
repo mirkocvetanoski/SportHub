@@ -4,12 +4,12 @@ import { Box, Flex, Separator, Text, Input } from '@chakra-ui/react';
 import FormCloseButton from './FormCloseButton';
 import { LuSearch } from 'react-icons/lu';
 
-import { useColorMode } from '../ui/color-mode';
+import { useColorMode } from '../../ui/color-mode';
 import { Dispatch, SetStateAction } from 'react';
 import { CLOSED_ANIMATION, OPEN_ANIMATION } from '@/lib/constants';
 import { useClickAway } from '@uidotdev/usehooks';
 import SearchDropdown from './SearchDropdown';
-import { InputGroup } from '../ui/input-group';
+import { InputGroup } from '../../ui/input-group';
 
 interface ChildComponentProps {
   onSetSearch: Dispatch<SetStateAction<boolean>>;

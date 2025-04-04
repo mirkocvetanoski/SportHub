@@ -10,7 +10,7 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import FormLayout from './FormLayout';
-import { Radio, RadioGroup } from '../ui/radio';
+import { Radio, RadioGroup } from '../../ui/radio';
 
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useColorMode } from '@/components/ui/color-mode';

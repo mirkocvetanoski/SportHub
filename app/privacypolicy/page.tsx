@@ -1,5 +1,5 @@
-import Logo from '@/components/selfui/Logo';
-import MainLayout from '@/components/selfui/MainLayout';
+import Logo from '@/components/selfui/navbar/Logo';
+import MainLayout from '@/components/selfui/navbar/MainLayout';
 import {
   Box,
   Text,

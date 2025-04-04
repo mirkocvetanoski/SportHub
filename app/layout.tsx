@@ -3,7 +3,7 @@ import './globals.css';
 import '@fontsource/roboto';
 
 import { Provider } from '@/components/ui/provider';
-import AuthProvider from '@/components/selfui/AuthProvider';
+import AuthProvider from '@/components/selfui/navbar/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',

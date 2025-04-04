@@ -10,11 +10,11 @@ import {
 } from '@chakra-ui/react';
 import { CiLock } from 'react-icons/ci';
 import { IoChevronForward } from 'react-icons/io5';
-import { PasswordInput } from '../ui/password-input';
+import { PasswordInput } from '../../ui/password-input';
 
 import React, { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { useColorMode } from '../ui/color-mode';
+import { useColorMode } from '../../ui/color-mode';
 import validateChangePassword from '@/lib/validateChangePassword';
 import { ChangePasswordFormType } from '@/lib/formvalidation';
 

@@ -1,5 +1,5 @@
 import { Box, Flex, Popover, Text, VStack } from '@chakra-ui/react';
-import { useColorMode } from '../ui/color-mode';
+import { useColorMode } from '../../ui/color-mode';
 import React, { useState } from 'react';
 import {
   IoChevronForward,

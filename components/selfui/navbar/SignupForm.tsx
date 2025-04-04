@@ -13,49 +13,55 @@ import FormBackButton from './FormBackButton';
 import FormCloseButton from './FormCloseButton';
 import { PasswordInput } from '@/components/ui/password-input';
 
-import { useColorMode } from '../ui/color-mode';
+import { useColorMode } from '../../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { LoginFormType } from '@/lib/formvalidation';
-import validateLoginFields from '@/lib/validateLogin';
+import validateSignupFields from '@/lib/validateSignUp';
+import { RegisterFormType } from '@/lib/formvalidation';
 import { signIn } from 'next-auth/react';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';
 import { useRouter } from 'next/navigation';
 
 interface ChildComponentProps {
-  onSetLogin: Dispatch<SetStateAction<boolean>>;
   onSetLoginWithEmail: Dispatch<SetStateAction<boolean>>;
-  onSetForgotPassword: Dispatch<SetStateAction<boolean>>;
   onSetSignup: Dispatch<SetStateAction<boolean>>;
   animationDataState: string;
   onSetAnimationDataState: Dispatch<SetStateAction<string>>;
 }
 
-const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
-  onSetLogin,
+const SignupForm: React.FC<ChildComponentProps> = ({
   onSetLoginWithEmail,
-  onSetForgotPassword,
   onSetSignup,
   animationDataState,
   onSetAnimationDataState,
 }) => {
   const { colorMode } = useColorMode();
 
+  const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [data, setData] = useState<{
     errors?: Record<string, string[]>;
-    data?: LoginFormType;
+    data?: RegisterFormType;
   }>({});
   const [error, setError] = useState<string>('');
   const [loading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
-  const handleSubmit = async (email: string, password: string) => {
-    setError('');
-
-    const validationResult = validateLoginFields(email, password);
+  const handleSubmit = async (
+    username: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+  ) => {
+    const validationResult = validateSignupFields(
+      username,
+      email,
+      password,
+      confirmPassword
+    );
     setData(validationResult);
 
     if (validationResult?.errors) return;
@@ -64,6 +70,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
 
     const res = await signIn('credentials', {
       redirect: false,
+      username: username,
       email: email,
       password: password,
     });
@@ -72,6 +79,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
       setError(res?.error);
     } else {
       router.push('/');
+      onSetSignup(false);
       onSetLoginWithEmail(false);
     }
 
@@ -92,11 +100,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
       }}
     >
       <Flex width="100%" align="center" justify="space-between">
-        <FormBackButton
-          colorMode={colorMode}
-          onSetLogin={onSetLogin}
-          onSetLoginWithEmail={onSetLoginWithEmail}
-        />
+        <FormBackButton colorMode={colorMode} onSetSignup={onSetSignup} />
         <FormCloseButton
           colorMode={colorMode}
           onSetLoginWithEmail={onSetLoginWithEmail}
@@ -105,7 +109,7 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
       </Flex>
 
       <Text fontSize="xl" fontWeight="semibold" width="full" textAlign="center">
-        Log in to an existing account
+        Create a new account
       </Text>
 
       <Separator
@@ -117,6 +121,32 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
       />
 
       <VStack width="85%" paddingX="20px">
+        <Field.Root required invalid>
+          <Field.Label>
+            Username
+            <Field.RequiredIndicator />
+          </Field.Label>
+          <Input
+            variant="subtle"
+            placeholder="yourusername"
+            fontSize="sm"
+            border="1px solid"
+            borderColor="gray.emphasized"
+            outlineWidth="1px"
+            outlineColor="gray.500"
+            paddingX="10px"
+            value={username}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setUsername(e.target.value)
+            }
+          />
+          {data?.errors?.username && (
+            <Field.ErrorText fontSize="xx-small">
+              {data?.errors?.username[0]}
+            </Field.ErrorText>
+          )}
+        </Field.Root>
+
         <Field.Root required invalid>
           <Field.Label>
             Email
@@ -170,20 +200,46 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
                 </Field.ErrorText>
               );
             })}
-            {error && (
-              <Field.ErrorText fontSize="xx-small">{error}</Field.ErrorText>
-            )}
           </VStack>
         </Field.Root>
 
+        <Field.Root required invalid>
+          <Field.Label>
+            Confirm password
+            <Field.RequiredIndicator />
+          </Field.Label>
+          <PasswordInput
+            variant="subtle"
+            placeholder="yourpassword"
+            fontSize="sm"
+            border="1px solid"
+            borderColor="gray.emphasized"
+            outlineWidth="1px"
+            outlineColor="gray.500"
+            paddingX="10px"
+            value={confirmPassword}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setConfirmPassword(e.target.value)
+            }
+          />
+          {data?.errors?.confirmPassword && (
+            <Field.ErrorText fontSize="xx-small">
+              {data?.errors?.confirmPassword[0]}
+            </Field.ErrorText>
+          )}
+          {error && (
+            <Field.ErrorText fontSize="xx-small">{error}</Field.ErrorText>
+          )}
+        </Field.Root>
+
         <VStack marginTop={2} gap={1} w="100%" paddingY={0}>
-          <ButtonGroup width="full">
+          <ButtonGroup width="100%">
             <Button
               fontSize="lg"
               color="whiteAlpha.900"
               variant="surface"
               loading={loading}
-              loadingText="LOGGING IN..."
+              loadingText="SIGNING UP..."
               spinnerPlacement="end"
               paddingX={4}
               paddingY={1}
@@ -193,29 +249,18 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
               }}
               width="100%"
               onClick={() => {
-                handleSubmit(email, password);
+                handleSubmit(username, email, password, confirmPassword);
               }}
             >
-              LOG IN
+              SIGN UP
             </Button>
           </ButtonGroup>
         </VStack>
 
-        <Button
-          fontSize="10px"
-          textDecoration="underline"
-          padding={0}
-          fontWeight="semibold"
-          onClick={() => onSetForgotPassword(true)}
-          height="fit-content"
-        >
-          Forgot your password?
-        </Button>
-
         <Text fontSize="10px">Or</Text>
 
         <HStack>
-          <Text fontSize="10px">Don&apos;t have an account?</Text>
+          <Text fontSize="10px">Already have an account?</Text>
 
           <Button
             fontSize="10px"
@@ -223,9 +268,9 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
             padding={0}
             fontWeight="semibold"
             height="fit-content"
-            onClick={() => onSetSignup(true)}
+            onClick={() => onSetSignup(false)}
           >
-            Sign up
+            Log in
           </Button>
         </HStack>
       </VStack>
@@ -233,4 +278,4 @@ const LoginWithEmailForm: React.FC<ChildComponentProps> = ({
   );
 };
 
-export default LoginWithEmailForm;
+export default SignupForm;
