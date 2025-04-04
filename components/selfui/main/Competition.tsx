@@ -2,6 +2,7 @@
 
 import competitionsIcons from '@/lib/competitionIcons';
 import { Flex, Text, Icon } from '@chakra-ui/react';
+import { MdSports } from 'react-icons/md';
 
 type CompetitionName = keyof typeof competitionsIcons;
 
@@ -10,7 +11,8 @@ interface CompetitionProps {
 }
 
 const Competition: React.FC<CompetitionProps> = ({ competition }) => {
-  const IconComponent = competitionsIcons[competition as CompetitionName];
+  const IconComponent =
+    competitionsIcons[competition as CompetitionName] || MdSports;
 
   return (
     <Flex

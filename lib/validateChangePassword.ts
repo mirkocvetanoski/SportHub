@@ -1,4 +1,4 @@
-import { ChangePasswordFormType, ChangePasswordSchema } from './formvalidation';
+import { ChangePasswordFormType, ChangePasswordSchema } from './formValidation';
 
 export const validateChangePassword = (
   oldPassword: string,

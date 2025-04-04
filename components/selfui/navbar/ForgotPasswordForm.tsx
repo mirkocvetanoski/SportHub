@@ -12,7 +12,7 @@ import FormCloseButton from './FormCloseButton';
 
 import { useColorMode } from '../../ui/color-mode';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { ForgotPasswordFormType } from '@/lib/formvalidation';
+import { ForgotPasswordFormType } from '@/lib/formValidation';
 import validateForgotPassword from '@/lib/validateForgotPassword';
 
 import { OPEN_ANIMATION, CLOSED_ANIMATION } from '@/lib/constants';

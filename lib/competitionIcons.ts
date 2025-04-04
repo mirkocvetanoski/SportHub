@@ -9,6 +9,7 @@ import {
   MdDownhillSkiing,
   MdOutlineSportsRugby,
   MdSportsEsports,
+  MdSportsGymnastics,
   MdSportsHandball,
   MdSportsHockey,
   MdSportsVolleyball,
@@ -20,7 +21,6 @@ import {
   GiPingPongBat,
   GiPodiumWinner,
   GiWaterPolo,
-  GiJumpAcross,
 } from 'react-icons/gi';
 import { RiBilliardsFill, RiFootballLine } from 'react-icons/ri';
 import { PiBeachBallBold, PiMotorcycle } from 'react-icons/pi';
@@ -47,7 +47,7 @@ const competitionsIcons = {
   'Winter Sports': MdDownhillSkiing,
   'Beach Soccer': PiBeachBallBold,
   Moto: PiMotorcycle,
-  Atletica: GiJumpAcross,
+  Atletica: MdSportsGymnastics,
   FIFA: SiFifa,
   'Special Games': BiHandicap,
   'Special Single': BiHandicap,

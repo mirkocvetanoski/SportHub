@@ -16,7 +16,7 @@ import React, { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useColorMode } from '../../ui/color-mode';
 import validateChangePassword from '@/lib/validateChangePassword';
-import { ChangePasswordFormType } from '@/lib/formvalidation';
+import { ChangePasswordFormType } from '@/lib/formValidation';
 
 interface ChildComponentProps {
   changePassword: boolean;

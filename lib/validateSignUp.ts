@@ -1,4 +1,4 @@
-import { RegisterFormSchema, RegisterFormType } from '@/lib/formvalidation';
+import { RegisterFormSchema, RegisterFormType } from '@/lib/formValidation';
 
 const validateSignupFields = (
   username: string,
