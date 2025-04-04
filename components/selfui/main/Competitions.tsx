@@ -1,37 +1,10 @@
-import { Flex, HStack, Separator, Text } from '@chakra-ui/react';
+import { HStack, Separator, Text } from '@chakra-ui/react';
 import Competition from './Competition';
 
 import { fetchCompetitions } from '@/utils/fetchCompetitions';
+import popularityScores from '@/lib/sportsByPopularity';
 
 type Sport = keyof typeof popularityScores;
-
-const popularityScores = {
-  Football: 100,
-  Basketball: 90,
-  Tennis: 85,
-  'American Football': 80,
-  Baseball: 75,
-  Volleyball: 70,
-  Boxing: 68,
-  Hockey: 65,
-  Rugby: 60,
-  'e-sports': 55,
-  Darts: 50,
-  Snooker: 48,
-  'Ping Pong': 45,
-  Futsal: 40,
-  Handball: 38,
-  Waterpolo: 35,
-  'Winter Sports': 30,
-  'Beach Soccer': 25,
-  Moto: 20,
-  Atletica: 15,
-  FIFA: 10,
-  'Special Games': 5,
-  'Special Single': 5,
-  Winner: 3,
-  Imaginary: 1,
-};
 
 const Competitions = async () => {
   const data = await fetchCompetitions();
@@ -67,16 +40,13 @@ const Competitions = async () => {
     <>
       <HStack gap={10} width="full" px="20%" h={16}>
         {sortedMainCompetitions.map((competition, i) => (
-          <Flex key={i}>
-            <Competition competition={competition} />
-          </Flex>
+          <Competition key={i} competition={competition} />
         ))}
       </HStack>
       <Separator
         height="1px"
         bg="gray.emphasized"
         width="full"
-        marginTop={1}
         marginBottom={3}
       />
     </>
