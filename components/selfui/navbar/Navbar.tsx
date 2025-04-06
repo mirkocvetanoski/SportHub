@@ -62,15 +62,15 @@ const Navbar: React.FC = () => {
       <Flex align="center" justify="space-between" px="20%" height="inherit">
         <Logo size={3} />
 
-        <Flex
-          height="inherit"
-          width={40}
-          marginLeft={40}
-          align="center"
-          justify="justify-evenly"
-          gap={4}
-        >
-          <ClientOnly>
+        <ClientOnly>
+          <Flex
+            height="inherit"
+            width="fit-content"
+            marginLeft={40}
+            align="center"
+            justify="justify-evenly"
+            gap={2}
+          >
             {navLinks.map(link => (
               <Link
                 key={link.href}
@@ -105,8 +105,8 @@ const Navbar: React.FC = () => {
                 {link.label}
               </Link>
             ))}
-          </ClientOnly>
-        </Flex>
+          </Flex>
+        </ClientOnly>
 
         <Spacer />
 
