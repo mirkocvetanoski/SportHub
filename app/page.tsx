@@ -1,12 +1,11 @@
 import Competitions from '@/components/selfui/main/Competitions';
 import MainLayout from '@/components/selfui/navbar/MainLayout';
 
-const HomePage = async () => {
+export default function HomePage() {
   return (
     <MainLayout>
       <Competitions />
+      <div>Scores</div>
     </MainLayout>
   );
-};
-
-export default HomePage;
+}

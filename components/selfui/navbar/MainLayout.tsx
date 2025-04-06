@@ -8,7 +8,7 @@ interface MainLayoutProps {
   children: ReactNode;
 }
 
-const MainLayout = async ({ children }: MainLayoutProps) => {
+const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <ColorModeProvider forcedTheme="dark">
       <SimpleGrid width="100vw">
