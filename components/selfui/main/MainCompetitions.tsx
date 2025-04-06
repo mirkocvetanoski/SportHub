@@ -14,8 +14,6 @@ interface CompetitionsProps {
 const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
   const { colorMode } = useColorMode();
 
-  console.log(colorMode);
-
   return competitions.map((competition, i) => {
     const IconComponent =
       (competitionsIcons[
