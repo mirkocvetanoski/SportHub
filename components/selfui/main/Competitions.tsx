@@ -1,8 +1,8 @@
 import { HStack, Separator, Text } from '@chakra-ui/react';
-import Competition from './Competition';
 
 import { fetchCompetitions } from '@/utils/fetchCompetitions';
 import popularityScores from '@/lib/sportsByPopularity';
+import MainCompetitions from './MainCompetitions';
 
 type Sport = keyof typeof popularityScores;
 
@@ -33,9 +33,7 @@ const Competitions = async () => {
   return (
     <>
       <HStack gap={10} width="full" px="20%" h={16}>
-        {sortedMainCompetitions.map((competition, i) => (
-          <Competition key={i} competition={competition} />
-        ))}
+        <MainCompetitions competitions={sortedMainCompetitions} />
       </HStack>
       <Separator
         height="1px"
