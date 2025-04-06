@@ -1,12 +1,10 @@
 'use client';
 
-import { Box, Flex, Spacer, Link, ClientOnly } from '@chakra-ui/react';
+import { Box, Flex, Spacer, Link, ClientOnly, Icon } from '@chakra-ui/react';
 import Logo from './Logo';
 import NavbarIcons from './NavbarIcons';
 import { SettingsDetails } from './SettingsDetails';
 
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import Login from './Login';
 import LoginWithEmail from './LoginWithEmail';
 import Search from './Search';
@@ -16,16 +14,23 @@ import {
   getProviders,
   LiteralUnion,
 } from 'next-auth/react';
+import { MdScoreboard } from 'react-icons/md';
+import { GiNewspaper } from 'react-icons/gi';
+import { IconType } from 'react-icons/lib';
+
 import { useColorModeValue } from '@/components/ui/color-mode';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 type NavbarLink = {
   href: string;
   label: string;
+  icon: IconType;
 };
 
 const navLinks: NavbarLink[] = [
-  { href: '/', label: 'Scores' },
-  { href: '/news', label: 'News' },
+  { href: '/', label: 'Scores', icon: MdScoreboard },
+  { href: '/news', label: 'News', icon: GiNewspaper },
 ];
 
 const Navbar: React.FC = () => {
@@ -96,6 +101,7 @@ const Navbar: React.FC = () => {
                 fontSize="sm"
                 outline="none"
               >
+                <Icon as={link.icon} boxSize={5} />
                 {link.label}
               </Link>
             ))}
