@@ -4,7 +4,7 @@ import competitionsIcons from '@/lib/competitionIcons';
 import { Flex, Text, Icon } from '@chakra-ui/react';
 import { MdSports } from 'react-icons/md';
 
-import { useColorMode } from '@/components/ui/color-mode';
+import { useColorModeValue } from '@/components/ui/color-mode';
 
 type CompetitionName = keyof typeof competitionsIcons;
 
@@ -13,7 +13,9 @@ interface CompetitionsProps {
 }
 
 const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
-  const { colorMode } = useColorMode();
+  const textColor = useColorModeValue('gray.600', 'whiteAlpha.800');
+  const hoverTextColor = useColorModeValue('gray.900', 'gray.400');
+  const borderColor = useColorModeValue('orange.500', 'yellow.500');
 
   return competitions.map((competition, i) => {
     const IconComponent =
@@ -29,13 +31,13 @@ const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
         gap={2}
         cursor="pointer"
         height="100%"
-        color={colorMode === 'dark' ? 'whiteAlpha.800' : 'gray.600'}
+        color={textColor}
         borderBottom="2px solid"
         borderColor="transparent"
         transition="border-color 0.2s"
         _hover={{
-          color: colorMode === 'dark' ? 'gray.400' : 'gray.900',
-          borderColor: colorMode === 'dark' ? 'yellow.500' : 'orange.600',
+          color: hoverTextColor,
+          borderColor: borderColor,
         }}
       >
         <Icon as={IconComponent} boxSize={5} />

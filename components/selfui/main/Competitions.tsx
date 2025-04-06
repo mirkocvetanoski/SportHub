@@ -1,4 +1,10 @@
-import { HStack, Separator, Text } from '@chakra-ui/react';
+import {
+  ClientOnly,
+  HStack,
+  Separator,
+  Skeleton,
+  Text,
+} from '@chakra-ui/react';
 
 import { fetchCompetitions } from '@/utils/fetchCompetitions';
 import popularityScores from '@/lib/sportsByPopularity';
@@ -31,17 +37,31 @@ const Competitions = async () => {
     .slice(0, 8);
 
   return (
-    <>
-      <HStack gap={10} width="full" px="20%" h={16}>
-        <MainCompetitions competitions={sortedMainCompetitions} />
-      </HStack>
-      <Separator
-        height="1px"
-        bg="gray.emphasized"
-        width="full"
-        marginBottom={3}
-      />
-    </>
+    <ClientOnly
+      fallback={
+        <Skeleton
+          width="full"
+          height="4"
+          variant="shine"
+          css={{
+            '--start-color': 'colors.teal.800',
+            '--end-color': 'colors.teal.700',
+          }}
+        />
+      }
+    >
+      <>
+        <HStack gap={10} width="full" px="20%" h={16}>
+          <MainCompetitions competitions={sortedMainCompetitions} />
+        </HStack>
+        <Separator
+          height="1px"
+          bg="gray.emphasized"
+          width="full"
+          marginBottom={3}
+        />
+      </>
+    </ClientOnly>
   );
 };
 
