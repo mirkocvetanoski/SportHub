@@ -1,9 +1,10 @@
 'use client';
 
-import { useColorMode } from '@/components/ui/color-mode';
 import competitionsIcons from '@/lib/competitionIcons';
 import { Flex, Text, Icon } from '@chakra-ui/react';
 import { MdSports } from 'react-icons/md';
+
+import { useColorMode } from '@/components/ui/color-mode';
 
 type CompetitionName = keyof typeof competitionsIcons;
 

@@ -4,7 +4,7 @@ import MainLayout from '@/components/selfui/navbar/MainLayout';
 const HomePage = async () => {
   return (
     <MainLayout>
-      <Competitions />z
+      <Competitions />
     </MainLayout>
   );
 };
