@@ -41,7 +41,7 @@ const Competitions = async () => {
       fallback={
         <Skeleton
           width="full"
-          height="4"
+          height="16"
           variant="shine"
           css={{
             '--start-color': 'colors.teal.800',
