@@ -16,6 +16,7 @@ import {
   getProviders,
   LiteralUnion,
 } from 'next-auth/react';
+import { useColorMode } from '@/components/ui/color-mode';
 
 type NavbarLink = {
   href: string;
@@ -34,6 +35,8 @@ const Navbar: React.FC = () => {
   const [loginWithEmail, setLoginWithEmail] = useState<boolean>(false);
   const [settingsDetails, setSettingsDetails] = useState<boolean>(false);
   const [animationDataState, setAnimationDataState] = useState<string>('');
+
+  const { colorMode } = useColorMode();
 
   const [providers, setProviders] = useState<Record<
     LiteralUnion<BuiltInProviderType, string>,
@@ -81,7 +84,11 @@ const Navbar: React.FC = () => {
                 pathname === link.href.toLowerCase() ? '3px solid' : ''
               }
               borderColor={
-                pathname === link.href.toLowerCase() ? 'yellow.500' : ''
+                pathname === link.href.toLowerCase()
+                  ? colorMode === 'dark'
+                    ? 'yellow.500'
+                    : 'orange.500'
+                  : 'transparent'
               }
               _hover={{
                 bg: 'teal.800', // Hover effect color
