@@ -28,7 +28,7 @@ const Competitions = async () => {
 
       return scoreB - scoreA; // Sort in descending order
     })
-    .splice(0, 8);
+    .slice(0, 8);
 
   return (
     <>
