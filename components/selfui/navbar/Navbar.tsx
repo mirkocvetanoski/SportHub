@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Flex, Spacer, Link } from '@chakra-ui/react';
-import Logo from '@/components/selfui/navbar/Logo';
+import Logo from './Logo';
 import NavbarIcons from './NavbarIcons';
 import { SettingsDetails } from './SettingsDetails';
 
@@ -16,7 +16,6 @@ import {
   getProviders,
   LiteralUnion,
 } from 'next-auth/react';
-import { useColorMode } from '@/components/ui/color-mode';
 
 type NavbarLink = {
   href: string;
@@ -30,9 +29,6 @@ const navLinks: NavbarLink[] = [
 
 const Navbar: React.FC = () => {
   const pathname = usePathname().toLowerCase();
-
-  const { colorMode } = useColorMode();
-
   const [search, setSearch] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);
   const [loginWithEmail, setLoginWithEmail] = useState<boolean>(false);
@@ -85,11 +81,7 @@ const Navbar: React.FC = () => {
                 pathname === link.href.toLowerCase() ? '3px solid' : ''
               }
               borderColor={
-                pathname === link.href.toLowerCase()
-                  ? colorMode === 'dark'
-                    ? 'yellow.500'
-                    : 'orange.500'
-                  : ''
+                pathname === link.href.toLowerCase() ? 'yellow.500' : ''
               }
               _hover={{
                 bg: 'teal.800', // Hover effect color
