@@ -85,12 +85,11 @@ const Navbar: React.FC = () => {
                 pathname === link.href.toLowerCase() ? '3px solid' : ''
               }
               borderColor={
-                colorMode === 'dark' && pathname === link.href.toLowerCase()
-                  ? 'yellow.500'
-                  : colorMode === 'light' &&
-                      pathname === link.href.toLowerCase()
-                    ? 'orange.600'
-                    : ''
+                pathname === link.href.toLowerCase()
+                  ? colorMode === 'dark'
+                    ? 'yellow.500'
+                    : 'orange.500'
+                  : ''
               }
               _hover={{
                 bg: 'teal.800', // Hover effect color
