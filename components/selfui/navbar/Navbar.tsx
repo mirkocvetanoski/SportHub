@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  Box,
-  Flex,
-  Spacer,
-  Link,
-  ClientOnly,
-  Skeleton,
-} from '@chakra-ui/react';
+import { Box, Flex, Spacer, Link, ClientOnly } from '@chakra-ui/react';
 import Logo from './Logo';
 import NavbarIcons from './NavbarIcons';
 import { SettingsDetails } from './SettingsDetails';
@@ -72,19 +65,7 @@ const Navbar: React.FC = () => {
           justify="justify-evenly"
           gap={4}
         >
-          <ClientOnly
-            fallback={
-              <Skeleton
-                width="200px"
-                height="4"
-                variant="shine"
-                css={{
-                  '--start-color': 'colors.teal.800',
-                  '--end-color': 'colors.teal.700',
-                }}
-              />
-            }
-          >
+          <ClientOnly>
             {navLinks.map(link => (
               <Link
                 key={link.href}
