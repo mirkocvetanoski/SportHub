@@ -1,11 +1,11 @@
 'use client';
 
 import competitionsIcons from '@/lib/competitionIcons';
-import { Flex, Text, Icon, ClientOnly } from '@chakra-ui/react';
+import { Text, Icon, ClientOnly, Link } from '@chakra-ui/react';
 import { MdSports } from 'react-icons/md';
 
 import { useColorModeValue } from '@/components/ui/color-mode';
-import { useState } from 'react';
+import { useParams, usePathname } from 'next/navigation';
 
 type CompetitionName = keyof typeof competitionsIcons;
 
@@ -18,9 +18,26 @@ const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
   const hoverTextColor = useColorModeValue('gray.900', 'gray.400');
   const borderColor = useColorModeValue('orange.500', 'yellow.500');
 
-  const [active, setActive] = useState<string>('Football');
+  const { competition } = useParams();
+
+  const pathname = usePathname();
+
+  const isFavorites = pathname.includes('favorites');
+
+  console.log(isFavorites);
+
+  const competitionName =
+    !isFavorites &&
+    ((Array.isArray(competition) ? competition[0] : competition || '')
+      .replace(/[^a-zA-Z]/g, '')
+      .toLowerCase() ||
+      'football');
 
   return competitions.map((competition, i) => {
+    const cleanedCompetition = competition
+      .replace(/[^a-zA-Z]/g, '')
+      .toLowerCase();
+
     const IconComponent =
       (competitionsIcons[
         competition as CompetitionName
@@ -28,27 +45,28 @@ const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
 
     return (
       <ClientOnly key={i}>
-        <Flex
-          data-competition={competition}
-          align="center"
+        <Link
+          href={`/${cleanedCompetition}`}
           px={1}
           gap={2}
           cursor="pointer"
           height="100%"
-          color={active === competition ? borderColor : textColor}
+          color={
+            competitionName === cleanedCompetition ? borderColor : textColor
+          }
           borderBottom="2px solid"
-          borderColor={active === competition ? borderColor : 'transparent'}
+          borderColor={
+            competitionName === cleanedCompetition ? borderColor : 'transparent'
+          }
           transition="border-color 0.2s"
           _hover={{
-            color: active === competition ? '' : hoverTextColor,
+            color: competitionName === cleanedCompetition ? '' : hoverTextColor,
           }}
-          onClick={e => {
-            setActive(e.currentTarget.dataset.competition || 'Football');
-          }}
+          focusRing="none"
         >
           <Icon as={IconComponent} boxSize={5} />
           <Text>{competition}</Text>
-        </Flex>
+        </Link>
       </ClientOnly>
     );
   });

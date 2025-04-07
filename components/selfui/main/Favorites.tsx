@@ -1,42 +1,40 @@
 'use client';
 
-import { ClientOnly, Flex, Icon, Text } from '@chakra-ui/react';
+import { ClientOnly, Icon, Link, Text } from '@chakra-ui/react';
 import { IoStar } from 'react-icons/io5';
 
-import { useState } from 'react';
 import { useColorModeValue } from '@/components/ui/color-mode';
+import { usePathname } from 'next/navigation';
 
 const Favorites = () => {
   const textColor = useColorModeValue('gray.600', 'whiteAlpha.800');
   const hoverTextColor = useColorModeValue('gray.900', 'gray.400');
   const borderColor = useColorModeValue('orange.500', 'yellow.500');
 
-  const [active, setActive] = useState<string>('');
+  const pathname = usePathname();
+  const active = pathname.includes('favorites');
 
   return (
     <ClientOnly>
-      <Flex
+      <Link
         width="fit-content"
-        data-favorites="Favorites"
-        align="center"
+        href="/favorites"
         px={1}
         gap={2}
         cursor="pointer"
         height="100%"
-        color={active === 'Favorites' ? borderColor : textColor}
+        color={active ? borderColor : textColor}
         borderBottom="2px solid"
-        borderColor={active === 'Favorites' ? borderColor : 'transparent'}
+        borderColor={active ? borderColor : 'transparent'}
         transition="border-color 0.2s"
         _hover={{
-          color: active === 'Favorites' ? '' : hoverTextColor,
+          color: active ? '' : hoverTextColor,
         }}
-        onClick={e => {
-          setActive(e.currentTarget.dataset.favorites || 'Football');
-        }}
+        focusRing="none"
       >
         <Icon as={IoStar} boxSize={5} />
         <Text>Favorites</Text>
-      </Flex>
+      </Link>
     </ClientOnly>
   );
 };

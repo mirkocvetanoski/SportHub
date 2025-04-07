@@ -4,9 +4,11 @@ import competitionsIcons from '@/lib/competitionIcons';
 import { Button, Icon, Menu, Text, Portal, ClientOnly } from '@chakra-ui/react';
 import { MdSports } from 'react-icons/md';
 
-import { useState } from 'react';
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+
+import { useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 
 type CompetitionName = keyof typeof competitionsIcons;
 
@@ -19,8 +21,17 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
   const hoverTextColor = useColorModeValue('gray.900', 'gray.400');
   const borderColor = useColorModeValue('orange.500', 'yellow.500');
 
-  const [active, setActive] = useState<string>('Football');
+  const { competition } = useParams();
+
+  const competitionName = (
+    Array.isArray(competition) ? competition[0] : competition || ''
+  )
+    .replace(/[^a-zA-Z]/g, '')
+    .toLowerCase();
+
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const router = useRouter();
 
   return (
     <ClientOnly>
@@ -38,13 +49,26 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
             px={1}
             variant="outline"
             size="sm"
-            color={competitions.includes(active) ? borderColor : textColor}
+            color={
+              competitions.some(
+                competition =>
+                  competition.replace(/[^a-zA-Z]/g, '').toLowerCase() ===
+                  competitionName
+              )
+                ? borderColor
+                : hoverTextColor
+            }
             _hover={{
-              color: competitions.includes(active)
+              color: competitions.some(
+                competition =>
+                  competition.replace(/[^a-zA-Z]/g, '').toLowerCase() ===
+                  competitionName
+              )
                 ? borderColor
                 : hoverTextColor,
             }}
             focusRing="none"
+            onClick={() => {}}
           >
             More
             {menuOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
@@ -54,6 +78,10 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
           <Menu.Positioner>
             <Menu.Content>
               {competitions.map((competition, i) => {
+                const cleanedCompetition = competition
+                  .replace(/[^a-zA-Z]/g, '')
+                  .toLowerCase();
+
                 const IconComponent =
                   (competitionsIcons[
                     competition as CompetitionName
@@ -62,21 +90,29 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
                 return (
                   <Menu.Item
                     key={i}
-                    value={competition}
-                    data-competition={competition}
+                    value={cleanedCompetition}
                     cursor="pointer"
-                    color={active === competition ? borderColor : textColor}
+                    color={
+                      competitionName === cleanedCompetition
+                        ? borderColor
+                        : textColor
+                    }
                     borderBottom="2px solid"
                     borderColor={
-                      active === competition ? borderColor : 'transparent'
+                      competitionName === cleanedCompetition
+                        ? borderColor
+                        : 'transparent'
                     }
                     transition="border-color 0.2s"
                     _hover={{
-                      color: active === competition ? '' : hoverTextColor,
+                      color:
+                        competitionName === cleanedCompetition
+                          ? ''
+                          : hoverTextColor,
                     }}
-                    onClick={e => {
-                      setActive(
-                        e.currentTarget.dataset.competition || 'Football'
+                    onClick={() => {
+                      router.push(
+                        `/${cleanedCompetition.replace(/[^a-zA-Z]/g, '')}`
                       );
                     }}
                   >

@@ -34,7 +34,9 @@ const navLinks: NavbarLink[] = [
 ];
 
 const Navbar: React.FC = () => {
-  const pathname = usePathname().toLowerCase();
+  const currentPath = usePathname().toLowerCase();
+  const pathname = currentPath !== '/news' ? '/' : '/news';
+
   const [search, setSearch] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);
   const [loginWithEmail, setLoginWithEmail] = useState<boolean>(false);
