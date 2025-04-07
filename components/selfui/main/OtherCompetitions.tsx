@@ -19,7 +19,7 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
   const hoverTextColor = useColorModeValue('gray.900', 'gray.400');
   const borderColor = useColorModeValue('orange.500', 'yellow.500');
 
-  const [active, setActive] = useState<string>('Handball');
+  const [active, setActive] = useState<string>('Football');
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -38,9 +38,11 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
             px={1}
             variant="outline"
             size="sm"
-            color={textColor}
+            color={competitions.includes(active) ? borderColor : textColor}
             _hover={{
-              color: hoverTextColor,
+              color: competitions.includes(active)
+                ? borderColor
+                : hoverTextColor,
             }}
             focusRing="none"
           >
