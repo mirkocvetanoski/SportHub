@@ -45,7 +45,7 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
             focusRing="none"
           >
             More
-            {menuOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}
+            {!menuOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}
           </Button>
         </Menu.Trigger>
         <Portal>
