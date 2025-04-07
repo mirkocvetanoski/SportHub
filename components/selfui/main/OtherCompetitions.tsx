@@ -26,10 +26,10 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
     <ClientOnly>
       <Menu.Root
         onExitComplete={() => {
-          setMenuOpen(!menuOpen);
+          setMenuOpen(false);
         }}
         onOpenChange={() => {
-          setMenuOpen(!menuOpen);
+          setMenuOpen(true);
         }}
       >
         <Menu.Trigger asChild>
