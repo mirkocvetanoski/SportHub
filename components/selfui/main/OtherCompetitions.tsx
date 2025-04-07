@@ -1,7 +1,7 @@
 'use client';
 
 import competitionsIcons from '@/lib/competitionIcons';
-import { Button, Icon, Menu, Text, Portal } from '@chakra-ui/react';
+import { Button, Icon, Menu, Text, Portal, ClientOnly } from '@chakra-ui/react';
 import { MdSports } from 'react-icons/md';
 
 import { useState } from 'react';
@@ -23,69 +23,71 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <Menu.Root
-      onExitComplete={() => {
-        setMenuOpen(true);
-      }}
-      onOpenChange={() => {
-        setMenuOpen(false);
-      }}
-    >
-      <Menu.Trigger asChild>
-        <Button
-          height="full"
-          px={1}
-          variant="outline"
-          size="sm"
-          color={textColor}
-          _hover={{
-            color: hoverTextColor,
-          }}
-          focusRing="none"
-        >
-          More
-          {menuOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}
-        </Button>
-      </Menu.Trigger>
-      <Portal>
-        <Menu.Positioner>
-          <Menu.Content>
-            {competitions.map((competition, i) => {
-              const IconComponent =
-                (competitionsIcons[
-                  competition as CompetitionName
-                ] as React.ElementType) || MdSports;
+    <ClientOnly>
+      <Menu.Root
+        onExitComplete={() => {
+          setMenuOpen(true);
+        }}
+        onOpenChange={() => {
+          setMenuOpen(false);
+        }}
+      >
+        <Menu.Trigger asChild>
+          <Button
+            height="full"
+            px={1}
+            variant="outline"
+            size="sm"
+            color={textColor}
+            _hover={{
+              color: hoverTextColor,
+            }}
+            focusRing="none"
+          >
+            More
+            {menuOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}
+          </Button>
+        </Menu.Trigger>
+        <Portal>
+          <Menu.Positioner>
+            <Menu.Content>
+              {competitions.map((competition, i) => {
+                const IconComponent =
+                  (competitionsIcons[
+                    competition as CompetitionName
+                  ] as React.ElementType) || MdSports;
 
-              return (
-                <Menu.Item
-                  key={i}
-                  value={competition}
-                  data-competition={competition}
-                  cursor="pointer"
-                  color={active === competition ? borderColor : textColor}
-                  borderBottom="2px solid"
-                  borderColor={
-                    active === competition ? borderColor : 'transparent'
-                  }
-                  transition="border-color 0.2s"
-                  _hover={{
-                    color: active === competition ? '' : hoverTextColor,
-                  }}
-                  onClick={e => {
-                    setActive(
-                      e.currentTarget.dataset.competition || 'Football'
-                    );
-                  }}
-                >
-                  <Icon as={IconComponent} boxSize={5} mr={2} />
-                  <Text>{competition}</Text>
-                </Menu.Item>
-              );
-            })}
-          </Menu.Content>
-        </Menu.Positioner>
-      </Portal>
-    </Menu.Root>
+                return (
+                  <Menu.Item
+                    key={i}
+                    value={competition}
+                    data-competition={competition}
+                    cursor="pointer"
+                    color={active === competition ? borderColor : textColor}
+                    borderBottom="2px solid"
+                    borderColor={
+                      active === competition ? borderColor : 'transparent'
+                    }
+                    transition="border-color 0.2s"
+                    _hover={{
+                      color: active === competition ? '' : hoverTextColor,
+                    }}
+                    onClick={e => {
+                      setActive(
+                        e.currentTarget.dataset.competition || 'Football'
+                      );
+                    }}
+                  >
+                    <Icon as={IconComponent} boxSize={5} mr={2} />
+                    <Text>{competition}</Text>
+                  </Menu.Item>
+                );
+              })}
+            </Menu.Content>
+          </Menu.Positioner>
+        </Portal>
+      </Menu.Root>
+    </ClientOnly>
   );
 };
 
