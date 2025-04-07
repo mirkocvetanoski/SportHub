@@ -35,6 +35,7 @@ const SettingsBox: React.FC<ChildComponentProps> = ({
       width="250px"
       padding={2}
       bg={colorMode === 'dark' ? 'blackAlpha.700' : 'whiteAlpha.700'}
+      zIndex="popover"
     >
       <Flex
         alignItems="center"
