@@ -26,10 +26,10 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
     <ClientOnly>
       <Menu.Root
         onExitComplete={() => {
-          setMenuOpen(true);
+          setMenuOpen(!menuOpen);
         }}
         onOpenChange={() => {
-          setMenuOpen(false);
+          setMenuOpen(!menuOpen);
         }}
       >
         <Menu.Trigger asChild>
@@ -45,7 +45,7 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
             focusRing="none"
           >
             More
-            {!menuOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}
+            {menuOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
           </Button>
         </Menu.Trigger>
         <Portal>
