@@ -56,7 +56,7 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
                   competitionName
               )
                 ? borderColor
-                : hoverTextColor
+                : textColor
             }
             _hover={{
               color: competitions.some(
