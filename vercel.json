@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/competitions/populate",
+      "schedule": "0 0 1 * *",
+      "method": "POST",
+      "body": {
+        "secret": "xzXjiOGnt92RsABpvSqLwckCZrNQgDm64Y5M17EbUl80yVFu3d"
+      }
+    }
+  ]
+}

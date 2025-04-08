@@ -1,25 +1,59 @@
+'use client';
 import { HStack, Separator, Text } from '@chakra-ui/react';
 
-import { fetchCompetitions } from '@/utils/fetchCompetitions';
-import popularityScores from '@/lib/sportsByPopularity';
 import MainCompetitions from './MainCompetitions';
 import Favorites from './Favorites';
 import OtherCompetitions from './OtherCompetitions';
+import { useEffect, useState } from 'react';
+import { useMyContext } from '@/components/context/Context';
+import popularityScores from '@/lib/sportsByPopularity';
 
 type Sport = keyof typeof popularityScores;
 
-const Competitions = async () => {
-  const data = await fetchCompetitions();
+const Competitions = () => {
+  const { competitions, setCompetitions } = useMyContext();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  if (typeof data === 'string') {
-    return <Text color="red.500">Error: {data}</Text>;
+  useEffect(() => {
+    const fetchCompetitions = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_DOMAIN}/competitions/getcompetitions`
+        );
+        const data = await response.json();
+
+        if (typeof data.competitions === 'string') {
+          setError(data.competitions);
+        } else if (Array.isArray(data.competitions)) {
+          setCompetitions(data.competitions);
+        } else {
+          setError('Invalid data format');
+        }
+      } catch (err) {
+        console.error(err);
+        setError('Failed to fetch competitions');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (competitions.length === 0) fetchCompetitions();
+  }, [competitions.length, setCompetitions]);
+
+  if (loading) {
+    return <Text>Loading competitions...</Text>;
   }
 
-  if (!Array.isArray(data) || data.length === 0) {
+  if (error) {
+    return <Text color="red.500">Error: {error}</Text>;
+  }
+
+  if (!Array.isArray(competitions) || competitions.length === 0) {
     return <Text>No competitions available</Text>;
   }
 
-  const sortedMainCompetitions = [...data].sort((a, b) => {
+  const sortedMainCompetitions = [...competitions].sort((a, b) => {
     const sportA = a as Sport;
     const sportB = b as Sport;
 
