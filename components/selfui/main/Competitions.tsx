@@ -3,9 +3,7 @@ import { HStack, Separator, Text } from '@chakra-ui/react';
 import MainCompetitions from './MainCompetitions';
 import Favorites from './Favorites';
 import OtherCompetitions from './OtherCompetitions';
-import popularityScores from '@/lib/sportsByPopularity';
-
-type Sport = keyof typeof popularityScores;
+import { sortCompetitions } from '@/lib/sortCompetitions';
 
 const Competitions = async () => {
   let competitions: string[] = [];
@@ -38,15 +36,7 @@ const Competitions = async () => {
     return <Text>No competitions available</Text>;
   }
 
-  const sortedMainCompetitions = [...competitions].sort((a, b) => {
-    const sportA = a as Sport;
-    const sportB = b as Sport;
-
-    const scoreA = popularityScores[sportA] || 0;
-    const scoreB = popularityScores[sportB] || 0;
-
-    return scoreB - scoreA;
-  });
+  const sortedMainCompetitions = sortCompetitions(competitions);
 
   return (
     <>
