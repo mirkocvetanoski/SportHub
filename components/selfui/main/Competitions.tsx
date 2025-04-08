@@ -12,8 +12,9 @@ const Competitions = async () => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_DOMAIN}/competitions/getcompetitions`,
-      { next: { revalidate: 60 } } // revalidate every 60s (ISR)
+      { next: { revalidate: 86400 } } // revalidate once a day
     );
+
     const data = await res.json();
 
     if (Array.isArray(data.competitions)) {
