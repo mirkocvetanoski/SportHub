@@ -1,7 +1,7 @@
 'use client';
 
 import competitionsIcons from '@/lib/competitionIcons';
-import { Button, Icon, Menu, Text, Portal, ClientOnly } from '@chakra-ui/react';
+import { Button, Icon, Menu, Text, Portal } from '@chakra-ui/react';
 import { MdSports } from 'react-icons/md';
 
 import { useColorModeValue } from '@/components/ui/color-mode';
@@ -34,98 +34,96 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
   const router = useRouter();
 
   return (
-    <ClientOnly>
-      <Menu.Root
-        onExitComplete={() => {
-          setMenuOpen(false);
-        }}
-        onOpenChange={() => {
-          setMenuOpen(true);
-        }}
-      >
-        <Menu.Trigger asChild>
-          <Button
-            height="full"
-            px={1}
-            variant="outline"
-            size="sm"
-            color={
-              competitions.some(
-                competition =>
-                  competition.replace(/[^a-zA-Z]/g, '').toLowerCase() ===
-                  competitionName
-              )
-                ? borderColor
-                : textColor
-            }
-            _hover={{
-              color: competitions.some(
-                competition =>
-                  competition.replace(/[^a-zA-Z]/g, '').toLowerCase() ===
-                  competitionName
-              )
-                ? borderColor
-                : hoverTextColor,
-            }}
-            focusRing="none"
-            onClick={() => {}}
-          >
-            More
-            {menuOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
-          </Button>
-        </Menu.Trigger>
-        <Portal>
-          <Menu.Positioner>
-            <Menu.Content>
-              {competitions.map((competition, i) => {
-                const cleanedCompetition = competition
-                  .replace(/[^a-zA-Z]/g, '')
-                  .toLowerCase();
+    <Menu.Root
+      onExitComplete={() => {
+        setMenuOpen(false);
+      }}
+      onOpenChange={() => {
+        setMenuOpen(true);
+      }}
+    >
+      <Menu.Trigger asChild>
+        <Button
+          height="full"
+          px={1}
+          variant="outline"
+          size="sm"
+          color={
+            competitions.some(
+              competition =>
+                competition.replace(/[^a-zA-Z]/g, '').toLowerCase() ===
+                competitionName
+            )
+              ? borderColor
+              : textColor
+          }
+          _hover={{
+            color: competitions.some(
+              competition =>
+                competition.replace(/[^a-zA-Z]/g, '').toLowerCase() ===
+                competitionName
+            )
+              ? borderColor
+              : hoverTextColor,
+          }}
+          focusRing="none"
+          onClick={() => {}}
+        >
+          More
+          {menuOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+        </Button>
+      </Menu.Trigger>
+      <Portal>
+        <Menu.Positioner>
+          <Menu.Content>
+            {competitions.map((competition, i) => {
+              const cleanedCompetition = competition
+                .replace(/[^a-zA-Z]/g, '')
+                .toLowerCase();
 
-                const IconComponent =
-                  (competitionsIcons[
-                    competition as CompetitionName
-                  ] as React.ElementType) || MdSports;
+              const IconComponent =
+                (competitionsIcons[
+                  competition as CompetitionName
+                ] as React.ElementType) || MdSports;
 
-                return (
-                  <Menu.Item
-                    key={i}
-                    value={cleanedCompetition}
-                    cursor="pointer"
-                    color={
+              return (
+                <Menu.Item
+                  key={i}
+                  value={cleanedCompetition}
+                  cursor="pointer"
+                  color={
+                    competitionName === cleanedCompetition
+                      ? borderColor
+                      : textColor
+                  }
+                  borderBottom="2px solid"
+                  borderColor={
+                    competitionName === cleanedCompetition
+                      ? borderColor
+                      : 'transparent'
+                  }
+                  transition="border-color 0.2s"
+                  _hover={{
+                    color:
                       competitionName === cleanedCompetition
-                        ? borderColor
-                        : textColor
-                    }
-                    borderBottom="2px solid"
-                    borderColor={
-                      competitionName === cleanedCompetition
-                        ? borderColor
-                        : 'transparent'
-                    }
-                    transition="border-color 0.2s"
-                    _hover={{
-                      color:
-                        competitionName === cleanedCompetition
-                          ? ''
-                          : hoverTextColor,
-                    }}
-                    onClick={() => {
-                      router.push(
-                        `/${cleanedCompetition.replace(/[^a-zA-Z]/g, '')}`
-                      );
-                    }}
-                  >
-                    <Icon as={IconComponent} boxSize={5} mr={2} />
-                    <Text>{competition}</Text>
-                  </Menu.Item>
-                );
-              })}
-            </Menu.Content>
-          </Menu.Positioner>
-        </Portal>
-      </Menu.Root>
-    </ClientOnly>
+                        ? ''
+                        : hoverTextColor,
+                  }}
+                  onClick={() => {
+                    router.push(
+                      `/${cleanedCompetition.replace(/[^a-zA-Z]/g, '')}`
+                    );
+                  }}
+                >
+                  <Icon as={IconComponent} boxSize={5} mr={2} />
+                  <Text>{competition}</Text>
+                </Menu.Item>
+              );
+            })}
+          </Menu.Content>
+        </Menu.Positioner>
+      </Portal>
+    </Menu.Root>
   );
 };
 
