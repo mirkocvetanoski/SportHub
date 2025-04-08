@@ -24,8 +24,6 @@ const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
 
   const isFavorites = pathname.includes('favorites');
 
-  console.log(isFavorites);
-
   const competitionName =
     !isFavorites &&
     ((Array.isArray(competition) ? competition[0] : competition || '')

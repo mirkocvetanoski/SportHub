@@ -1,6 +1,6 @@
 export async function fetchCompetitions(): Promise<{} | string> {
   try {
-    const response = await fetch('https://sportspredict.xyz/api/competitions');
+    const response = await fetch(`${process.env.GET_ALL_SPORTS}`);
 
     if (!response.ok) {
       throw new Error('Failed to fetch data');
