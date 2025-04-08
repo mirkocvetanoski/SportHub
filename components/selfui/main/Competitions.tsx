@@ -1,55 +1,40 @@
-'use client';
 import { HStack, Separator, Text } from '@chakra-ui/react';
 
 import MainCompetitions from './MainCompetitions';
 import Favorites from './Favorites';
 import OtherCompetitions from './OtherCompetitions';
-import { useEffect, useState } from 'react';
-import { useMyContext } from '@/components/context/Context';
 import popularityScores from '@/lib/sportsByPopularity';
 
 type Sport = keyof typeof popularityScores;
 
-const Competitions = () => {
-  const { competitions, setCompetitions } = useMyContext();
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+const Competitions = async () => {
+  let competitions: string[] = [];
+  let error: string | null = null;
 
-  useEffect(() => {
-    const fetchCompetitions = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_DOMAIN}/competitions/getcompetitions`
-        );
-        const data = await response.json();
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_DOMAIN}/competitions/getcompetitions`,
+      { next: { revalidate: 60 } } // revalidate every 60s (ISR)
+    );
+    const data = await res.json();
 
-        if (typeof data.competitions === 'string') {
-          setError(data.competitions);
-        } else if (Array.isArray(data.competitions)) {
-          setCompetitions(data.competitions);
-        } else {
-          setError('Invalid data format');
-        }
-      } catch (err) {
-        console.error(err);
-        setError('Failed to fetch competitions');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (competitions.length === 0) fetchCompetitions();
-  }, [competitions.length, setCompetitions]);
-
-  if (loading) {
-    return <Text>Loading competitions...</Text>;
+    if (Array.isArray(data.competitions)) {
+      competitions = data.competitions;
+    } else if (typeof data.competitions === 'string') {
+      error = data.competitions;
+    } else {
+      error = 'Invalid data format';
+    }
+  } catch (err) {
+    console.error(err);
+    error = 'Failed to fetch competitions';
   }
 
   if (error) {
     return <Text color="red.500">Error: {error}</Text>;
   }
 
-  if (!Array.isArray(competitions) || competitions.length === 0) {
+  if (!competitions || competitions.length === 0) {
     return <Text>No competitions available</Text>;
   }
 
@@ -57,11 +42,10 @@ const Competitions = () => {
     const sportA = a as Sport;
     const sportB = b as Sport;
 
-    // Sort based on popularity scores
     const scoreA = popularityScores[sportA] || 0;
     const scoreB = popularityScores[sportB] || 0;
 
-    return scoreB - scoreA; // Sort in descending order
+    return scoreB - scoreA;
   });
 
   return (
