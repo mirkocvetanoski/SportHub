@@ -1,7 +1,7 @@
 'use client';
 
 import competitionsIcons from '@/lib/competitionIcons';
-import { Text, Icon, ClientOnly, Link } from '@chakra-ui/react';
+import { Text, Icon, Link } from '@chakra-ui/react';
 import { MdSports } from 'react-icons/md';
 
 import { useColorModeValue } from '@/components/ui/color-mode';
@@ -42,30 +42,27 @@ const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
       ] as React.ElementType) || MdSports;
 
     return (
-      <ClientOnly key={i}>
-        <Link
-          href={`/${cleanedCompetition}`}
-          px={1}
-          gap={2}
-          cursor="pointer"
-          height="100%"
-          color={
-            competitionName === cleanedCompetition ? borderColor : textColor
-          }
-          borderBottom="2px solid"
-          borderColor={
-            competitionName === cleanedCompetition ? borderColor : 'transparent'
-          }
-          transition="border-color 0.2s"
-          _hover={{
-            color: competitionName === cleanedCompetition ? '' : hoverTextColor,
-          }}
-          focusRing="none"
-        >
-          <Icon as={IconComponent} boxSize={5} />
-          <Text>{competition}</Text>
-        </Link>
-      </ClientOnly>
+      <Link
+        key={i}
+        href={`/${cleanedCompetition}`}
+        px={1}
+        gap={2}
+        cursor="pointer"
+        height="100%"
+        color={competitionName === cleanedCompetition ? borderColor : textColor}
+        borderBottom="2px solid"
+        borderColor={
+          competitionName === cleanedCompetition ? borderColor : 'transparent'
+        }
+        transition="border-color 0.2s"
+        _hover={{
+          color: competitionName === cleanedCompetition ? '' : hoverTextColor,
+        }}
+        focusRing="none"
+      >
+        <Icon as={IconComponent} boxSize={5} />
+        <Text>{competition}</Text>
+      </Link>
     );
   });
 };
