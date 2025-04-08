@@ -4,7 +4,6 @@ import '@fontsource/roboto';
 
 import { Provider } from '@/components/ui/provider';
 import AuthProvider from '@/components/selfui/navbar/AuthProvider';
-import { ContextProvider } from '@/components/context/Context';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
@@ -16,14 +15,12 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props;
   return (
     <AuthProvider>
-      <ContextProvider>
-        <html suppressHydrationWarning>
-          <body className="min-w-screen min-h-screen">
-            <SpeedInsights />
-            <Provider>{children}</Provider>
-          </body>
-        </html>
-      </ContextProvider>
+      <html suppressHydrationWarning>
+        <body className="min-w-screen min-h-screen">
+          <SpeedInsights />
+          <Provider>{children}</Provider>
+        </body>
+      </html>
     </AuthProvider>
   );
 }
