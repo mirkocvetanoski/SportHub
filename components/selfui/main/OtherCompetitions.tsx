@@ -119,7 +119,7 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
                     passHref
                     legacyBehavior
                   >
-                    <ChakraLink focusRing="none">
+                    <ChakraLink focusRing="none" height="full" width="full">
                       <Icon as={IconComponent} boxSize={5} mr={2} />
                       <Text>{competition}</Text>
                     </ChakraLink>
