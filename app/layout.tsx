@@ -20,7 +20,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <body className="min-w-screen min-h-screen">
           <SpeedInsights />
           <Provider>
-            <ColorModeProvider forcedTheme="dark">{children}</ColorModeProvider>
+            <ColorModeProvider>{children}</ColorModeProvider>
           </Provider>
         </body>
       </html>
