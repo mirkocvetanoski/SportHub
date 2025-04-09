@@ -38,8 +38,6 @@ const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
-
   return competitions.map((competition, i) => {
     const cleanedCompetition = competition
       .replace(/[^a-zA-Z]/g, '')
@@ -59,18 +57,28 @@ const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
             cursor="pointer"
             height="100%"
             color={
-              competitionName === cleanedCompetition ? borderColor : textColor
+              (mounted &&
+                (competitionName === cleanedCompetition
+                  ? borderColor
+                  : textColor)) ||
+              ''
             }
             borderBottom="2px solid"
             borderColor={
-              competitionName === cleanedCompetition
-                ? borderColor
-                : 'transparent'
+              (mounted &&
+                (competitionName === cleanedCompetition
+                  ? borderColor
+                  : 'transparent')) ||
+              'transparent'
             }
             transition="border-color 0.2s"
             _hover={{
               color:
-                competitionName === cleanedCompetition ? '' : hoverTextColor,
+                (mounted &&
+                  (competitionName === cleanedCompetition
+                    ? ''
+                    : hoverTextColor)) ||
+                '',
             }}
             focusRing="none"
           >

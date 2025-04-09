@@ -21,8 +21,6 @@ const Favorites = () => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
-
   return (
     <Link href="/favorites" passHref legacyBehavior>
       <ChakraLink
@@ -31,12 +29,14 @@ const Favorites = () => {
         gap={2}
         cursor="pointer"
         height="100%"
-        color={active ? borderColor : textColor}
+        color={(mounted && (active ? borderColor : textColor)) || ''}
         borderBottom="2px solid"
-        borderColor={active ? borderColor : 'transparent'}
+        borderColor={
+          (mounted && (active ? borderColor : 'transparent')) || 'transparent'
+        }
         transition="border-color 0.2s"
         _hover={{
-          color: active ? '' : hoverTextColor,
+          color: (mounted && (active ? '' : hoverTextColor)) || '',
         }}
         focusRing="none"
       >
