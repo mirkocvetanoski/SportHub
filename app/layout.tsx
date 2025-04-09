@@ -5,6 +5,7 @@ import '@fontsource/roboto';
 import { Provider } from '@/components/ui/provider';
 import AuthProvider from '@/components/selfui/navbar/AuthProvider';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { ColorModeProvider } from '@/components/ui/color-mode';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,7 +19,9 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <html suppressHydrationWarning>
         <body className="min-w-screen min-h-screen">
           <SpeedInsights />
-          <Provider>{children}</Provider>
+          <Provider>
+            <ColorModeProvider forcedTheme="dark">{children}</ColorModeProvider>
+          </Provider>
         </body>
       </html>
     </AuthProvider>

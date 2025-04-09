@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, Spacer, Link, Icon, ClientOnly } from '@chakra-ui/react';
+import { Box, Flex, Spacer, Link as ChakraLink, Icon } from '@chakra-ui/react';
 import Logo from './Logo';
 import NavbarIcons from './NavbarIcons';
 import { SettingsDetails } from './SettingsDetails';
@@ -20,6 +20,7 @@ import { IconType } from 'react-icons/lib';
 
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 type NavbarLink = {
@@ -64,20 +65,18 @@ const Navbar: React.FC = () => {
       <Flex align="center" justify="space-between" px="20%" height="inherit">
         <Logo size={3} />
 
-        <ClientOnly>
-          <Flex
-            height="inherit"
-            width="fit-content"
-            marginLeft={40}
-            align="center"
-            justify="justify-evenly"
-            gap={2}
-          >
-            {navLinks.map(link => (
-              <Link
-                key={link.href}
+        <Flex
+          height="inherit"
+          width="fit-content"
+          marginLeft={40}
+          align="center"
+          justify="justify-evenly"
+          gap={2}
+        >
+          {navLinks.map(link => (
+            <Link key={link.href} href={link.href} passHref legacyBehavior>
+              <ChakraLink
                 color="whiteAlpha.900"
-                href={link.href}
                 height="inherit"
                 padding={3}
                 fontWeight={
@@ -105,10 +104,10 @@ const Navbar: React.FC = () => {
               >
                 <Icon as={link.icon} boxSize={5} />
                 {link.label}
-              </Link>
-            ))}
-          </Flex>
-        </ClientOnly>
+              </ChakraLink>
+            </Link>
+          ))}
+        </Flex>
 
         <Spacer />
 

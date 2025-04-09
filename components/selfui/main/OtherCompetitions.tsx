@@ -1,14 +1,22 @@
 'use client';
 
 import competitionsIcons from '@/lib/competitionIcons';
-import { Button, Icon, Menu, Text, Portal } from '@chakra-ui/react';
+import {
+  Button,
+  Icon,
+  Menu,
+  Text,
+  Portal,
+  Link as ChakraLink,
+} from '@chakra-ui/react';
 import { MdSports } from 'react-icons/md';
 
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 import { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
 
 type CompetitionName = keyof typeof competitionsIcons;
 
@@ -30,8 +38,6 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
     .toLowerCase();
 
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const router = useRouter();
 
   return (
     <Menu.Root
@@ -88,8 +94,7 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
               return (
                 <Menu.Item
                   key={i}
-                  value={cleanedCompetition}
-                  cursor="pointer"
+                  value={competition}
                   color={
                     competitionName === cleanedCompetition
                       ? borderColor
@@ -108,14 +113,17 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
                         ? ''
                         : hoverTextColor,
                   }}
-                  onClick={() => {
-                    router.push(
-                      `/${cleanedCompetition.replace(/[^a-zA-Z]/g, '')}`
-                    );
-                  }}
                 >
-                  <Icon as={IconComponent} boxSize={5} mr={2} />
-                  <Text>{competition}</Text>
+                  <Link
+                    href={`/${cleanedCompetition.replace(/[^a-zA-Z]/g, '')}`}
+                    passHref
+                    legacyBehavior
+                  >
+                    <ChakraLink>
+                      <Icon as={IconComponent} boxSize={5} mr={2} />
+                      <Text>{competition}</Text>
+                    </ChakraLink>
+                  </Link>
                 </Menu.Item>
               );
             })}

@@ -1,10 +1,11 @@
 'use client';
 
-import { Icon, Link, Text } from '@chakra-ui/react';
+import { Icon, Link as ChakraLink, Text } from '@chakra-ui/react';
 import { IoStar } from 'react-icons/io5';
 
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 const Favorites = () => {
   const textColor = useColorModeValue('gray.600', 'whiteAlpha.800');
@@ -15,24 +16,25 @@ const Favorites = () => {
   const active = pathname.includes('favorites');
 
   return (
-    <Link
-      width="fit-content"
-      href="/favorites"
-      px={1}
-      gap={2}
-      cursor="pointer"
-      height="100%"
-      color={active ? borderColor : textColor}
-      borderBottom="2px solid"
-      borderColor={active ? borderColor : 'transparent'}
-      transition="border-color 0.2s"
-      _hover={{
-        color: active ? '' : hoverTextColor,
-      }}
-      focusRing="none"
-    >
-      <Icon as={IoStar} boxSize={5} />
-      <Text>Favorites</Text>
+    <Link href="/favorites" passHref legacyBehavior>
+      <ChakraLink
+        width="fit-content"
+        px={1}
+        gap={2}
+        cursor="pointer"
+        height="100%"
+        color={active ? borderColor : textColor}
+        borderBottom="2px solid"
+        borderColor={active ? borderColor : 'transparent'}
+        transition="border-color 0.2s"
+        _hover={{
+          color: active ? '' : hoverTextColor,
+        }}
+        focusRing="none"
+      >
+        <Icon as={IoStar} boxSize={5} />
+        <Text>Favorites</Text>
+      </ChakraLink>
     </Link>
   );
 };
