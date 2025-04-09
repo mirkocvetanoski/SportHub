@@ -7,6 +7,7 @@ import { MdSports } from 'react-icons/md';
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { useParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 type CompetitionName = keyof typeof competitionsIcons;
 
@@ -15,6 +16,7 @@ interface CompetitionsProps {
 }
 
 const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
+  const [mounted, setMounted] = useState(false); // Prevent dark mode hydration mismatch
   const textColor = useColorModeValue('gray.600', 'whiteAlpha.800');
   const hoverTextColor = useColorModeValue('gray.900', 'gray.400');
   const borderColor = useColorModeValue('orange.500', 'yellow.500');
@@ -31,6 +33,12 @@ const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
       .replace(/[^a-zA-Z]/g, '')
       .toLowerCase() ||
       'football');
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return competitions.map((competition, i) => {
     const cleanedCompetition = competition

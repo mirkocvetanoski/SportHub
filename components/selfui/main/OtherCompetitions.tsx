@@ -14,7 +14,7 @@ import { MdSports } from 'react-icons/md';
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -25,6 +25,7 @@ interface CompetitionsProps {
 }
 
 const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
+  const [mounted, setMounted] = useState(false); // Prevent dark mode hydration mismatch
   const textColor = useColorModeValue('gray.600', 'whiteAlpha.800');
   const hoverTextColor = useColorModeValue('gray.900', 'gray.400');
   const borderColor = useColorModeValue('orange.500', 'yellow.500');
@@ -38,6 +39,12 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
     .toLowerCase();
 
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <Menu.Root
