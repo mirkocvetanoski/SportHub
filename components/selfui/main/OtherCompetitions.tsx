@@ -67,7 +67,6 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
               : hoverTextColor,
           }}
           focusRing="none"
-          onClick={() => {}}
         >
           More
           {menuOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
