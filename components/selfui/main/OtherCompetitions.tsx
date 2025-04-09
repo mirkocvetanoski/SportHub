@@ -113,13 +113,20 @@ const OtherCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
                         ? ''
                         : hoverTextColor,
                   }}
+                  p={0}
                 >
                   <Link
                     href={`/${cleanedCompetition.replace(/[^a-zA-Z]/g, '')}`}
                     passHref
                     legacyBehavior
                   >
-                    <ChakraLink focusRing="none" height="full" width="full">
+                    <ChakraLink
+                      focusRing="none"
+                      w="inherit"
+                      h="inherit"
+                      py="6px"
+                      px="8px"
+                    >
                       <Icon as={IconComponent} boxSize={5} mr={2} />
                       <Text>{competition}</Text>
                     </ChakraLink>
