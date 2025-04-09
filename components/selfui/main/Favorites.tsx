@@ -6,20 +6,14 @@ import { IoStar } from 'react-icons/io5';
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 const Favorites = () => {
-  const [mounted, setMounted] = useState(false); // Prevent dark mode hydration mismatch
   const textColor = useColorModeValue('gray.600', 'whiteAlpha.800');
   const hoverTextColor = useColorModeValue('gray.900', 'gray.400');
   const borderColor = useColorModeValue('orange.500', 'yellow.500');
 
   const pathname = usePathname();
   const active = pathname.includes('favorites');
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <Link href="/favorites" passHref legacyBehavior>
@@ -29,14 +23,12 @@ const Favorites = () => {
         gap={2}
         cursor="pointer"
         height="100%"
-        color={(mounted && (active ? borderColor : textColor)) || ''}
+        color={active ? borderColor : textColor}
         borderBottom="2px solid"
-        borderColor={
-          (mounted && (active ? borderColor : 'transparent')) || 'transparent'
-        }
+        borderColor={active ? borderColor : 'transparent'}
         transition="border-color 0.2s"
         _hover={{
-          color: (mounted && (active ? '' : hoverTextColor)) || '',
+          color: active ? '' : hoverTextColor,
         }}
         focusRing="none"
       >

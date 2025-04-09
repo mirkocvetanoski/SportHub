@@ -7,7 +7,6 @@ import { MdSports } from 'react-icons/md';
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { useParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 type CompetitionName = keyof typeof competitionsIcons;
 
@@ -16,7 +15,6 @@ interface CompetitionsProps {
 }
 
 const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
-  const [mounted, setMounted] = useState(false); // Prevent dark mode hydration mismatch
   const textColor = useColorModeValue('gray.600', 'whiteAlpha.800');
   const hoverTextColor = useColorModeValue('gray.900', 'gray.400');
   const borderColor = useColorModeValue('orange.500', 'yellow.500');
@@ -33,10 +31,6 @@ const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
       .replace(/[^a-zA-Z]/g, '')
       .toLowerCase() ||
       'football');
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return competitions.map((competition, i) => {
     const cleanedCompetition = competition
@@ -57,28 +51,18 @@ const MainCompetitions: React.FC<CompetitionsProps> = ({ competitions }) => {
             cursor="pointer"
             height="100%"
             color={
-              (mounted &&
-                (competitionName === cleanedCompetition
-                  ? borderColor
-                  : textColor)) ||
-              ''
+              competitionName === cleanedCompetition ? borderColor : textColor
             }
             borderBottom="2px solid"
             borderColor={
-              (mounted &&
-                (competitionName === cleanedCompetition
-                  ? borderColor
-                  : 'transparent')) ||
-              'transparent'
+              competitionName === cleanedCompetition
+                ? borderColor
+                : 'transparent'
             }
             transition="border-color 0.2s"
             _hover={{
               color:
-                (mounted &&
-                  (competitionName === cleanedCompetition
-                    ? ''
-                    : hoverTextColor)) ||
-                '',
+                competitionName === cleanedCompetition ? '' : hoverTextColor,
             }}
             focusRing="none"
           >

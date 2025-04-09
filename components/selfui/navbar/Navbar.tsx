@@ -38,7 +38,6 @@ const Navbar: React.FC = () => {
   const currentPath = usePathname().toLowerCase();
   const pathname = currentPath !== '/news' ? '/' : currentPath;
 
-  const [mounted, setMounted] = useState(false); // Prevent dark mode hydration mismatch
   const [search, setSearch] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);
   const [loginWithEmail, setLoginWithEmail] = useState<boolean>(false);
@@ -59,10 +58,6 @@ const Navbar: React.FC = () => {
     };
 
     setAuthProviders();
-  }, []);
-
-  useEffect(() => {
-    setMounted(true);
   }, []);
 
   return (
@@ -96,7 +91,7 @@ const Navbar: React.FC = () => {
                   pathname === link.href.toLowerCase() ? '3px solid' : ''
                 }
                 borderColor={
-                  mounted && pathname === link.href.toLowerCase()
+                  pathname === link.href.toLowerCase()
                     ? borderColor
                     : 'transparent'
                 }
