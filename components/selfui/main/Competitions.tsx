@@ -41,21 +41,25 @@ const Competitions = async () => {
 
   return (
     <>
-      <ClientOnly>
-        <HStack
-          width="full"
-          h={16}
-          px="20%"
-          justify="space-between"
-          fontSize="sm"
-        >
+      <HStack
+        width="full"
+        h={16}
+        px="20%"
+        justify="space-between"
+        fontSize="sm"
+      >
+        <ClientOnly>
           <Favorites />
+        </ClientOnly>
 
+        <ClientOnly>
           <MainCompetitions competitions={sortedMainCompetitions.slice(0, 8)} />
+        </ClientOnly>
 
+        <ClientOnly>
           <OtherCompetitions competitions={sortedMainCompetitions.slice(8)} />
-        </HStack>
-      </ClientOnly>
+        </ClientOnly>
+      </HStack>
 
       <Separator
         height="1px"
