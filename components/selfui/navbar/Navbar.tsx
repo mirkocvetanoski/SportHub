@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, Spacer, Link, Icon } from '@chakra-ui/react';
+import { Box, Flex, Spacer, Link, Icon, ClientOnly } from '@chakra-ui/react';
 import Logo from './Logo';
 import NavbarIcons from './NavbarIcons';
 import { SettingsDetails } from './SettingsDetails';
@@ -64,49 +64,51 @@ const Navbar: React.FC = () => {
       <Flex align="center" justify="space-between" px="20%" height="inherit">
         <Logo size={3} />
 
-        <Flex
-          height="inherit"
-          width="fit-content"
-          marginLeft={40}
-          align="center"
-          justify="justify-evenly"
-          gap={2}
-        >
-          {navLinks.map(link => (
-            <Link
-              key={link.href}
-              color="whiteAlpha.900"
-              href={link.href}
-              height="inherit"
-              padding={3}
-              fontWeight={
-                pathname === link.href.toLowerCase() ? 'bolder' : 'medium'
-              }
-              bg={
-                pathname === link.href.toLowerCase()
-                  ? 'teal.800'
-                  : 'transparent'
-              }
-              borderBottom={
-                pathname === link.href.toLowerCase() ? '3px solid' : ''
-              }
-              borderColor={
-                pathname === link.href.toLowerCase()
-                  ? borderColor
-                  : 'transparent'
-              }
-              _hover={{
-                bg: 'teal.800', // Hover effect color
-              }}
-              textTransform="uppercase"
-              fontSize="sm"
-              outline="none"
-            >
-              <Icon as={link.icon} boxSize={5} />
-              {link.label}
-            </Link>
-          ))}
-        </Flex>
+        <ClientOnly>
+          <Flex
+            height="inherit"
+            width="fit-content"
+            marginLeft={40}
+            align="center"
+            justify="justify-evenly"
+            gap={2}
+          >
+            {navLinks.map(link => (
+              <Link
+                key={link.href}
+                color="whiteAlpha.900"
+                href={link.href}
+                height="inherit"
+                padding={3}
+                fontWeight={
+                  pathname === link.href.toLowerCase() ? 'bolder' : 'medium'
+                }
+                bg={
+                  pathname === link.href.toLowerCase()
+                    ? 'teal.800'
+                    : 'transparent'
+                }
+                borderBottom={
+                  pathname === link.href.toLowerCase() ? '3px solid' : ''
+                }
+                borderColor={
+                  pathname === link.href.toLowerCase()
+                    ? borderColor
+                    : 'transparent'
+                }
+                _hover={{
+                  bg: 'teal.800', // Hover effect color
+                }}
+                textTransform="uppercase"
+                fontSize="sm"
+                outline="none"
+              >
+                <Icon as={link.icon} boxSize={5} />
+                {link.label}
+              </Link>
+            ))}
+          </Flex>
+        </ClientOnly>
 
         <Spacer />
 

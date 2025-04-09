@@ -1,4 +1,4 @@
-import { HStack, Separator, Text } from '@chakra-ui/react';
+import { ClientOnly, HStack, Separator, Text } from '@chakra-ui/react';
 
 import MainCompetitions from './MainCompetitions';
 import Favorites from './Favorites';
@@ -41,21 +41,22 @@ const Competitions = async () => {
 
   return (
     <>
-      <HStack
-        width="full"
-        h={16}
-        px="20%"
-        justify="space-between"
-        fontSize="sm"
-      >
-        <Favorites />
+      <ClientOnly>
+        <HStack
+          width="full"
+          h={16}
+          px="20%"
+          justify="space-between"
+          fontSize="sm"
+        >
+          <Favorites />
 
-        <HStack gap={6} width="fit-content" height="inherit">
           <MainCompetitions competitions={sortedMainCompetitions.slice(0, 8)} />
-        </HStack>
 
-        <OtherCompetitions competitions={sortedMainCompetitions.slice(8)} />
-      </HStack>
+          <OtherCompetitions competitions={sortedMainCompetitions.slice(8)} />
+        </HStack>
+      </ClientOnly>
+
       <Separator
         height="1px"
         bg="gray.emphasized"
