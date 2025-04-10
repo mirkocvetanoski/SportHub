@@ -11,6 +11,7 @@ const Favorites = () => {
   const textColor = useColorModeValue('gray.600', 'whiteAlpha.800');
   const hoverTextColor = useColorModeValue('gray.900', 'gray.400');
   const borderColor = useColorModeValue('orange.500', 'yellow.500');
+  const bgColor = useColorModeValue('gray.300', 'gray.600');
 
   const pathname = usePathname();
   const active = pathname.includes('favorites');
@@ -34,6 +35,9 @@ const Favorites = () => {
       >
         <Icon as={IoStar} boxSize={5} />
         <Text>Favorites</Text>
+        <Text bg={bgColor} px="6px" rounded="sm">
+          0
+        </Text>
       </ChakraLink>
     </Link>
   );
