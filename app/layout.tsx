@@ -22,7 +22,6 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <body className="min-w-screen min-h-screen">
           <SpeedInsights />
           <Provider>
-            {/* Wrap in ClientOnly and Suspense to prevent server-side rendering */}
             <ClientOnly>
               <Suspense
                 fallback={
