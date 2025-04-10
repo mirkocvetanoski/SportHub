@@ -34,7 +34,7 @@ const SettingsBox: React.FC<ChildComponentProps> = ({
       borderRadius={10}
       width="250px"
       padding={2}
-      bg={colorMode === 'dark' ? 'blackAlpha.700' : 'whiteAlpha.700'}
+      bg={colorMode === 'dark' ? 'blackAlpha.900' : 'whiteAlpha.900'}
       zIndex="popover"
     >
       <Flex
