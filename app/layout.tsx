@@ -6,6 +6,8 @@ import { Provider } from '@/components/ui/provider';
 import AuthProvider from '@/components/selfui/navbar/AuthProvider';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ColorModeProvider } from '@/components/ui/color-mode';
+import { Suspense } from 'react';
+import ClientOnly from '@/components/client/ClientWrapper';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,7 +22,16 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <body className="min-w-screen min-h-screen">
           <SpeedInsights />
           <Provider>
-            <ColorModeProvider>{children}</ColorModeProvider>
+            {/* Wrap in ClientOnly and Suspense to prevent server-side rendering */}
+            <ClientOnly>
+              <Suspense
+                fallback={
+                  <div style={{ visibility: 'hidden' }}>{children}</div>
+                }
+              >
+                <ColorModeProvider>{children}</ColorModeProvider>
+              </Suspense>
+            </ClientOnly>
           </Provider>
         </body>
       </html>
