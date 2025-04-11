@@ -3,6 +3,10 @@
     {
       "path": "/api/competitions/populate",
       "schedule": "0 0 1 * *"
+    },
+    {
+      "path": "/api/countries/populate",
+      "schedule": "0 0 1 * *"
     }
   ]
 }
