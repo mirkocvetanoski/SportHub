@@ -44,14 +44,17 @@ const Leagues = () => {
         const data = await res.json();
         setCountries(data.competitions.countries);
         setActiveCountry(data.competitions.countries[0].GN);
-        setHasOverflowY(checkOverflowY(singleCountry, countriesContainer));
       } catch (err) {
         console.error('Failed to fetch countries:', err);
       }
     };
 
     getCountries();
-  }, [competition, singleCountry, countriesContainer]);
+  }, [competition]);
+
+  useEffect(() => {
+    setHasOverflowY(checkOverflowY(singleCountry, countriesContainer));
+  }, [countriesContainer, singleCountry]);
 
   return (
     <VStack
