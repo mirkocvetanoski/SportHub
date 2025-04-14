@@ -4,7 +4,7 @@ import { useColorModeValue } from '@/components/ui/color-mode';
 import checkOverflowY from '@/lib/checkOverflowY';
 import { Text, VStack } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 type Countries = {
   GN: string;
@@ -16,10 +16,10 @@ const Leagues = () => {
 
   const [countries, setCountries] = useState<Countries[]>([]);
   const [activeCountry, setActiveCountry] = useState<string>();
-  const [hasOverflowY, setHasOverflowY] = useState<boolean>();
+  const [hasOverflowY, setHasOverflowY] = useState<boolean>(false);
+  const countriesContainerRef = useRef<HTMLDivElement>(null);
 
   const pathname = usePathname();
-
   const competition =
     pathname.replace(/[^a-zA-Z]/g, '').toLowerCase() || 'football';
 
@@ -38,14 +38,6 @@ const Leagues = () => {
         const data = await res.json();
         setCountries(data.competitions.countries);
         setActiveCountry(data.competitions.countries[0].GN);
-
-        const countriesContainer = document.getElementById(
-          'countriesContainer'
-        ) as HTMLElement;
-        const singleCountry =
-          document.querySelectorAll<HTMLElement>('#singleCountry');
-
-        setHasOverflowY(checkOverflowY(singleCountry, countriesContainer));
       } catch (err) {
         console.error('Failed to fetch countries:', err);
       }
@@ -54,9 +46,24 @@ const Leagues = () => {
     getCountries();
   }, [competition]);
 
+  useEffect(() => {
+    if (countries.length === 0 || !countriesContainerRef.current) return;
+
+    const timer = setTimeout(() => {
+      const container = countriesContainerRef.current;
+      if (!container) return;
+
+      const singleCountryElements =
+        container.querySelectorAll<HTMLElement>('#country');
+      setHasOverflowY(checkOverflowY(singleCountryElements, container));
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, [countries]);
+
   return (
     <VStack
-      id="countriesContainer"
+      ref={countriesContainerRef}
       alignItems="flex-start"
       ml="20%"
       w="170px"
@@ -68,31 +75,27 @@ const Leagues = () => {
         Countries
       </Text>
       <VStack alignItems="start" width="inherit" gap="2px">
-        {countries.map((country, i) => {
-          return (
-            <Text
-              id="singleCountry"
-              cursor="pointer"
-              width="90%"
-              px="6px"
-              py="3px"
-              rounded="sm"
-              fontWeight={country.GN === activeCountry ? 'bold' : ''}
-              key={i}
-              onClick={() => {
-                setActiveCountry(country.GN);
-              }}
-              fontSize="xs"
-              bg={country.GN === activeCountry ? bgColor : ''}
-              _hover={{
-                color: country.GN === activeCountry ? '' : hoverTextColor,
-              }}
-              transition="border-color 0.2s"
-            >
-              {country.GN}
-            </Text>
-          );
-        })}
+        {countries.map((country, i) => (
+          <Text
+            id="country"
+            cursor="pointer"
+            width="90%"
+            px="6px"
+            py="3px"
+            rounded="sm"
+            fontWeight={country.GN === activeCountry ? 'bold' : ''}
+            key={i}
+            onClick={() => setActiveCountry(country.GN)}
+            fontSize="xs"
+            bg={country.GN === activeCountry ? bgColor : ''}
+            _hover={{
+              color: country.GN === activeCountry ? '' : hoverTextColor,
+            }}
+            transition="border-color 0.2s"
+          >
+            {country.GN}
+          </Text>
+        ))}
       </VStack>
     </VStack>
   );
