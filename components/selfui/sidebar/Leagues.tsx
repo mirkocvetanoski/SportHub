@@ -23,12 +23,6 @@ const Leagues = () => {
   const competition =
     pathname.replace(/[^a-zA-Z]/g, '').toLowerCase() || 'football';
 
-  const countriesContainer = document.getElementById(
-    'countriesContainer'
-  ) as HTMLElement;
-  const singleCountry =
-    document.querySelectorAll<HTMLElement>('#singleCountry');
-
   useEffect(() => {
     const getCountries = async () => {
       try {
@@ -44,6 +38,14 @@ const Leagues = () => {
         const data = await res.json();
         setCountries(data.competitions.countries);
         setActiveCountry(data.competitions.countries[0].GN);
+
+        const countriesContainer = document.getElementById(
+          'countriesContainer'
+        ) as HTMLElement;
+        const singleCountry =
+          document.querySelectorAll<HTMLElement>('#singleCountry');
+
+        setHasOverflowY(checkOverflowY(singleCountry, countriesContainer));
       } catch (err) {
         console.error('Failed to fetch countries:', err);
       }
@@ -51,10 +53,6 @@ const Leagues = () => {
 
     getCountries();
   }, [competition]);
-
-  useEffect(() => {
-    setHasOverflowY(checkOverflowY(singleCountry, countriesContainer));
-  }, [countriesContainer, singleCountry]);
 
   return (
     <VStack
