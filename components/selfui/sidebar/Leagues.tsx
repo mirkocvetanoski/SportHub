@@ -68,13 +68,17 @@ const Leagues = () => {
       ml="20%"
       w="170px"
       h="calc(100vh - 264px)"
-      overflowY={hasOverflowY ? 'scroll' : 'hidden'}
-      overflowX="hidden"
     >
       <Text fontSize="sm" textDecor="underline" textUnderlineOffset="3px">
         Countries
       </Text>
-      <VStack alignItems="start" width="inherit" gap="2px">
+      <VStack
+        alignItems="start"
+        width="inherit"
+        gap="2px"
+        overflowY={hasOverflowY ? 'scroll' : 'hidden'}
+        overflowX="hidden"
+      >
         {countries.map((country, i) => (
           <Text
             id="country"
