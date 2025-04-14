@@ -26,7 +26,7 @@ const Leagues = () => {
     const getCountries = async () => {
       try {
         const res = await fetch(
-          'http://localhost:3000/api/countries/getcountries',
+          `${process.env.NEXT_PUBLIC_API_DOMAIN}/countries/getcountries`,
           {
             headers: { 'Content-Type': 'application/json' },
             method: 'POST',
