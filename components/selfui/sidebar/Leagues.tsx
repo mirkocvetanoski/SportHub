@@ -16,7 +16,7 @@ const Leagues = () => {
 
   const [countries, setCountries] = useState<Countries[]>([]);
   const [activeCountry, setActiveCountry] = useState<string>();
-  const [hasOverflowY, setHasOverflowY] = useState<boolean>();
+  const [hasOverflowY, setHasOverflowY] = useState<boolean>(true);
 
   const pathname = usePathname();
 
