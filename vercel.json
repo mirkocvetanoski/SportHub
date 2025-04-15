@@ -7,10 +7,6 @@
     {
       "path": "/api/countries/populate",
       "schedule": "0 0 2 * *"
-    },
-    {
-      "path": "/api/countries/populate",
-      "schedule": "0 0 3 * *"
     }
   ]
 }
