@@ -135,17 +135,18 @@ const Leagues = () => {
               }}
             >
               <Text>{country.GN}</Text>
-              {isOpen && country.GN === activeCountry ? (
-                <IoIosArrowUp />
-              ) : (
-                <IoIosArrowDown />
-              )}
+              {competition === 'football' &&
+                (isOpen && country.GN === activeCountry ? (
+                  <IoIosArrowUp />
+                ) : (
+                  <IoIosArrowDown />
+                ))}
             </HStack>
 
             <VStack
-              w="90%"
+              w="100%"
               mx="8px"
-              fontSize="x-small"
+              fontSize="xs"
               alignItems="space"
               alignSelf="flex-start"
             >
