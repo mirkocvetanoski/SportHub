@@ -81,14 +81,13 @@ const Leagues = () => {
       >
         {countries.map((country, i) => (
           <Text
+            key={i}
             id="country"
             cursor="pointer"
             px="6px"
             py="3px"
             rounded="sm"
             w="95%"
-            fontWeight={country.GN === activeCountry ? 'bold' : ''}
-            key={i}
             onClick={() => setActiveCountry(country.GN)}
             fontSize="xs"
             bg={country.GN === activeCountry ? bgColor : ''}
