@@ -11,7 +11,7 @@ type Countries = {
 };
 
 const Leagues = () => {
-  const hoverTextColor = useColorModeValue('gray.900', 'gray.400');
+  const hoverBgColor = useColorModeValue('gray.300', 'gray.600');
   const bgColor = useColorModeValue('orange.500', 'yellow.500/70');
 
   const [countries, setCountries] = useState<Countries[]>([]);
@@ -70,7 +70,7 @@ const Leagues = () => {
       h="calc(100vh - 264px)"
     >
       <Text fontSize="sm" textDecor="underline" textUnderlineOffset="3px">
-        Countries
+        Leagues
       </Text>
       <VStack
         alignItems="start"
@@ -83,19 +83,19 @@ const Leagues = () => {
           <Text
             id="country"
             cursor="pointer"
-            width="90%"
             px="6px"
             py="3px"
             rounded="sm"
+            w="95%"
             fontWeight={country.GN === activeCountry ? 'bold' : ''}
             key={i}
             onClick={() => setActiveCountry(country.GN)}
             fontSize="xs"
             bg={country.GN === activeCountry ? bgColor : ''}
             _hover={{
-              color: country.GN === activeCountry ? '' : hoverTextColor,
+              bg: country.GN === activeCountry ? '' : hoverBgColor,
             }}
-            transition="border-color 0.2s"
+            transition="background-color 0.2s"
           >
             {country.GN}
           </Text>
