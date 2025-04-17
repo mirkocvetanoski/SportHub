@@ -71,6 +71,8 @@ const Leagues = () => {
   }, [countries]);
 
   const handleGetFootballLeagues = async (country: string): Promise<void> => {
+    setFootballLeagues([]);
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_DOMAIN}/footballleagues/getfootballleagues`,
