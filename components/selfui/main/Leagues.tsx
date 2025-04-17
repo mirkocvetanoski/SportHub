@@ -141,7 +141,11 @@ const Leagues = () => {
               py="3px"
               rounded="sm"
               fontSize="xs"
-              bg={country.GN === activeCountry ? bgColor : ''}
+              bg={
+                competition === 'football' && country.GN === activeCountry
+                  ? bgColor
+                  : ''
+              }
               _hover={{
                 bg: country.GN === activeCountry ? '' : hoverBgColor,
                 '& > :last-child': { opacity: '100%' }, // Show last child (the arrow) on hover
@@ -196,6 +200,7 @@ const Leagues = () => {
                   <FootballLeagues
                     leagues={footballLeagues}
                     competition={competition}
+                    country={activeCountry}
                   />
                 )}
             </VStack>

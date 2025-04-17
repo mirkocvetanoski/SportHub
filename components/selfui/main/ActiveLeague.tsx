@@ -4,11 +4,12 @@ import { VStack, Text } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
 
 export const ActiveLeague = () => {
-  const { league } = useParams();
+  const { competition, league } = useParams();
 
-  const decodedLeague = decodeURIComponent(
-    typeof league === 'string' ? league : ''
-  );
+  console.log(competition);
+
+  const decodedLeague =
+    league && Array.isArray(league) ? decodeURIComponent(league[0]) : '';
 
   return (
     <VStack alignItems="flex-start" ml="20%" w="170px">

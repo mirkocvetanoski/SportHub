@@ -11,9 +11,14 @@ interface League {
 interface LeaguesProps {
   leagues: League[];
   competition: string;
+  country: string;
 }
 
-const FootballLeagues: React.FC<LeaguesProps> = ({ leagues, competition }) => {
+const FootballLeagues: React.FC<LeaguesProps> = ({
+  leagues,
+  competition,
+  country,
+}) => {
   const hoverBgColor = useColorModeValue('gray.300', 'gray.600');
 
   const router = useRouter();
@@ -33,7 +38,7 @@ const FootballLeagues: React.FC<LeaguesProps> = ({ leagues, competition }) => {
       transition="background-color border-color text-color 0.2s"
       onClick={() => {
         router.push(
-          `${process.env.NEXT_PUBLIC_DOMAIN}/${competition}/${league.LN}`
+          `${process.env.NEXT_PUBLIC_DOMAIN}/${competition}/${country}/${league.LN}`
         );
       }}
     >
