@@ -2,7 +2,14 @@
 
 import { useColorModeValue } from '@/components/ui/color-mode';
 import checkOverflowY from '@/lib/checkOverflowY';
-import { Box, HStack, Skeleton, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  HStack,
+  Separator,
+  Skeleton,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
 import FootballLeagues from './FootballLeagues';
@@ -14,7 +21,7 @@ type Countries = {
 
 const Leagues = () => {
   const hoverBgColor = useColorModeValue('gray.300', 'gray.600');
-  const bgColor = useColorModeValue('orange.500', 'yellow.500/70');
+  const bgColor = useColorModeValue('orange.500', 'yellow.500');
 
   const [countries, setCountries] = useState<Countries[]>([]);
   const [activeCountry, setActiveCountry] = useState<string>();
@@ -105,9 +112,17 @@ const Leagues = () => {
       h="calc(100vh - 264px)"
       position="relative"
     >
-      <Text fontSize="sm" textDecor="underline" textUnderlineOffset="3px">
+      <Text
+        fontSize="sm"
+        letterSpacing="wider"
+        fontWeight="bolder"
+        alignSelf="center"
+        textTransform="uppercase"
+      >
         Leagues
       </Text>
+
+      <Separator height="1px" bg="gray.emphasized" width="full" />
 
       {isLoading && (
         <Skeleton
@@ -131,7 +146,7 @@ const Leagues = () => {
         overflowX="hidden"
       >
         {countries.map((country, i) => (
-          <VStack key={i} w="95%" gap="2px">
+          <VStack key={i} w="full" gap="2px">
             <HStack
               w="inherit"
               justifyContent="space-between"

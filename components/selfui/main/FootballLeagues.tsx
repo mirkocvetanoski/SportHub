@@ -27,8 +27,8 @@ const FootballLeagues: React.FC<LeaguesProps> = ({
     <Text
       key={i}
       cursor="pointer"
-      w="90%"
-      rounded="xs"
+      w="95%"
+      rounded="sm"
       px="6px"
       py="1px"
       outline="none"
