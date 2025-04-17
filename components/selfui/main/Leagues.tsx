@@ -29,8 +29,6 @@ const Leagues = () => {
 
   const router = useRouter();
 
-  console.log(activeCountry);
-
   useEffect(() => {
     const getCountries = async () => {
       try {
@@ -45,15 +43,8 @@ const Leagues = () => {
         );
 
         const data = await res.json();
+
         setCountries(data.competitions.countries);
-
-        const countryFromUrl = decodeURIComponent(
-          typeof params.league === 'string' ? params.league : ''
-        );
-
-        if (countryFromUrl !== undefined) {
-          setActiveCountry(countryFromUrl);
-        }
 
         setIsLoading(false);
       } catch (err) {
@@ -64,7 +55,7 @@ const Leagues = () => {
     };
 
     getCountries();
-  }, [competition, params.league]);
+  }, [competition]);
 
   useEffect(() => {
     if (countries.length === 0 || !countriesContainerRef.current) return;
