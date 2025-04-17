@@ -3,7 +3,7 @@
 import { useColorModeValue } from '@/components/ui/color-mode';
 import checkOverflowY from '@/lib/checkOverflowY';
 import { Box, HStack, Skeleton, Text, VStack } from '@chakra-ui/react';
-import { usePathname } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
 import FootballLeagues from './FootballLeagues';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
@@ -24,9 +24,12 @@ const Leagues = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const pathname = usePathname();
-  const competition =
-    pathname.replace(/[^a-zA-Z]/g, '').toLowerCase() || 'football';
+  const params = useParams();
+  const competition = (params.competition as string) || 'football';
+
+  const router = useRouter();
+
+  console.log(activeCountry);
 
   useEffect(() => {
     const getCountries = async () => {
@@ -43,7 +46,15 @@ const Leagues = () => {
 
         const data = await res.json();
         setCountries(data.competitions.countries);
-        setActiveCountry(data.competitions.countries[0].GN);
+
+        const countryFromUrl = decodeURIComponent(
+          typeof params.league === 'string' ? params.league : ''
+        );
+
+        if (countryFromUrl !== undefined) {
+          setActiveCountry(countryFromUrl);
+        }
+
         setIsLoading(false);
       } catch (err) {
         console.error('Failed to fetch countries:', err);
@@ -53,7 +64,7 @@ const Leagues = () => {
     };
 
     getCountries();
-  }, [competition]);
+  }, [competition, params.league]);
 
   useEffect(() => {
     if (countries.length === 0 || !countriesContainerRef.current) return;
@@ -148,11 +159,18 @@ const Leagues = () => {
               onClick={() => {
                 const nextIsOpen = country.GN !== activeCountry || !isOpen;
 
-                setActiveCountry(country.GN);
+                // setActiveCountry(country.GN);
                 setIsOpen(nextIsOpen);
+                setActiveCountry(country.GN);
 
                 if (nextIsOpen && competition === 'football') {
                   handleGetFootballLeagues(country.GN);
+                }
+
+                if (competition !== 'football') {
+                  router.push(
+                    `${process.env.NEXT_PUBLIC_DOMAIN}/${competition}/${country.GN}`
+                  );
                 }
 
                 if (!nextIsOpen) setFootballLeagues([]);
@@ -184,7 +202,10 @@ const Leagues = () => {
               {isOpen &&
                 country.GN === activeCountry &&
                 footballLeagues.length > 0 && (
-                  <FootballLeagues leagues={footballLeagues} />
+                  <FootballLeagues
+                    leagues={footballLeagues}
+                    competition={competition}
+                  />
                 )}
             </VStack>
           </VStack>
