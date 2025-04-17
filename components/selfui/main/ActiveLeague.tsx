@@ -16,11 +16,9 @@ export const ActiveLeague: React.FC = () => {
 
   const params = useParams();
 
-  const competition = Array.isArray(params?.competition)
-    ? params.competition[0]
-    : params?.competition;
-
-  console.log(competition, params.league);
+  // const competition = Array.isArray(params?.competition)
+  //   ? params.competition[0]
+  //   : params?.competition;
 
   const leagueParam = Array.isArray(params?.league)
     ? params.league[0]
@@ -63,7 +61,7 @@ export const ActiveLeague: React.FC = () => {
   }, [decodedLeague, params?.league]);
 
   return (
-    <VStack alignItems="flex-start" ml="20%" w="170px" mb={4}>
+    <VStack alignItems="flex-start" ml="20%" w="180px" mb={4}>
       <Text
         fontSize="sm"
         letterSpacing="wider"

@@ -108,8 +108,8 @@ const Leagues = () => {
       ref={countriesContainerRef}
       alignItems="flex-start"
       ml="20%"
-      w="170px"
-      h="calc(100vh - 264px)"
+      w="180px"
+      h="700px"
       position="relative"
     >
       <Text
