@@ -2,7 +2,7 @@
 
 import { useColorModeValue } from '@/components/ui/color-mode';
 import checkOverflowY from '@/lib/checkOverflowY';
-import { HStack, Skeleton, Text, VStack } from '@chakra-ui/react';
+import { Box, HStack, Skeleton, Text, VStack } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
 import FootballLeagues from './FootballLeagues';
@@ -140,6 +140,7 @@ const Leagues = () => {
               bg={country.GN === activeCountry ? bgColor : ''}
               _hover={{
                 bg: country.GN === activeCountry ? '' : hoverBgColor,
+                '& > :last-child': { opacity: '100%' }, // Show last child (the arrow) on hover
               }}
               transition="background-color 0.2s"
               onClick={() => {
@@ -156,12 +157,19 @@ const Leagues = () => {
               }}
             >
               <Text>{country.GN}</Text>
-              {competition === 'football' &&
-                (isOpen && country.GN === activeCountry ? (
-                  <IoIosArrowUp />
-                ) : (
-                  <IoIosArrowDown />
-                ))}
+              {competition === 'football' && (
+                <Box
+                  opacity={
+                    country.GN === activeCountry && isOpen ? '100%' : '0%'
+                  }
+                >
+                  {isOpen && country.GN === activeCountry ? (
+                    <IoIosArrowUp />
+                  ) : (
+                    <IoIosArrowDown />
+                  )}
+                </Box>
+              )}
             </HStack>
 
             <VStack
