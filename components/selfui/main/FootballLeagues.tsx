@@ -21,7 +21,7 @@ const FootballLeagues: React.FC<LeaguesProps> = ({ leagues }) => {
       cursor="pointer"
       w="90%"
       rounded="xs"
-      px="4px"
+      px="6px"
       py="1px"
       color={activeFootballLeague === league.LN ? borderColor : ''}
       borderBottom="1px solid"

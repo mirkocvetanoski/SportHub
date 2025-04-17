@@ -2,7 +2,7 @@
 
 import { useColorModeValue } from '@/components/ui/color-mode';
 import checkOverflowY from '@/lib/checkOverflowY';
-import { HStack, Text, VStack } from '@chakra-ui/react';
+import { HStack, Skeleton, Text, VStack } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
 import FootballLeagues from './FootballLeagues';
@@ -22,6 +22,7 @@ const Leagues = () => {
   const [hasOverflowY, setHasOverflowY] = useState<boolean>(false);
   const countriesContainerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const pathname = usePathname();
   const competition =
@@ -30,6 +31,7 @@ const Leagues = () => {
   useEffect(() => {
     const getCountries = async () => {
       try {
+        setIsLoading(true);
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_DOMAIN}/countries/getcountries`,
           {
@@ -42,8 +44,11 @@ const Leagues = () => {
         const data = await res.json();
         setCountries(data.competitions.countries);
         setActiveCountry(data.competitions.countries[0].GN);
+        setIsLoading(false);
       } catch (err) {
         console.error('Failed to fetch countries:', err);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -94,12 +99,28 @@ const Leagues = () => {
       ml="20%"
       w="170px"
       h="calc(100vh - 264px)"
+      position="relative"
     >
       <Text fontSize="sm" textDecor="underline" textUnderlineOffset="3px">
         Leagues
       </Text>
+
+      {isLoading && (
+        <Skeleton
+          loading={isLoading}
+          variant="pulse"
+          h="50px"
+          w="50px"
+          rounded="full"
+          alignSelf="center"
+          position="absolute"
+          top="calc(50% - 25px)"
+        />
+      )}
+
       <VStack
         alignItems="start"
+        height="inherit"
         width="inherit"
         gap="2px"
         overflowY={hasOverflowY ? 'scroll' : 'hidden'}
