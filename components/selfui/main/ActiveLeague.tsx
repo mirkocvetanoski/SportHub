@@ -1,8 +1,9 @@
 'use client';
+
 import { useColorModeValue } from '@/components/ui/color-mode';
 import { VStack, Text, Separator } from '@chakra-ui/react';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 interface League {
   LN: string;
@@ -11,20 +12,28 @@ interface League {
 export const ActiveLeague: React.FC = () => {
   const [activeLeague, setActiveLeague] = useState<string>();
   const [footballLeagues, setFootballLeagues] = useState<League[]>([]);
+
   const hoverBgColor = useColorModeValue('gray.300', 'gray.600');
   const bgColor = useColorModeValue('orange.500', 'yellow.500');
 
   const params = useParams();
 
-  // const competition = Array.isArray(params?.competition)
-  //   ? params.competition[0]
-  //   : params?.competition;
+  // Memoize extracted values to avoid re-renders
+  const decodedCountry = useMemo(() => {
+    const raw = Array.isArray(params?.league)
+      ? params.league[0]
+      : params?.league;
+    return raw ? decodeURIComponent(raw) : '';
+  }, [params?.league]);
 
-  const leagueParam = Array.isArray(params?.league)
-    ? params.league[0]
-    : params?.league;
+  const selectedLeagueFromURL = useMemo(() => {
+    if (Array.isArray(params?.league) && params.league.length > 1) {
+      return decodeURIComponent(params.league[1]);
+    }
+    return '';
+  }, [params?.league]);
 
-  const decodedLeague = leagueParam ? decodeURIComponent(leagueParam) : '';
+  console.log(decodedCountry);
 
   useEffect(() => {
     const getLeagues = async () => {
@@ -36,7 +45,7 @@ export const ActiveLeague: React.FC = () => {
           {
             headers: { 'Content-Type': 'application/json' },
             method: 'POST',
-            body: JSON.stringify({ country: decodedLeague }),
+            body: JSON.stringify({ country: decodedCountry }),
           }
         );
 
@@ -46,19 +55,14 @@ export const ActiveLeague: React.FC = () => {
 
         const data = await response.json();
         setFootballLeagues(data.footballLeagues?.footballLeagues ?? []);
-
-        setActiveLeague(
-          Array.isArray(params?.league)
-            ? decodeURIComponent(params.league[1])
-            : ''
-        );
+        setActiveLeague(selectedLeagueFromURL);
       } catch (err) {
         console.error('Failed to fetch football leagues:', err);
       }
     };
 
     getLeagues();
-  }, [decodedLeague, params?.league]);
+  }, [decodedCountry, selectedLeagueFromURL, params.league]);
 
   return (
     <VStack alignItems="flex-start" ml="20%" w="180px" mb={4}>
@@ -69,7 +73,7 @@ export const ActiveLeague: React.FC = () => {
         alignSelf="center"
         textTransform="uppercase"
       >
-        {decodedLeague}
+        {decodedCountry}
       </Text>
 
       <Separator height="1px" bg="gray.emphasized" width="full" />
@@ -85,13 +89,9 @@ export const ActiveLeague: React.FC = () => {
           fontSize="xs"
           outline="none"
           bg={activeLeague === league.LN ? bgColor : ''}
-          _hover={{
-            bg: hoverBgColor,
-          }}
+          _hover={{ bg: hoverBgColor }}
           transition="background-color border-color text-color 0.2s"
-          onClick={() => {
-            setActiveLeague(league.LN);
-          }}
+          onClick={() => setActiveLeague(league.LN)}
         >
           {league.LN}
         </Text>
